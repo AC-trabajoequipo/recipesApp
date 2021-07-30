@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-                binding!!.buttonLogin.setOnClickListener {
+        binding!!.buttonLogin.setOnClickListener {
             login()
         }
 
@@ -48,18 +48,18 @@ class LoginActivity : AppCompatActivity() {
                     if (it.isSuccessful) {
                         val user = fbAuth.currentUser
                         if(user!!.isEmailVerified){
-                            Toast.makeText(this, "LOGIN REALIZADO CORRECTAMENTE :)", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         }else{
-                            Toast.makeText(this, "Email no confirmado. Haz click en el enlace de confirmación que recibiste en tu correo.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
                         }
                     } else {
-                        Toast.makeText(this, "Email o contraseña incorrectos.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
                     }
                 }
         }else{
-            Toast.makeText(this, "Rellena los dos campos, por favor.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
         }
 
     }
@@ -87,16 +87,16 @@ class LoginActivity : AppCompatActivity() {
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     fbAuth.signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful){
-                            Toast.makeText(this, "LOGIN REALIZADO CORRECTAMENTE :)", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         }else{
-                            Toast.makeText(this, "LOGIN INCORRECTO", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.login_error, Toast.LENGTH_LONG).show()
                         }
                     }
                 }
             }catch (e: ApiException){
-                Toast.makeText(this, "NO SE RECUPERÓ BIEN LA CUENTA", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "", Toast.LENGTH_LONG).show()
             }
 
         }

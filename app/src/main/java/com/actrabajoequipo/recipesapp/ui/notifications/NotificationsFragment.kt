@@ -5,17 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentNotificationsBinding
 import com.actrabajoequipo.recipesapp.LoginActivity
 import com.actrabajoequipo.recipesapp.MainActivity
-import com.actrabajoequipo.recipesapp.SigninActivity
+import com.actrabajoequipo.recipesapp.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class NotificationsFragment : Fragment() {
@@ -43,7 +39,7 @@ class NotificationsFragment : Fragment() {
         }
 
         binding.buttonSignin.setOnClickListener {
-            val intent = Intent(context, SigninActivity::class.java)
+            val intent = Intent(context, SignupActivity::class.java)
             startActivity(intent)
         }
 

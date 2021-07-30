@@ -8,7 +8,7 @@ import com.actrabajoequipo.recipesapp.databinding.ActivitySigninBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SigninActivity : AppCompatActivity() {
+class SignupActivity : AppCompatActivity() {
 
     private var binding: ActivitySigninBinding? = null
     private val fbAuth = FirebaseAuth.getInstance()
@@ -29,12 +29,12 @@ class SigninActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding!!.buttonSignin.setOnClickListener {
-            signin()
+            signup()
         }
     }
 
 
-    private fun signin(){
+    private fun signup(){
         name = binding!!.ETname.text.toString()
         email = binding!!.ETemail.text.toString()
         password = binding!!.ETpassword.text.toString()
@@ -54,18 +54,17 @@ class SigninActivity : AppCompatActivity() {
                             val user = fbAuth.currentUser
                             //ENVIAMOS MAIL DE CONFIRMACION
                             user?.sendEmailVerification()
-                            Toast.makeText(this, "Haz click en el enlace que hemos enviado a tu correo electrónico para completar tu registro.", Toast.LENGTH_LONG).show()
-                        }else Toast.makeText(this, "Este correo electronico ya está registrado. Si aún no has verificado la cuenta haz click en el enlace que te enviamos.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.confirm_your_email, Toast.LENGTH_LONG).show()
+                        }else Toast.makeText(this, R.string.email_already_registered, Toast.LENGTH_LONG).show()
                     }
                 }else{
-                    Toast.makeText(this, "Por favor, introduce una contraseña que contenga " +
-                            "al menos 6 caracteres, una minúscula, una mayúscula y un número.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.requirement_password, Toast.LENGTH_LONG).show()
                 }
             }else{
-                Toast.makeText(this, "Las contraseñas no coinciden.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.passwords_do_not_match, Toast.LENGTH_LONG).show()
             }
         }else{
-            Toast.makeText(this, "Rellena todos los campos correctamente, por favor", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.fill_in_alls_fields, Toast.LENGTH_LONG).show()
         }
     }
 
