@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "584110085913",
+    "project_id": "recipesapp-ac",
+    "storage_bucket": "recipesapp-ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584110085913:android:46e0e7d86f76e13de49788",
+        "android_client_info": {
+          "package_name": "com.actrabajoequipo.recipesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584110085913-47ad2g60l2tqnphlej7te9fal9booiij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBawozFkXQa0RNO0rdFV-3izKyWtXLh_TE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584110085913-47ad2g60l2tqnphlej7te9fal9booiij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
