@@ -1,10 +1,10 @@
-package com.actrabajoequipo.recipesapp.ui.notifications
+package com.actrabajoequipo.recipesapp.ui.userprofile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class UserProfileViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

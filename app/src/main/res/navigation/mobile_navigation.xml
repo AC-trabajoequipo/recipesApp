@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.actrabajoequipo.recipesapp.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_addrecipe"
+        android:name="com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeFragment"
+        android:label="@string/title_addrecipe"
+        tools:layout="@layout/fragment_addrecipe" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.actrabajoequipo.recipesapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_userprofile"
+        android:name="com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileFragment"
+        android:label="@string/title_userprofile"
+        tools:layout="@layout/fragment_userprofile" />
 </navigation>
