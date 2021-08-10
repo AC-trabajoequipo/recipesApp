@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipesApp">
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name=".ui.splash.SplashActivity" android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
