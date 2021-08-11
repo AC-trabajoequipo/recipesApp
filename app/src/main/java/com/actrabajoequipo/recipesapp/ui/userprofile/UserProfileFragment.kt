@@ -1,14 +1,18 @@
 package com.actrabajoequipo.recipesapp.ui.userprofile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
+import com.actrabajoequipo.recipesapp.LoginActivity
+import com.actrabajoequipo.recipesapp.MainActivity
+import com.actrabajoequipo.recipesapp.SignupActivity
+import com.google.firebase.auth.FirebaseAuth
 
 class UserProfileFragment : Fragment() {
 
@@ -18,6 +22,7 @@ class UserProfileFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val fbAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +35,37 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserprofileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textUserProfile
-        userProfileViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        if(fbAuth.currentUser != null){
+            binding.nadie.text= fbAuth.currentUser!!.email.toString()
+            binding.buttonsProfile.visibility = View.INVISIBLE
+            binding.userName.visibility = View.VISIBLE
+        }
+
+        binding.buttonSignin.setOnClickListener {
+            val intent = Intent(context, SignupActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.buttonLogin.setOnClickListener {
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.buttonSignout.setOnClickListener {
+            signout()
+        }
+
         return root
     }
+
+
+    private fun signout() {
+        Toast.makeText(context, "SESIÓN CERRADA CORRECTAMENTE :)", Toast.LENGTH_LONG).show()
+        fbAuth.signOut()
+        val intent = Intent(context, MainActivity::class.java)
+        startActivity(intent)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
