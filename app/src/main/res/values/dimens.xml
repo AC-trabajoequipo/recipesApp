@@ -26,4 +26,7 @@
     <dimen name="button_text">@dimen/xs_text_size</dimen>
     <dimen name="tab_text">@dimen/xs_text_size</dimen>
     <dimen name="input_text">@dimen/m_text_size</dimen>
+    <dimen name="card_view_corner_radius">@dimen/m_spacing</dimen>
+    <dimen name="card_view_elevation">@dimen/m_spacing</dimen>
+    <dimen name="recipe_item_height">200dp</dimen>
 </resources>
