@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.ui.notifications
+package com.actrabajoequipo.recipesapp.ui.userprofile
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,28 +8,31 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.actrabajoequipo.recipesapp.databinding.FragmentNotificationsBinding
+import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
 import com.actrabajoequipo.recipesapp.LoginActivity
 import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
-class NotificationsFragment : Fragment() {
+class UserProfileFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private var _binding: FragmentNotificationsBinding? = null
+    private lateinit var userProfileViewModel: UserProfileViewModel
+    private var _binding: FragmentUserprofileBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
     private val fbAuth = FirebaseAuth.getInstance()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        userProfileViewModel =
+            ViewModelProvider(this).get(UserProfileViewModel::class.java)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
-
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentUserprofileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         if(fbAuth.currentUser != null){

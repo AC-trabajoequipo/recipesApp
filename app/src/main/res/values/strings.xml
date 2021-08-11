@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">RecipesApp</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_addrecipe">Add recipe</string>
+    <string name="title_userprofile">User</string>
     <string name="prefs_file">com.actrabajoequipo.recipesapp.PREFERENCE_FILE_KEY</string>
     <string name="login_success">"LOGIN REALIZADO CORRECTAMENTE :)"</string>
     <string name="login_error">LOGIN INCORRECTO</string>
