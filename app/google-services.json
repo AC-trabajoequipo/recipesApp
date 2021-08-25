@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "584110085913",
+    "firebase_url": "https://recipesapp-ac-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "recipesapp-ac",
     "storage_bucket": "recipesapp-ac.appspot.com"
   },
@@ -13,6 +14,38 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "584110085913-6724udp7vshi76gvgbshov1308ko7vjc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.actrabajoequipo.recipesapp",
+            "certificate_hash": "5e4d7613fd010b45e1ee0e73a056662ef064445a"
+          }
+        },
+        {
+          "client_id": "584110085913-ddln8451pcqsefvetkueoam1ffoiv5b4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.actrabajoequipo.recipesapp",
+            "certificate_hash": "daad7032f999893b39d85fbbe9a87f5a861f28d0"
+          }
+        },
+        {
+          "client_id": "584110085913-jqkn0kbqkes8tn9e6lmrrha3nh8d4q33.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.actrabajoequipo.recipesapp",
+            "certificate_hash": "c2c77e7fd7d4f2091a3390efb712d4f4aff5a05c"
+          }
+        },
+        {
+          "client_id": "584110085913-s3to97r5nii3e40d588hae6cdmts0mps.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.actrabajoequipo.recipesapp",
+            "certificate_hash": "2e08fbd8595e7faec3c0616eb00a59ae54c66705"
+          }
+        },
         {
           "client_id": "584110085913-47ad2g60l2tqnphlej7te9fal9booiij.apps.googleusercontent.com",
           "client_type": 3
