@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.RecipeItemBinding
-import com.actrabajoequipo.recipesapp.model.Recipe
+import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.ui.basicDiffUtil
 import com.actrabajoequipo.recipesapp.ui.inflate
 import com.actrabajoequipo.recipesapp.ui.loadUrl
 
-class RecipesAdapter(private val listener: (Recipe) -> Unit) :
+class RecipesAdapter(private val listener: (RecipeDto) -> Unit) :
     RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
-    var recipes: List<Recipe> by basicDiffUtil(
+    var recipes: List<RecipeDto> by basicDiffUtil(
         emptyList(),
         areItemsTheSame = { old, new -> old.id == new.id }
     )
@@ -33,8 +33,8 @@ class RecipesAdapter(private val listener: (Recipe) -> Unit) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = RecipeItemBinding.bind(view)
-        fun bind(recipe: Recipe) = with(binding) {
-            recipe.imageUrl?.let { image.loadUrl(it) }
+        fun bind(recipe: RecipeDto) = with(binding) {
+            recipe.imgUrl?.let { image.loadUrl(it) }
             name.text = recipe.name
         }
     }
