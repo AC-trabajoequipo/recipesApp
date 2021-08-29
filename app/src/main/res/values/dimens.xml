@@ -29,4 +29,5 @@
     <dimen name="card_view_corner_radius">@dimen/m_spacing</dimen>
     <dimen name="card_view_elevation">@dimen/m_spacing</dimen>
     <dimen name="recipe_item_height">200dp</dimen>
+    <dimen name="general_margin">@dimen/l2_text_size</dimen>
 </resources>
