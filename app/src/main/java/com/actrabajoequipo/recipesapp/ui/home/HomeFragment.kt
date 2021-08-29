@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.databinding.FragmentHomeBinding
 import com.actrabajoequipo.recipesapp.ui.home.adapter.RecipesAdapter
 
@@ -18,6 +19,13 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        homeViewModel.navigation.observe(this, { event ->
+            event.getContentIfNotHandled()?.let {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionNavigationHomeToDetailActivity(it)
+                )
+            }
+        })
     }
 
     override fun onCreateView(

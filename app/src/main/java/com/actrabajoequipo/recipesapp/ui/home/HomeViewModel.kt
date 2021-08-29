@@ -1,12 +1,12 @@
 package com.actrabajoequipo.recipesapp.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.ui.common.Event
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel(), Scope by Scope.Impl() {
@@ -19,6 +19,9 @@ class HomeViewModel : ViewModel(), Scope by Scope.Impl() {
             if (_recipes.value == null) refresh()
             return _recipes
         }
+
+    private val _navigation = MutableLiveData<Event<RecipeDto>>()
+    val navigation: LiveData<Event<RecipeDto>> = _navigation
 
     private fun refresh() {
         launch {
@@ -36,6 +39,6 @@ class HomeViewModel : ViewModel(), Scope by Scope.Impl() {
     }
 
     fun onRecipeClicked(recipe: RecipeDto) {
-        Log.d("onRecipeClicked", "Recipe ${recipe.id} was clicked")
+        _navigation.value = Event(recipe)
     }
 }
