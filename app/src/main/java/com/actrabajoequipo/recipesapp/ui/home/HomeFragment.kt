@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.databinding.FragmentHomeBinding
+import com.actrabajoequipo.recipesapp.ui.home.HomeViewModel.UIModel
 import com.actrabajoequipo.recipesapp.ui.home.adapter.RecipesAdapter
 
 class HomeFragment : Fragment() {
@@ -19,6 +20,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        homeViewModel.uiModel.observe(this, ::updateUI)
         homeViewModel.navigation.observe(this, { event ->
             event.getContentIfNotHandled()?.let {
                 findNavController().navigate(
@@ -36,10 +39,17 @@ class HomeFragment : Fragment() {
 
         adapter = RecipesAdapter(homeViewModel::onRecipeClicked)
         binding.recycler.adapter = adapter
-        homeViewModel.recipes.observe(viewLifecycleOwner, {
-            adapter.recipes = it
-        })
 
         return binding.root
+    }
+
+    private fun updateUI(uiModel: UIModel) {
+
+        binding.progress.visibility =
+            if (uiModel is UIModel.Loading) View.VISIBLE else View.GONE
+
+        if (uiModel is UIModel.Content) {
+            adapter.recipes = uiModel.recipes
+        }
     }
 }

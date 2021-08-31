@@ -13,32 +13,38 @@ class HomeViewModel : ViewModel(), Scope by Scope.Impl() {
 
     private val recipesRepository: RecipesRepository by lazy { RecipesRepository() }
 
-    private val _recipes = MutableLiveData<List<RecipeDto>>()
-    val recipes: LiveData<List<RecipeDto>>
+    private val _uiModel = MutableLiveData<UIModel>()
+    val uiModel: LiveData<UIModel>
         get() {
-            if (_recipes.value == null) refresh()
-            return _recipes
+            if (_uiModel.value == null) refresh()
+            return _uiModel
         }
 
     private val _navigation = MutableLiveData<Event<RecipeDto>>()
     val navigation: LiveData<Event<RecipeDto>> = _navigation
 
-    private fun refresh() {
-        launch {
-            _recipes.value = recipesRepository.getRecipes()
-        }
+    sealed class UIModel {
+        object Loading : UIModel()
+        class Content(val recipes: List<RecipeDto>) : UIModel()
     }
 
     init {
         initScope()
     }
 
-    override fun onCleared() {
-        destroyScope()
-        super.onCleared()
+    private fun refresh() {
+        launch {
+            _uiModel.value = UIModel.Loading
+            _uiModel.value = UIModel.Content(recipesRepository.getRecipes())
+        }
     }
 
     fun onRecipeClicked(recipe: RecipeDto) {
         _navigation.value = Event(recipe)
+    }
+
+    override fun onCleared() {
+        destroyScope()
+        super.onCleared()
     }
 }
