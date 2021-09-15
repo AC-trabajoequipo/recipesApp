@@ -1,10 +1,14 @@
-package com.actrabajoequipo.recipesapp
+package com.actrabajoequipo.recipesapp.ui.login
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import com.actrabajoequipo.recipesapp.MainActivity
+import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -14,9 +18,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
 
+    private lateinit var viewModel : LoginViewModel
     private var binding: ActivityLoginBinding? = null
-    private val fbAuth = FirebaseAuth.getInstance()
-    private val GOOGLE_SIGN_IN = 100
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +32,39 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding!!.buttonLogin.setOnClickListener {
-            login()
+            login2()
         }
 
         binding!!.buttonLoginGoogle.setOnClickListener {
-            loginWithGoogleAccount()
+            //loginWithGoogleAccount()
         }
     }
 
 
-    private fun login(){
+
+    fun login2(){
+        var email = binding!!.ETemail.text
+        var password = binding!!.ETpassword.text
+
+        viewModel = ViewModelProvider(
+            this,
+            LoginViewModelFactory(email.toString(), password.toString())
+        ).get()
+        viewModel.logeado.observe(this, Observer {
+            when(it){
+                is LoginViewModel.UiLogin.State1 -> {
+                    Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                is LoginViewModel.UiLogin.State2 -> Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLogin.State3 -> Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLogin.State4 -> Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    /*private fun login(){
         var email = binding!!.ETemail.text
         var password = binding!!.ETpassword.text
 
@@ -100,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
-    }
+    }*/
 
 
 }

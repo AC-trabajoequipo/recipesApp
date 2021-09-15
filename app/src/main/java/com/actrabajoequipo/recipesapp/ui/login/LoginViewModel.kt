@@ -31,18 +31,10 @@ class LoginViewModel(private val email: String, private val password: String) : 
             }
             return _logeado
         }
-    /*private val _logeado = MutableLiveData<Int>(0)
-    val logeado: LiveData<Int>
-        get() {
-            if (_logeado.value == 0 || _logeado.value == 4 || _logeado.value == 3){
-                refresh()
-            }
-            return _logeado
-        }*/
 
 
     init {
-        //initScope()
+        initScope()
     }
 
     private fun refresh() {
@@ -64,28 +56,10 @@ class LoginViewModel(private val email: String, private val password: String) : 
             }else{
                 _logeado.value = UiLogin.State4()
             }
-        /*if(email.length > 0 && password.length > 0) {
-            //COMPROBAMOS LAS CREDENCIALES DEL USER
-            fbAuth.signInWithEmailAndPassword(email.toString().trim(), password.toString().trim())
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val user = fbAuth.currentUser
-                        if (user!!.isEmailVerified) {
-                            _logeado.value = 1
-                        }else{
-                            _logeado.value = 2
-                        }
-                    }else{
-                        _logeado.value = 3
-                    }
-                }
-        }else{
-            _logeado.value = 4
-        }*/
     }
 
     override fun onCleared() {
-        //destroyScope()
+        destroyScope()
     }
 }
 
