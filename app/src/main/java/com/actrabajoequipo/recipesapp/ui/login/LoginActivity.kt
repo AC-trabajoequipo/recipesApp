@@ -19,7 +19,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel : LoginViewModel
-    private var binding: ActivityLoginBinding? = null
+    private lateinit var binding: ActivityLoginBinding
     private val GOOGLE_SIGN_IN = 100
     private val fbAuth = FirebaseAuth.getInstance()
 

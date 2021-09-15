@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var viewModel : SignupViewModel
-    private var binding: ActivitySigninBinding? = null
+    private lateinit var binding: ActivitySigninBinding
     private val fbAuth = FirebaseAuth.getInstance()
 
     private lateinit var name: String
