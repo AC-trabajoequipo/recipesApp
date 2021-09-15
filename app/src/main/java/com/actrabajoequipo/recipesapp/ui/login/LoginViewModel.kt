@@ -6,7 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.ui.Scope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -26,7 +29,7 @@ class LoginViewModel(private val email: String, private val password: String) : 
     private val _logeado = MutableLiveData<UiLogin>()
     val logeado: LiveData<UiLogin>
         get() {
-            if (_logeado.value == null || _logeado.value == UiLogin.State4() || _logeado.value == UiLogin.State3()){
+            if (_logeado.value == null){
                 refresh()
             }
             return _logeado
@@ -38,25 +41,34 @@ class LoginViewModel(private val email: String, private val password: String) : 
     }
 
     private fun refresh() {
-            if(email.length > 0 && password.length > 0) {
+        launch {
+            if (email.length > 0 && password.length > 0) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
-                fbAuth.signInWithEmailAndPassword(email.toString().trim(), password.toString().trim())
+                fbAuth.signInWithEmailAndPassword(
+                    email.toString().trim(),
+                    password.toString().trim()
+                )
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             val user = fbAuth.currentUser
                             if (user!!.isEmailVerified) {
                                 _logeado.value = UiLogin.State1()
-                            }else{
+                            } else {
                                 _logeado.value = UiLogin.State2()
                             }
-                        }else{
+                        } else {
                             _logeado.value = UiLogin.State3()
                         }
                     }
-            }else{
+            } else {
                 _logeado.value = UiLogin.State4()
             }
+        }
     }
+
+
+
+
 
     override fun onCleared() {
         destroyScope()

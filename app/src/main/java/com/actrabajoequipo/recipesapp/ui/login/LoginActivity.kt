@@ -20,7 +20,8 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel : LoginViewModel
     private var binding: ActivityLoginBinding? = null
-
+    private val GOOGLE_SIGN_IN = 100
+    private val fbAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +33,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding!!.buttonLogin.setOnClickListener {
-            login2()
+            login()
         }
 
         binding!!.buttonLoginGoogle.setOnClickListener {
-            //loginWithGoogleAccount()
+            loginWithGoogleAccount()
         }
     }
 
 
 
-    fun login2(){
+    fun login(){
         var email = binding!!.ETemail.text
         var password = binding!!.ETpassword.text
 
@@ -64,32 +65,6 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    /*private fun login(){
-        var email = binding!!.ETemail.text
-        var password = binding!!.ETpassword.text
-
-        if(email.length > 0 && password.length > 0) {
-            //COMPROBAMOS LAS CREDENCIALES DEL USER
-            fbAuth.signInWithEmailAndPassword(email.toString().trim(), password.toString().trim())
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val user = fbAuth.currentUser
-                        if(user!!.isEmailVerified){
-                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                        }else{
-                            Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
-                        }
-                    } else {
-                        Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
-                    }
-                }
-        }else{
-            Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
-        }
-
-    }
 
     private fun loginWithGoogleAccount() {
         val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -99,7 +74,6 @@ class LoginActivity : AppCompatActivity() {
         val googleClient = GoogleSignIn.getClient(this,googleConf)
         googleClient.signOut()
         startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -127,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
-    }*/
+    }
 
 
 }

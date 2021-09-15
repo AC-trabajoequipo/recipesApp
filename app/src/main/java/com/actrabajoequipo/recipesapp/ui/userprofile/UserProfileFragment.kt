@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
 import com.actrabajoequipo.recipesapp.ui.login.LoginActivity
 import com.actrabajoequipo.recipesapp.MainActivity
-import com.actrabajoequipo.recipesapp.SignupActivity
+import com.actrabajoequipo.recipesapp.ui.signup.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class UserProfileFragment : Fragment() {
