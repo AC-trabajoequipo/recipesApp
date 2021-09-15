@@ -14,9 +14,24 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.RecipesApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
     <!-- Style that SplashActivity uses to prevent the white background color from showing for a few seconds. -->
     <style name="splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
     </style>
+
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+    </style>
+
+    <style name="Theme.DarkOverlay" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 </resources>
