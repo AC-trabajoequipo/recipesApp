@@ -1,10 +1,14 @@
-package com.actrabajoequipo.recipesapp
+package com.actrabajoequipo.recipesapp.ui.login
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import com.actrabajoequipo.recipesapp.MainActivity
+import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -14,9 +18,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
 
-    private var binding: ActivityLoginBinding? = null
-    private val fbAuth = FirebaseAuth.getInstance()
+    private lateinit var viewModel : LoginViewModel
+    private lateinit var binding: ActivityLoginBinding
     private val GOOGLE_SIGN_IN = 100
+    private val fbAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,32 +42,29 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    private fun login(){
+
+    fun login(){
         var email = binding!!.ETemail.text
         var password = binding!!.ETpassword.text
 
-        if(email.length > 0 && password.length > 0) {
-            //COMPROBAMOS LAS CREDENCIALES DEL USER
-            fbAuth.signInWithEmailAndPassword(email.toString().trim(), password.toString().trim())
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val user = fbAuth.currentUser
-                        if(user!!.isEmailVerified){
-                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                        }else{
-                            Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
-                        }
-                    } else {
-                        Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
-                    }
+        viewModel = ViewModelProvider(
+            this,
+            LoginViewModelFactory(email.toString(), password.toString())
+        ).get()
+        viewModel.logeado.observe(this, Observer {
+            when(it){
+                is LoginViewModel.UiLogin.State1 -> {
+                    Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 }
-        }else{
-            Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
-        }
-
+                is LoginViewModel.UiLogin.State2 -> Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLogin.State3 -> Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLogin.State4 -> Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
+            }
+        })
     }
+
 
     private fun loginWithGoogleAccount() {
         val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -72,7 +74,6 @@ class LoginActivity : AppCompatActivity() {
         val googleClient = GoogleSignIn.getClient(this,googleConf)
         googleClient.signOut()
         startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
