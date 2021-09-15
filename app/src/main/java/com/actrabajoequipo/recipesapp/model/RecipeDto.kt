@@ -8,5 +8,7 @@ data class RecipeDto(
     val id: Int,
     val name: String,
     val description: String?,
-    val imgUrl: String?
+    val imgUrl: String?,
+    val ingredients: List<String>?,
+    val preparation: String?
 ) : Parcelable
