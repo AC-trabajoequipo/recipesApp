@@ -15,4 +15,17 @@
     <string name="requirement_password">"Por favor, introduce una contraseña que contenga al menos 6 caracteres, una minúscula, una mayúscula y un número."</string>
     <string name="email_already_registered">Este correo electronico ya está registrado. Si aún no has verificado la cuenta haz click en el enlace que te enviamos.</string>
     <string name="confirm_your_email">Haz click en el enlace que hemos enviado a tu correo electrónico para completar tu registro.</string>
+    <string name="subtitle_addrecipe">Comparte ese secreto culinario</string>
+    <string name="btn_addrecipe">+ receta</string>
+    <string name="description_addrecipe">Aporta esa receta familiar o tradicional de tu zona y enriquece la comunidad</string>
+    <string name="ingredientes">Ej: 250 g de harina</string>
+    <string name="add_ingredient">+ ingredientes</string>
+    <string name="add_img_recipe">añadir foto receta</string>
+    <string name="title_recipe">Título. Ej: Tortilla de patatas</string>
+    <string name="steps_recipe">Pasos para la elaboración de la receta</string>
+    <string name="form_add_recipe">Formulario nueva receta</string>
+    <string name="btn_save">guardar</string>
+    <string name="tv_list_ingredients">Lista de ingredientes</string>
+    <string name="tv_steps_recipe">Pasos</string>
+    <string name="add_recipe_message_invalid">Revisa los campos requeridos</string>
 </resources>
