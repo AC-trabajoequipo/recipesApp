@@ -36,8 +36,8 @@
         android:name="com.actrabajoequipo.recipesapp.ui.detail.DetailActivity"
         android:label="DetailActivity">
         <argument
-            android:name="recipe"
-            app:argType="com.actrabajoequipo.recipesapp.model.RecipeDto" />
+            android:name="recipeId"
+            app:argType="string" />
     </activity>
 
 </navigation>

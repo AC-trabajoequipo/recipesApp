@@ -42,12 +42,12 @@
                 android:background="@drawable/gradient_bottom" />
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/detailToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ToolBarStyle"
                 app:layout_collapseMode="pin"
-                app:title="Recipe name" />
+                tools:title="Recipe name" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -119,5 +119,11 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
