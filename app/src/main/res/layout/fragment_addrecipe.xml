@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="url"
-            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

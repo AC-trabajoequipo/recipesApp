@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                     true
                 }
-
                 else -> false
             }
         }
