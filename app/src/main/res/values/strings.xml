@@ -15,6 +15,8 @@
     <string name="requirement_password">"Por favor, introduce una contraseña que contenga al menos 6 caracteres, una minúscula, una mayúscula y un número."</string>
     <string name="email_already_registered">Este correo electronico ya está registrado. Si aún no has verificado la cuenta haz click en el enlace que te enviamos.</string>
     <string name="confirm_your_email">Haz click en el enlace que hemos enviado a tu correo electrónico para completar tu registro.</string>
+    <string name="ingredientes_title">Ingredientes</string>
+    <string name="preparation_title">Preparación</string>
     <string name="subtitle_addrecipe">Comparte ese secreto culinario</string>
     <string name="btn_addrecipe">+ receta</string>
     <string name="description_addrecipe">Aporta esa receta familiar o tradicional de tu zona y enriquece la comunidad</string>
