@@ -55,7 +55,7 @@ class DetailActivity : AppCompatActivity() {
         if (uiModel is DetailViewModel.UIModel.Content) {
             with(binding) {
                 val recipe = uiModel.recipe
-                detailToolbar.title = recipe.name
+                collapsingToolbar.title = recipe.name
                 recipe.imgUrl.let { image.loadUrl(it) }
                 description.text = recipe.description
 
