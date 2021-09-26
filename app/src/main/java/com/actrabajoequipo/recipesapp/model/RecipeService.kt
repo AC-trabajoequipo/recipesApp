@@ -8,9 +8,4 @@ interface RecipeService {
 
     @GET("recipes.json")
     suspend fun getRecipes(): List<RecipeDto>
-
-    @POST()
-    suspend fun putRecipe(recipe : Recipe)
-
-
 }

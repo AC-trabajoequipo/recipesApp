@@ -75,7 +75,6 @@ class LoginViewModel(private val email: String, private val password: String) : 
     }
 }
 
-
 @Suppress("UNCHECKED_CAST")
 class LoginViewModelFactory(private val email: String, private val password: String) : ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

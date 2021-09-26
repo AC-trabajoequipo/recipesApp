@@ -30,4 +30,7 @@
     <string name="tv_list_ingredients">Lista de ingredientes</string>
     <string name="tv_steps_recipe">Pasos</string>
     <string name="add_recipe_message_invalid">Revisa los campos requeridos</string>
+    <string name="fields_required_empty">Revisa los campos requeridos</string>
+    <string name="image_not_selected">No has seleccionado ninguna imagen</string>
+    <string name="connection_firebase_error">La conexión con firebase ha fallado</string>
 </resources>
