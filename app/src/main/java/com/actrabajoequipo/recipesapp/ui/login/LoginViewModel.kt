@@ -34,7 +34,7 @@ class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
     }
 
     fun login(email :String, password: String) {
-        //launch {
+        launch {
             if (email.length > 0 && password.length > 0) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
                 fbAuth.signInWithEmailAndPassword(email.trim(), password.trim())
@@ -53,7 +53,7 @@ class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
             } else {
                 _logeado.value = UiLogin.State4()
             }
-        //}
+        }
     }
 
 
