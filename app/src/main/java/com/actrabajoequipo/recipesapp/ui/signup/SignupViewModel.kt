@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.google.firebase.auth.FirebaseAuth
 
-class SignupViewModel(private val name: String,
-                      private val email: String,
-                      private val password: String,
-                      private val passwordConfirm: String) : ViewModel(), Scope by Scope.Impl() {
+class SignupViewModel() : ViewModel(), Scope by Scope.Impl() {
 
     sealed class UiSignup(){
         class State1 : UiSignup()
@@ -23,13 +20,8 @@ class SignupViewModel(private val name: String,
     private val fbAuth = FirebaseAuth.getInstance()
 
     private val _registrado = MutableLiveData<SignupViewModel.UiSignup>()
-    val registrado: LiveData<SignupViewModel.UiSignup>
-        get() {
-            if (_registrado.value == null){
-                refresh()
-            }
-            return _registrado
-        }
+    val registrado: LiveData<SignupViewModel.UiSignup> get() = _registrado
+
 
 
     init {
@@ -37,9 +29,9 @@ class SignupViewModel(private val name: String,
     }
 
 
-    private fun refresh() {
+    fun signup(name :String, email :String, password :String, passwordConfirm :String) {
         if(name.length > 1 && email.length > 1 && password.length > 5 && passwordConfirm.length > 5){
-            if( password.toString().trim().equals(passwordConfirm.toString().trim())) {
+            if( password.trim().equals(passwordConfirm.trim())) {
                 if (password.matches(Regex(".*[a-z].*"))
                     && password.matches(Regex(".*[A-Z].*"))
                     && password.matches(Regex(".*[0-9].*"))){
@@ -60,10 +52,3 @@ class SignupViewModel(private val name: String,
     }
 }
 
-
-@Suppress("UNCHECKED_CAST")
-class SignupViewModelFactory(private val name: String, private val email: String, private val password: String, private val passwordConfirm: String) : ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return SignupViewModel(name,email,password, passwordConfirm) as T
-    }
-}

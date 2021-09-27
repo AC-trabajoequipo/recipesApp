@@ -13,7 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val email: String, private val password: String) : ViewModel(), Scope by Scope.Impl() {
+class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
 
     sealed class UiLogin(){
         class State1 : UiLogin()
@@ -25,29 +25,19 @@ class LoginViewModel(private val email: String, private val password: String) : 
     private val fbAuth = FirebaseAuth.getInstance()
     private val GOOGLE_SIGN_IN = 100
 
-
     private val _logeado = MutableLiveData<UiLogin>()
-    val logeado: LiveData<UiLogin>
-        get() {
-            if (_logeado.value == null){
-                refresh()
-            }
-            return _logeado
-        }
+    val logeado: LiveData<UiLogin> get() = _logeado
 
 
     init {
         initScope()
     }
 
-    private fun refresh() {
-        launch {
+    fun login(email :String, password: String) {
+        //launch {
             if (email.length > 0 && password.length > 0) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
-                fbAuth.signInWithEmailAndPassword(
-                    email.toString().trim(),
-                    password.toString().trim()
-                )
+                fbAuth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             val user = fbAuth.currentUser
@@ -63,22 +53,14 @@ class LoginViewModel(private val email: String, private val password: String) : 
             } else {
                 _logeado.value = UiLogin.State4()
             }
-        }
+        //}
     }
-
-
-
 
 
     override fun onCleared() {
         destroyScope()
     }
+
 }
 
 
-@Suppress("UNCHECKED_CAST")
-class LoginViewModelFactory(private val email: String, private val password: String) : ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LoginViewModel(email,password) as T
-    }
-}
