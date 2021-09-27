@@ -29,6 +29,16 @@ class SignupActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get()
         setListeners()
+
+        viewModel.registrado.observe(this, Observer {
+            when(it){
+                is SignupViewModel.UiSignup.UnconfirmedEmail -> Toast.makeText(this, R.string.confirm_your_email, Toast.LENGTH_LONG).show()
+                is SignupViewModel.UiSignup.EmailAlreadyRegistered -> Toast.makeText(this, R.string.email_already_registered, Toast.LENGTH_LONG).show()
+                is SignupViewModel.UiSignup.PasswordRequirements -> Toast.makeText(this, R.string.password_requirement, Toast.LENGTH_LONG).show()
+                is SignupViewModel.UiSignup.PasswordsDoNotMatch -> Toast.makeText(this, R.string.passwords_do_not_match, Toast.LENGTH_LONG).show()
+                is SignupViewModel.UiSignup.FillinFields -> Toast.makeText(this, R.string.fill_in_alls_fields, Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun setListeners() {
@@ -39,16 +49,6 @@ class SignupActivity : AppCompatActivity() {
             passwordConfirm = binding.ETpasswordConfirm.text.toString()
 
             viewModel.signup(name, email, password, passwordConfirm)
-
-            viewModel.registrado.observe(this, Observer {
-                when(it){
-                    is SignupViewModel.UiSignup.State1 -> Toast.makeText(this, R.string.confirm_your_email, Toast.LENGTH_LONG).show()
-                    is SignupViewModel.UiSignup.State2 -> Toast.makeText(this, R.string.email_already_registered, Toast.LENGTH_LONG).show()
-                    is SignupViewModel.UiSignup.State3 -> Toast.makeText(this, R.string.requirement_password, Toast.LENGTH_LONG).show()
-                    is SignupViewModel.UiSignup.State4 -> Toast.makeText(this, R.string.passwords_do_not_match, Toast.LENGTH_LONG).show()
-                    is SignupViewModel.UiSignup.State5 -> Toast.makeText(this, R.string.fill_in_alls_fields, Toast.LENGTH_LONG).show()
-                }
-            })
         }
     }
 

@@ -33,29 +33,29 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get()
+        setListeners()
 
+        viewModel.logeado.observe(this, Observer {
+            when(it){
+                is LoginViewModel.UiLogin.Success -> {
+                    Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                is LoginViewModel.UiLogin.UnconfirmedEmail -> Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLogin.WrongEmailOrPassword -> Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLogin.FillinFields -> Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
 
+    private fun setListeners() {
         binding.buttonLogin.setOnClickListener {
             email = binding.ETemail.text.toString()
             password = binding.ETpassword.text.toString()
 
             viewModel.login(email, password)
         }
-        viewModel.logeado.observe(this, Observer {
-            when(it){
-                is LoginViewModel.UiLogin.State1 -> {
-                    Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-                is LoginViewModel.UiLogin.State2 -> Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
-                is LoginViewModel.UiLogin.State3 -> Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
-                is LoginViewModel.UiLogin.State4 -> Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
-            }
-        })
-    }
-
-    private fun setListeners() {
 
         binding!!.buttonLoginGoogle.setOnClickListener {
             loginWithGoogleAccount()
@@ -97,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
             }catch (e: ApiException){
                 Toast.makeText(this, "", Toast.LENGTH_LONG).show()
             }
-
         }
     }
 

@@ -1,25 +1,19 @@
 package com.actrabajoequipo.recipesapp.ui.login
 
-import android.app.UiModeManager
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.ui.Scope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
 
     sealed class UiLogin(){
-        class State1 : UiLogin()
-        class State2 : UiLogin()
-        class State3 : UiLogin()
-        class State4 : UiLogin()
+        class Success : UiLogin()
+        class UnconfirmedEmail : UiLogin()
+        class WrongEmailOrPassword : UiLogin()
+        class FillinFields : UiLogin()
     }
 
     private val fbAuth = FirebaseAuth.getInstance()
@@ -42,19 +36,20 @@ class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
                         if (it.isSuccessful) {
                             val user = fbAuth.currentUser
                             if (user!!.isEmailVerified) {
-                                _logeado.value = UiLogin.State1()
+                                _logeado.value = UiLogin.Success()
                             } else {
-                                _logeado.value = UiLogin.State2()
+                                _logeado.value = UiLogin.UnconfirmedEmail()
                             }
                         } else {
-                            _logeado.value = UiLogin.State3()
+                            _logeado.value = UiLogin.WrongEmailOrPassword()
                         }
                     }
             } else {
-                _logeado.value = UiLogin.State4()
+                _logeado.value = UiLogin.FillinFields()
             }
         }
     }
+
 
 
     override fun onCleared() {

@@ -10,17 +10,17 @@ import com.google.firebase.auth.FirebaseAuth
 class SignupViewModel() : ViewModel(), Scope by Scope.Impl() {
 
     sealed class UiSignup(){
-        class State1 : UiSignup()
-        class State2 : UiSignup()
-        class State3 : UiSignup()
-        class State4 : UiSignup()
-        class State5 : UiSignup()
+        class UnconfirmedEmail : UiSignup()
+        class EmailAlreadyRegistered : UiSignup()
+        class PasswordRequirements : UiSignup()
+        class PasswordsDoNotMatch : UiSignup()
+        class FillinFields : UiSignup()
     }
 
     private val fbAuth = FirebaseAuth.getInstance()
 
-    private val _registrado = MutableLiveData<SignupViewModel.UiSignup>()
-    val registrado: LiveData<SignupViewModel.UiSignup> get() = _registrado
+    private val _registrado = MutableLiveData<UiSignup>()
+    val registrado: LiveData<UiSignup> get() = _registrado
 
 
 
@@ -43,12 +43,12 @@ class SignupViewModel() : ViewModel(), Scope by Scope.Impl() {
                                 val user = fbAuth.currentUser
                                 //ENVIAMOS MAIL DE CONFIRMACION
                                 user?.sendEmailVerification()
-                                _registrado.value = UiSignup.State1()
-                            }else _registrado.value = UiSignup.State2()
+                                _registrado.value = UiSignup.UnconfirmedEmail()
+                            }else _registrado.value = UiSignup.EmailAlreadyRegistered()
                         }
-                }else _registrado.value = UiSignup.State3()
-            }else _registrado.value = UiSignup.State4()
-        }else _registrado.value = UiSignup.State5()
+                }else _registrado.value = UiSignup.PasswordRequirements()
+            }else _registrado.value = UiSignup.PasswordsDoNotMatch()
+        }else _registrado.value = UiSignup.FillinFields()
     }
 }
 

@@ -12,7 +12,7 @@
     <string name="fill_in_the_fields">Rellena los dos campos, por favor."</string>
     <string name="fill_in_alls_fields">"Rellena todos los campos correctamente, por favor"</string>
     <string name="passwords_do_not_match">"Las contraseñas no coinciden."</string>
-    <string name="requirement_password">"Por favor, introduce una contraseña que contenga al menos 6 caracteres, una minúscula, una mayúscula y un número."</string>
+    <string name="password_requirement">Por favor, introduce una contraseña que contenga al menos 6 caracteres, una minúscula, una mayúscula y un número."</string>
     <string name="email_already_registered">Este correo electronico ya está registrado. Si aún no has verificado la cuenta haz click en el enlace que te enviamos.</string>
     <string name="confirm_your_email">Haz click en el enlace que hemos enviado a tu correo electrónico para completar tu registro.</string>
     <string name="ingredientes_title">Ingredientes</string>
