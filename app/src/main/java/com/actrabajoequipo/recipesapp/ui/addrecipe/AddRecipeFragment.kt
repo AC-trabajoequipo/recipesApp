@@ -1,44 +1,57 @@
 package com.actrabajoequipo.recipesapp.ui.addrecipe
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentAddrecipeBinding
+import com.actrabajoequipo.recipesapp.FormRecipeActivity
+import com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileFragment
+import com.google.firebase.auth.FirebaseAuth
 
 class AddRecipeFragment : Fragment() {
 
-    private lateinit var addRecipeViewModel: AddRecipeViewModel
-    private var _binding: FragmentAddrecipeBinding? = null
+    private var fireBaseAuth: FirebaseAuth? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var viewModel: AddRecipeViewModel
+    private lateinit var binding: FragmentAddrecipeBinding
+    private var fauth = FirebaseAuth.getInstance()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        addRecipeViewModel =
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_addrecipe, container, false)
+        viewModel =
             ViewModelProvider(this).get(AddRecipeViewModel::class.java)
 
-        _binding = FragmentAddrecipeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding.btnAddRecipe.setOnClickListener {
+            Log.d("Debug", "Entra dentro del botón")
+            if (fauth.currentUser != null) {
+                Log.d("USER", fauth!!.currentUser!!.uid.toString())
+                val intentFormRecipeActivity = Intent(activity, FormRecipeActivity::class.java)
+                startActivity(intentFormRecipeActivity)
+            } else {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(
+                        R.id.nav_host_fragment_activity_main,
+                        UserProfileFragment::class.java,
+                        null,
+                        null
+                    )
+                    ?.commit()
+            }
+        }
 
-        val textView: TextView = binding.textAddRecipe
-        addRecipeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        binding.lifecycleOwner = this
+        return binding.root
     }
 }
