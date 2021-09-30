@@ -1,16 +1,13 @@
 package com.actrabajoequipo.recipesapp
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.actrabajoequipo.recipesapp.databinding.ActivityMainBinding
-import com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeFragment
-import com.actrabajoequipo.recipesapp.ui.home.HomeFragment
-import com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,29 +34,5 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        navView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.navigation_home -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, HomeFragment::class.java, null, null)
-                        .commit()
-                    true
-                }
-                R.id.navigation_addrecipe -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, AddRecipeFragment::class.java, null, null)
-                        .commit()
-                    true
-                }
-                R.id.navigation_userprofile -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, UserProfileFragment::class.java, null, null)
-                        .commit()
-                    true
-                }
-                else -> false
-            }
-        }
     }
 }

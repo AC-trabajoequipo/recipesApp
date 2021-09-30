@@ -3,15 +3,14 @@ package com.actrabajoequipo.recipesapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
+import com.actrabajoequipo.recipesapp.model.database.Recipe
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.recipesapp.ui.common.Event
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel(), Scope by Scope.Impl() {
-
-    private val recipesRepository: RecipesRepository by lazy { RecipesRepository() }
+class HomeViewModel(private val recipesRepository: RecipesRepository) : ViewModel(),
+    Scope by Scope.Impl() {
 
     private val _uiModel = MutableLiveData<UIModel>()
     val uiModel: LiveData<UIModel>
@@ -20,12 +19,12 @@ class HomeViewModel : ViewModel(), Scope by Scope.Impl() {
             return _uiModel
         }
 
-    private val _navigation = MutableLiveData<Event<RecipeDto>>()
-    val navigation: LiveData<Event<RecipeDto>> = _navigation
+    private val _navigation = MutableLiveData<Event<Recipe>>()
+    val navigation: LiveData<Event<Recipe>> = _navigation
 
     sealed class UIModel {
         object Loading : UIModel()
-        class Content(val recipes: List<RecipeDto>) : UIModel()
+        class Content(val recipes: List<Recipe>) : UIModel()
     }
 
     init {
@@ -39,7 +38,7 @@ class HomeViewModel : ViewModel(), Scope by Scope.Impl() {
         }
     }
 
-    fun onRecipeClicked(recipe: RecipeDto) {
+    fun onRecipeClicked(recipe: Recipe) {
         _navigation.value = Event(recipe)
     }
 

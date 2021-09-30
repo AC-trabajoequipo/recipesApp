@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.databinding.FragmentHomeBinding
+import com.actrabajoequipo.recipesapp.model.RecipesRepository
+import com.actrabajoequipo.recipesapp.ui.app
+import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.actrabajoequipo.recipesapp.ui.home.HomeViewModel.UIModel
 import com.actrabajoequipo.recipesapp.ui.home.adapter.RecipesAdapter
 
 class HomeFragment : Fragment() {
 
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: RecipesAdapter
 
@@ -21,11 +23,13 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+        homeViewModel = getViewModel { HomeViewModel(RecipesRepository(requireContext().app)) }
+
         homeViewModel.uiModel.observe(this, ::updateUI)
         homeViewModel.navigation.observe(this, { event ->
             event.getContentIfNotHandled()?.let {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionNavigationHomeToDetailActivity(it)
+                    HomeFragmentDirections.actionNavigationHomeToDetailActivity(it.id)
                 )
             }
         })
