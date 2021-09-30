@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp
+package com.actrabajoequipo.recipesapp.model.database
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
