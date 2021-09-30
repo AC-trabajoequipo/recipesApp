@@ -1,67 +1,51 @@
 package com.actrabajoequipo.recipesapp.ui.login
 
-import android.app.UiModeManager
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.ui.Scope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val email: String, private val password: String) : ViewModel(), Scope by Scope.Impl() {
+class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
 
     sealed class UiLogin(){
-        class State1 : UiLogin()
-        class State2 : UiLogin()
-        class State3 : UiLogin()
-        class State4 : UiLogin()
+        class Success : UiLogin()
+        class UnconfirmedEmail : UiLogin()
+        class WrongEmailOrPassword : UiLogin()
+        class FillinFields : UiLogin()
     }
 
     private val fbAuth = FirebaseAuth.getInstance()
     private val GOOGLE_SIGN_IN = 100
 
-
     private val _logeado = MutableLiveData<UiLogin>()
-    val logeado: LiveData<UiLogin>
-        get() {
-            if (_logeado.value == null){
-                refresh()
-            }
-            return _logeado
-        }
+    val logeado: LiveData<UiLogin> get() = _logeado
 
 
     init {
         initScope()
     }
 
-    private fun refresh() {
+    fun login(email :String, password: String) {
         launch {
             if (email.length > 0 && password.length > 0) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
-                fbAuth.signInWithEmailAndPassword(
-                    email.toString().trim(),
-                    password.toString().trim()
-                )
+                fbAuth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             val user = fbAuth.currentUser
                             if (user!!.isEmailVerified) {
-                                _logeado.value = UiLogin.State1()
+                                _logeado.value = UiLogin.Success()
                             } else {
-                                _logeado.value = UiLogin.State2()
+                                _logeado.value = UiLogin.UnconfirmedEmail()
                             }
                         } else {
-                            _logeado.value = UiLogin.State3()
+                            _logeado.value = UiLogin.WrongEmailOrPassword()
                         }
                     }
             } else {
-                _logeado.value = UiLogin.State4()
+                _logeado.value = UiLogin.FillinFields()
             }
         }
     }
@@ -75,9 +59,4 @@ class LoginViewModel(private val email: String, private val password: String) : 
     }
 }
 
-@Suppress("UNCHECKED_CAST")
-class LoginViewModelFactory(private val email: String, private val password: String) : ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LoginViewModel(email,password) as T
-    }
-}
+
