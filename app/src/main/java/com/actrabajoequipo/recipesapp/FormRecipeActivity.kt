@@ -92,7 +92,10 @@ class FormRecipeActivity : AppCompatActivity() {
         storageReference = FirebaseStorage.getInstance().reference
         databaseReference = FirebaseDatabase.getInstance().reference.child(PATH_REALTIME_DATABASE)
 
-        binding.btnAddImage.setOnClickListener { openGallery() }
+        with(binding) {
+            setContentView(root)
+            btnAddImage.setOnClickListener { openGallery() }
+        }
     }
 
     private fun openGallery() {
