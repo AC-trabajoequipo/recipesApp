@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.databinding.ActivityFormRecipeBinding
@@ -51,13 +50,16 @@ class FormRecipeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_form_recipe)
+        binding = ActivityFormRecipeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(FormRecipeViewModel::class.java)
 
         storageReference = FirebaseStorage.getInstance().reference
         databaseReference = FirebaseDatabase.getInstance().reference.child(PATH_REALTIME_DATABASE)
 
-        binding.btnAddImage.setOnClickListener { openGallery() }
+        with(binding) {
+            setContentView(root)
+            btnAddImage.setOnClickListener { openGallery() }
+        }
 
         viewModel.formState.observe(this, Observer {
             when (it) {
@@ -148,8 +150,6 @@ class FormRecipeActivity : AppCompatActivity() {
                 }
             }
         })
-
-        binding.lifecycleOwner = this
     }
 
     private fun openGallery() {

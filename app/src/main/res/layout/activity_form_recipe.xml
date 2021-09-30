@@ -1,168 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data></data>
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/photoRecipe"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/grey"
+            app:layout_constraintDimensionRatio="H, 4:3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnAddImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_search_image"
+            android:text="@string/add_img_recipe"
+            app:layout_constraintBottom_toBottomOf="@id/photoRecipe"
+            app:layout_constraintEnd_toEndOf="@id/photoRecipe"
+            app:layout_constraintStart_toStartOf="@id/photoRecipe"
+            app:layout_constraintTop_toTopOf="@id/photoRecipe" />
+
+        <ProgressBar
+            android:id="@+id/pbUploadImage"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_margin="@dimen/xxl_spacing"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/photoRecipe"
+            app:layout_constraintEnd_toEndOf="@id/photoRecipe"
+            app:layout_constraintStart_toStartOf="@id/photoRecipe"
+            app:layout_constraintTop_toTopOf="@id/photoRecipe" />
+
+        <TextView
+            android:id="@+id/tvProgressPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/l2_spacing"
+            android:textColor="@color/teal_200"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pbUploadImage" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/xl_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/photoRecipe">
 
-            <ImageView
-                android:id="@+id/photoRecipe"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <EditText
+                android:id="@+id/etTitleRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/grey"
-                app:layout_constraintDimensionRatio="H, 4:3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:hint="@string/title_recipe"
+                android:padding="@dimen/m_spacing" />
 
-            <ImageButton
-                android:id="@+id/btnAddImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                android:src="@drawable/ic_search_image"
-                android:text="@string/add_img_recipe"
-                app:layout_constraintBottom_toBottomOf="@id/photoRecipe"
-                app:layout_constraintEnd_toEndOf="@id/photoRecipe"
-                app:layout_constraintStart_toStartOf="@id/photoRecipe"
-                app:layout_constraintTop_toTopOf="@id/photoRecipe" />
-
-            <ProgressBar
-                android:id="@+id/pbUploadImage"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="0dp"
-                android:layout_height="10dp"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_margin="@dimen/xxl_spacing"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/photoRecipe"
-                app:layout_constraintEnd_toEndOf="@id/photoRecipe"
-                app:layout_constraintStart_toStartOf="@id/photoRecipe"
-                app:layout_constraintTop_toTopOf="@id/photoRecipe" />
+                android:background="@color/black" />
 
             <TextView
-                android:id="@+id/tvProgressPercent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/l2_spacing"
-                android:textColor="@color/teal_200"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pbUploadImage" />
+                android:text="@string/tv_list_ingredients" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/etIngredient1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="@dimen/xl_spacing"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/photoRecipe">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xs_spacing"
+                android:background="@color/grey"
+                android:hint="@string/ingredientes"
+                android:padding="@dimen/m_spacing" />
 
-                <EditText
-                    android:id="@+id/etTitleRecipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/grey"
-                    android:hint="@string/title_recipe"
-                    android:padding="@dimen/m_spacing" />
+            <EditText
+                android:id="@+id/etIngredient2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xs_spacing"
+                android:background="@color/grey"
+                android:hint="@string/ingredientes"
+                android:padding="@dimen/m_spacing" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="@dimen/xxl_spacing"
-                    android:background="@color/black" />
+            <EditText
+                android:id="@+id/etIngredient3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xs_spacing"
+                android:background="@color/grey"
+                android:hint="@string/ingredientes"
+                android:padding="@dimen/m_spacing" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_list_ingredients" />
+            <EditText
+                android:id="@+id/etIngredient4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xs_spacing"
+                android:background="@color/grey"
+                android:hint="@string/ingredientes"
+                android:padding="@dimen/m_spacing" />
 
-                <EditText
-                    android:id="@+id/etIngredient1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xs_spacing"
-                    android:background="@color/grey"
-                    android:hint="@string/ingredientes"
-                    android:padding="@dimen/m_spacing" />
+            <EditText
+                android:id="@+id/etIngredient5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xs_spacing"
+                android:background="@color/grey"
+                android:hint="@string/ingredientes"
+                android:padding="@dimen/m_spacing" />
 
-                <EditText
-                    android:id="@+id/etIngredient2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xs_spacing"
-                    android:background="@color/grey"
-                    android:hint="@string/ingredientes"
-                    android:padding="@dimen/m_spacing" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_ingredient" />
 
-                <EditText
-                    android:id="@+id/etIngredient3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xs_spacing"
-                    android:background="@color/grey"
-                    android:hint="@string/ingredientes"
-                    android:padding="@dimen/m_spacing" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="@dimen/xxl_spacing"
+                android:background="@color/black" />
 
-                <EditText
-                    android:id="@+id/etIngredient4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xs_spacing"
-                    android:background="@color/grey"
-                    android:hint="@string/ingredientes"
-                    android:padding="@dimen/m_spacing" />
-
-                <EditText
-                    android:id="@+id/etIngredient5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xs_spacing"
-                    android:background="@color/grey"
-                    android:hint="@string/ingredientes"
-                    android:padding="@dimen/m_spacing" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_ingredient" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="@dimen/xxl_spacing"
-                    android:background="@color/black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_steps_recipe" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_steps_recipe" />
 
 
-                <EditText
-                    android:id="@+id/etStepForRecipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/xs_spacing"
-                    android:background="@color/grey"
-                    android:ems="10"
-                    android:gravity="start|top"
-                    android:hint="@string/steps_recipe"
-                    android:inputType="textMultiLine"
-                    android:lines="5" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/etStepForRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xs_spacing"
+                android:background="@color/grey"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/steps_recipe"
+                android:inputType="textMultiLine"
+                android:lines="5" />
+        </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
-</layout>
+</androidx.core.widget.NestedScrollView>
 
