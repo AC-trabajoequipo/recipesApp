@@ -1,17 +1,23 @@
 package com.actrabajoequipo.recipesapp.model
 
 import android.net.Uri
-import android.view.View
-import android.widget.Toast
 import com.actrabajoequipo.recipesapp.Recipe
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-object FireBaseRepository {
+object ManageFireBase {
+
+    interface PhotoCallBack{
+        fun onProgress(progress: Int)
+        fun onComplete()
+        fun onSuccess(imageURL: String)
+        fun onFailure()
+    }
+
+    private lateinit var callBack : PhotoCallBack
 
     const val PATH_IMAGES = "images"
     const val PATH_REALTIME_DATABASE = "recipes"
@@ -20,8 +26,15 @@ object FireBaseRepository {
     private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(PATH_REALTIME_DATABASE)
     private var id : String? = null
 
-    /*fun uploadPhotoRecipe(photoSelectedUri : Uri) : String{
-        id = databaseReference.push().key
+
+    fun returnIdKeyEntry() : String?{
+        return databaseReference.push().key
+    }
+
+
+   fun uploadPhotoRecipe(photoSelectedUri : Uri, callBack: PhotoCallBack){
+       this.callBack = callBack
+        id = returnIdKeyEntry()
         val storageReference = FirebaseAuth.getInstance().currentUser?.let {
             id?.let { idGenerated ->
                 storageReference.child(PATH_IMAGES).child(
@@ -35,30 +48,21 @@ object FireBaseRepository {
                 ?.addOnProgressListener {
                     val progress =
                         (100 * it.bytesTransferred / it.totalByteCount).toDouble()
-                    binding.pbUploadImage.progress = progress.toInt()
-                    binding.tvProgressPercent.text = "$progress%"
+                    callBack.onProgress(progress.toInt())
                 }
                 ?.addOnCompleteListener {
-                    binding.pbUploadImage.visibility = View.INVISIBLE
-                    binding.tvProgressPercent.visibility = View.INVISIBLE
+                    callBack.onComplete()
                 }
                 ?.addOnSuccessListener {
                     // código para una vez que la foto se ha subido exitosa al store
                     //podamos coger la url y ponerla en nuestra database
-                    Snackbar.make(binding.root, "imagen subida", Snackbar.LENGTH_SHORT)
-                        .show()
-                    it.storage.downloadUrl.addOnSuccessListener { photoUrl = it.toString() }
+                    it.storage.downloadUrl.addOnSuccessListener { imageUri -> callBack.onSuccess(imageUri.toString()) }
                 }
                 ?.addOnFailureListener {
-                    Snackbar.make(
-                        binding.root,
-                        "No se pudo subir, inténtelo de nuevo",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    callBack.onFailure()
                 }
         }
-        return ""
-    }*/
+    }
 
     fun uploadRecipe(user: String, recipe: Recipe) : Boolean{
         var isValid = false

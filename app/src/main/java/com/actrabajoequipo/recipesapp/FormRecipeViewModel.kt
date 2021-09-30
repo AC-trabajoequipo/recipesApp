@@ -1,12 +1,19 @@
 package com.actrabajoequipo.recipesapp
 
-import android.widget.Toast
+import android.net.Uri
 import androidx.lifecycle.*
-import com.actrabajoequipo.recipesapp.model.FireBaseRepository
+import com.actrabajoequipo.recipesapp.model.ManageFireBase
+import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
 import com.actrabajoequipo.recipesapp.ui.Scope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
 
-class FormRecipeViewModel() : ViewModel(), Scope by Scope.Impl() {
+class FormRecipeViewModel() : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
+
+    private var photoUrl: String? = null
+    private var id: String? = null
 
     sealed class ValidatedFields() {
         class EmptyFieldsError : ValidatedFields()
@@ -15,9 +22,15 @@ class FormRecipeViewModel() : ViewModel(), Scope by Scope.Impl() {
         class FormValidated : ValidatedFields()
     }
 
-    sealed class SaveImage() {
-        class Success : SaveImage()
-        class Error : SaveImage()
+    sealed class SaveRecipe() {
+        class Success : SaveRecipe()
+        class Error : SaveRecipe()
+    }
+
+    sealed class ImageUpload() {
+        class Success : ImageUpload()
+        class InProgress : ImageUpload()
+        class Error : ImageUpload()
     }
 
     init {
@@ -25,19 +38,21 @@ class FormRecipeViewModel() : ViewModel(), Scope by Scope.Impl() {
     }
 
     private val _formState = MutableLiveData<ValidatedFields>()
-    val formState: LiveData<ValidatedFields>
-        get() {
-            return _formState
-        }
+    val formState: LiveData<ValidatedFields> get() = _formState
 
-    private val _imageState = MutableLiveData<SaveImage>()
-    val imageState: LiveData<SaveImage>
-        get() {
-            return _imageState
-        }
+    private val _recipeState = MutableLiveData<SaveRecipe>()
+    val recipeState: LiveData<SaveRecipe> get() = _recipeState
 
-    fun validatedFields(photoUrl: String?, id: String?, ingredients: ArrayList<String>) {
+    private val _imageUpload = MutableLiveData<ImageUpload>()
+    val imageUpload: LiveData<ImageUpload> get() = _imageUpload
+
+    private var _progressUploadImage = MutableLiveData<Int>()
+    val progressUploadImage: LiveData<Int> get() = _progressUploadImage
+
+
+    fun validatedFields(ingredients: ArrayList<String>) {
         launch {
+            id = ManageFireBase.returnIdKeyEntry()
             if (photoUrl == null) {
                 _formState.postValue(ValidatedFields.EmptyPhotoFieldError())
             } else if (id == null) {
@@ -48,39 +63,56 @@ class FormRecipeViewModel() : ViewModel(), Scope by Scope.Impl() {
         }
     }
 
-    fun saveImage(
+    fun saveRecipe(
         user: String,
-        id: String,
         photoUrl: String,
         titleRecipe: String,
         ingredients: ArrayList<String>,
         stepRecipe: String
     ) {
         launch {
-            var recipe = Recipe(id, photoUrl, titleRecipe, ingredients, stepRecipe)
-            if(FireBaseRepository.uploadRecipe(user = user,recipe = recipe)){
-                _imageState.postValue(SaveImage.Success())
-            }else{
-                _imageState.postValue(SaveImage.Error())
+            var recipe = Recipe(id!!, photoUrl, titleRecipe, ingredients, stepRecipe)
+            if (ManageFireBase.uploadRecipe(user = user, recipe = recipe)) {
+                _recipeState.postValue(SaveRecipe.Success())
+            } else {
+                _recipeState.postValue(SaveRecipe.Error())
             }
-    }
-}
-
-private fun editTextArrayListValidated(ingredients: ArrayList<String>): Boolean {
-    var isValid = true
-    for (ingredient in ingredients) {
-        if (ingredient.isEmpty()) {
-            isValid = false
         }
     }
-    return isValid
-}
-}
 
-@Suppress("UNCHECKED_CAST")
-class FormRecipeViewModelFactory() :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return FormRecipeViewModel() as T
+    private fun editTextArrayListValidated(ingredients: ArrayList<String>): Boolean {
+        for (ingredient in ingredients) {
+            if (ingredient.isNotEmpty()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun uploadImage(imageUri: Uri?) {
+        launch {
+            if (imageUri != null) {
+                ManageFireBase.uploadPhotoRecipe(imageUri, this@FormRecipeViewModel)
+            }
+        }
+    }
+
+    override fun onProgress(progress: Int) {
+        _progressUploadImage.postValue(progress.toInt())
+        _imageUpload.postValue(ImageUpload.InProgress())
+    }
+
+    override fun onComplete() {
+        _progressUploadImage.postValue(0)
+    }
+
+    override fun onSuccess(imageURL: String) {
+        _imageUpload.postValue(ImageUpload.Success())
+        photoUrl = imageURL
+
+    }
+
+    override fun onFailure() {
+        _imageUpload.postValue(ImageUpload.Error())
     }
 }
