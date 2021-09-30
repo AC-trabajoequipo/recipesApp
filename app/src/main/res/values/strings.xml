@@ -12,9 +12,25 @@
     <string name="fill_in_the_fields">Rellena los dos campos, por favor."</string>
     <string name="fill_in_alls_fields">"Rellena todos los campos correctamente, por favor"</string>
     <string name="passwords_do_not_match">"Las contraseñas no coinciden."</string>
-    <string name="requirement_password">"Por favor, introduce una contraseña que contenga al menos 6 caracteres, una minúscula, una mayúscula y un número."</string>
+    <string name="password_requirement">Por favor, introduce una contraseña que contenga al menos 6 caracteres, una minúscula, una mayúscula y un número."</string>
     <string name="email_already_registered">Este correo electronico ya está registrado. Si aún no has verificado la cuenta haz click en el enlace que te enviamos.</string>
     <string name="confirm_your_email">Haz click en el enlace que hemos enviado a tu correo electrónico para completar tu registro.</string>
     <string name="ingredientes_title">Ingredientes</string>
     <string name="preparation_title">Preparación</string>
+    <string name="subtitle_addrecipe">Comparte ese secreto culinario</string>
+    <string name="btn_addrecipe">+ receta</string>
+    <string name="description_addrecipe">Aporta esa receta familiar o tradicional de tu zona y enriquece la comunidad</string>
+    <string name="ingredientes">Ej: 250 g de harina</string>
+    <string name="add_ingredient">+ ingredientes</string>
+    <string name="add_img_recipe">añadir foto receta</string>
+    <string name="title_recipe">Título. Ej: Tortilla de patatas</string>
+    <string name="steps_recipe">Pasos para la elaboración de la receta</string>
+    <string name="form_add_recipe">Formulario nueva receta</string>
+    <string name="btn_save">post</string>
+    <string name="tv_list_ingredients">Lista de ingredientes</string>
+    <string name="tv_steps_recipe">Pasos</string>
+    <string name="add_recipe_message_invalid">Revisa los campos requeridos</string>
+    <string name="fields_required_empty">Revisa los campos requeridos</string>
+    <string name="image_not_selected">No has seleccionado ninguna imagen</string>
+    <string name="connection_firebase_error">La conexión con firebase ha fallado</string>
 </resources>

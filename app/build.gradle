@@ -11,9 +11,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
-    buildFeatures {
-        dataBinding = true
-    }
+
 
     defaultConfig {
         applicationId "com.actrabajoequipo.recipesapp"
@@ -38,8 +36,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        viewBinding true
+    viewBinding {
+        enabled true
     }
 }
 
@@ -55,6 +53,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+
 
     //Lottie (Animations)
     def lottieVersion = "3.7.2"
@@ -85,6 +85,7 @@ dependencies {
     //Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.1'
 
     //Room
     def room_version = "2.3.0"
