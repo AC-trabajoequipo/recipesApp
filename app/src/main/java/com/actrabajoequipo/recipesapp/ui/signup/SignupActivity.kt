@@ -8,16 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivitySigninBinding
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.model.UserDto
-import com.actrabajoequipo.recipesapp.model.UserRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 class SignupActivity : AppCompatActivity(), Scope by Scope.Impl() {
 
-    private val userRepository: UserRepository by lazy { UserRepository() }
 
     private lateinit var viewModel : SignupViewModel
     private lateinit var binding: ActivitySigninBinding
@@ -59,10 +54,7 @@ class SignupActivity : AppCompatActivity(), Scope by Scope.Impl() {
         }
 
         binding.buttonSigninPrueba.setOnClickListener {
-            launch {
-                val user = UserDto(1,"Pablo","pruebaaa")
-                userRepository.postUser(user)
-            }
+            viewModel.holaaa()
         }
     }
 

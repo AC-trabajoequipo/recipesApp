@@ -5,18 +5,18 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object UserBook {
+object ApiBook {
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
 
-    val service: UserService = Retrofit.Builder()
+    val SERVICE: ApiService = Retrofit.Builder()
         .baseUrl("https://recipesapp-ac-default-rtdb.europe-west1.firebasedatabase.app/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .run {
-            create(UserService::class.java)
+            create(ApiService::class.java)
         }
 }

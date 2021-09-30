@@ -1,8 +1,10 @@
 package com.actrabajoequipo.recipesapp.model
 
+import com.actrabajoequipo.recipesapp.model.ApiBook
+
 class RecipesRepository {
 
     suspend fun getRecipes() =
-        RecipeBook.service
+        ApiBook.SERVICE
             .getRecipes()
 }

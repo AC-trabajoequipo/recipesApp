@@ -1,17 +1,13 @@
 package com.actrabajoequipo.recipesapp.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navArgs
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityDetailBinding
 import com.actrabajoequipo.recipesapp.model.RecipeDto
-import com.actrabajoequipo.recipesapp.ui.home.HomeFragmentDirections
 import com.actrabajoequipo.recipesapp.ui.home.HomeViewModel
 import com.actrabajoequipo.recipesapp.ui.loadUrl
 

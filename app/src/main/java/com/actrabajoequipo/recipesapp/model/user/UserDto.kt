@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.model
+package com.actrabajoequipo.recipesapp.model.user
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
