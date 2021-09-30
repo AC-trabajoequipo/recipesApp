@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.R
@@ -29,7 +28,7 @@ class AddRecipeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_addrecipe, container, false)
+        binding = FragmentAddrecipeBinding.inflate(layoutInflater)
         viewModel =
             ViewModelProvider(this).get(AddRecipeViewModel::class.java)
 
@@ -51,7 +50,6 @@ class AddRecipeFragment : Fragment() {
             }
         }
 
-        binding.lifecycleOwner = this
         return binding.root
     }
 }
