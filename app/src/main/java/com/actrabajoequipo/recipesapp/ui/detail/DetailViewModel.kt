@@ -14,23 +14,24 @@ class DetailViewModel(
 ) : ViewModel(),
     Scope by Scope.Impl() {
 
-    private val _uiModel = MutableLiveData<UIModel>()
-    val uiModel: LiveData<UIModel>
-        get() {
-            if (_uiModel.value == null) findRecipe()
-            return _uiModel
-        }
-
-    sealed class UIModel {
-        object Loading : UIModel()
-        class Content(val recipe: Recipe) : UIModel()
-    }
+    private val _recipe = MutableLiveData<Recipe>()
+    val recipe: LiveData<Recipe> get() = _recipe
 
     init {
         initScope()
     }
 
     fun findRecipe() = launch {
-        _uiModel.value = UIModel.Content(recipesRepository.findById(recipeId))
+        _recipe.value = recipesRepository.findById(recipeId)
+    }
+
+    fun onFavoriteClicked() {
+        launch {
+            recipe.value?.let {
+                val updateRecipe = it.copy(favorite = !it.favorite)
+                _recipe.value = updateRecipe
+                recipesRepository.update(updateRecipe)
+            }
+        }
     }
 }
