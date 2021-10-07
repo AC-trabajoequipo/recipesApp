@@ -1,6 +1,7 @@
 package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
 import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
@@ -12,6 +13,7 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
 
     private var photoUrl: String? = null
     private var id: String? = null
+    private var ingredientsWithoutEmpties = ArrayList<String>()
 
     sealed class ValidatedFields() {
         class EmptyTitleRecipeError : ValidatedFields()
@@ -50,15 +52,19 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
     val progressUploadImage: LiveData<Int> get() = _progressUploadImage
 
 
-    fun validatedFields(titleRecipe: String? , descriptionRecipe: String?, ingredients: ArrayList<String>) {
+    fun validatedFields(
+        titleRecipe: String?,
+        descriptionRecipe: String?,
+        ingredients: ArrayList<String>
+    ) {
         launch {
             if (photoUrl == null) {
                 _formState.postValue(ValidatedFields.EmptyPhotoFieldError())
             } else if (id == null) {
                 _formState.postValue(ValidatedFields.EmptyIdFieldError())
-            } else if (titleRecipe == null){
+            } else if (titleRecipe == null) {
                 _formState.postValue(ValidatedFields.EmptyTitleRecipeError())
-            } else if (descriptionRecipe == null){
+            } else if (descriptionRecipe == null) {
                 _formState.postValue(ValidatedFields.EmptyDescriptionRecipeError())
             } else if (!editTextArrayListValidated(ingredients)) {
                 _formState.postValue(ValidatedFields.EmptyIngredientsError())
@@ -70,11 +76,20 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
         emailUser: String,
         titleRecipe: String,
         descriptionRecipe: String,
-        ingredients: ArrayList<String>,
+        //ingredients: ArrayList<String>,
         stepRecipe: String
     ) {
         launch {
-            val recipe = RecipeDto(id!!, emailUser = emailUser, name = titleRecipe, description = descriptionRecipe, imgUrl = photoUrl, ingredients = ingredients, preparation = stepRecipe)
+            Log.d("DEBUG", "saveRecipe: $ingredientsWithoutEmpties")
+            val recipe = RecipeDto(
+                id = id!!,
+                emailUser = emailUser,
+                name = titleRecipe,
+                description = descriptionRecipe,
+                imgUrl = photoUrl,
+                ingredients = ingredientsWithoutEmpties,
+                preparation = stepRecipe
+            )
             if (ManageFireBase.uploadRecipe(recipe)) {
                 _recipeState.postValue(SaveRecipe.Success())
             } else {
@@ -84,12 +99,14 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
     }
 
     private fun editTextArrayListValidated(ingredients: ArrayList<String>): Boolean {
+        var isValid = false
         for (ingredient in ingredients) {
             if (ingredient.isNotEmpty()) {
-                return true
+                isValid = true
+                ingredientsWithoutEmpties.add(ingredient)
             }
         }
-        return false
+        return isValid
     }
 
     fun uploadImage(imageUri: Uri?) {
@@ -105,19 +122,25 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
     }
 
     override fun onProgress(progress: Int) {
-        _progressUploadImage.postValue(progress)
-        _imageUpload.postValue(ImageUpload.InProgress())
+        launch {
+            _progressUploadImage.postValue(progress)
+            _imageUpload.postValue(ImageUpload.InProgress())
+        }
     }
 
     override fun onComplete() {
     }
 
     override fun onSuccess(imageURL: String) {
-        _imageUpload.postValue(ImageUpload.Success())
-        photoUrl = imageURL
+        launch {
+            _imageUpload.postValue(ImageUpload.Success())
+            photoUrl = imageURL
+        }
     }
 
     override fun onFailure() {
-        _imageUpload.postValue(ImageUpload.Error())
+        launch {
+            _imageUpload.postValue(ImageUpload.Error())
+        }
     }
 }

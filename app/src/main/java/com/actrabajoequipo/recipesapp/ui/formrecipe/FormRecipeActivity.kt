@@ -53,13 +53,7 @@ class FormRecipeActivity : AppCompatActivity() {
                             emailUser = FirebaseAuth.getInstance().currentUser?.email.toString(),
                             titleRecipe = etTitleRecipe.text.toString().trim(),
                             descriptionRecipe = etDescription.text.toString().trim(),
-                            ingredients = arrayListOf(
-                                etIngredient1.text.toString().trim(),
-                                etIngredient2.text.toString().trim(),
-                                etIngredient3.text.toString().trim(),
-                                etIngredient4.text.toString().trim(),
-                                etIngredient5.text.toString().trim()
-                            ), stepRecipe = etStepForRecipe.text.toString().trim()
+                            stepRecipe = etStepForRecipe.text.toString().trim()
                         )
                     }
                 }
