@@ -71,6 +71,16 @@
                 android:hint="@string/title_recipe"
                 android:padding="@dimen/m_spacing" />
 
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey"
+                android:lines="3"
+                android:textSize="14sp"
+                android:hint="@string/description_recipe"
+                android:padding="@dimen/m_spacing" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

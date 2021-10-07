@@ -1,7 +1,6 @@
-package com.actrabajoequipo.recipesapp
+package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
@@ -10,31 +9,18 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityFormRecipeBinding
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_form_recipe.*
 
 
 class FormRecipeActivity : AppCompatActivity() {
 
-    private var photoUrl: String? = null
-    private val PATH_REALTIME_DATABASE = "recipes"
-
     private lateinit var binding: ActivityFormRecipeBinding
     private lateinit var viewModel: FormRecipeViewModel
 
-    //firebase RealTimeDataBase
-    private lateinit var storageReference: StorageReference
-    private lateinit var databaseReference: DatabaseReference
-
-    //
     private val galleryResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
@@ -53,23 +39,20 @@ class FormRecipeActivity : AppCompatActivity() {
         binding = ActivityFormRecipeBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(FormRecipeViewModel::class.java)
 
-        storageReference = FirebaseStorage.getInstance().reference
-        databaseReference = FirebaseDatabase.getInstance().reference.child(PATH_REALTIME_DATABASE)
-
         with(binding) {
             setContentView(root)
             btnAddImage.setOnClickListener { openGallery() }
         }
 
-        viewModel.formState.observe(this, Observer {
+        viewModel.formState.observe(this, {
             when (it) {
                 is FormRecipeViewModel.ValidatedFields.FormValidated -> {
                     with(binding) {
                         //viewModel.uploadRecipe
                         viewModel.saveRecipe(
-                            user = FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                            photoUrl = photoUrl!!,
+                            emailUser = FirebaseAuth.getInstance().currentUser?.email.toString(),
                             titleRecipe = etTitleRecipe.text.toString().trim(),
+                            descriptionRecipe = etDescription.text.toString().trim(),
                             ingredients = arrayListOf(
                                 etIngredient1.text.toString().trim(),
                                 etIngredient2.text.toString().trim(),
@@ -80,11 +63,25 @@ class FormRecipeActivity : AppCompatActivity() {
                         )
                     }
                 }
-                is FormRecipeViewModel.ValidatedFields.EmptyFieldsError -> Toast.makeText(
+
+                is FormRecipeViewModel.ValidatedFields.EmptyTitleRecipeError -> Toast.makeText(
                     this,
                     R.string.fields_required_empty,
                     Toast.LENGTH_LONG
                 ).show()
+
+                is FormRecipeViewModel.ValidatedFields.EmptyDescriptionRecipeError -> Toast.makeText(
+                    this,
+                    R.string.fields_required_empty,
+                    Toast.LENGTH_LONG
+                ).show()
+
+                is FormRecipeViewModel.ValidatedFields.EmptyIngredientsError -> Toast.makeText(
+                    this,
+                    R.string.fields_required_empty,
+                    Toast.LENGTH_LONG
+                ).show()
+
                 is FormRecipeViewModel.ValidatedFields.EmptyPhotoFieldError -> Toast.makeText(
                     this,
                     R.string.image_not_selected,
@@ -97,6 +94,7 @@ class FormRecipeActivity : AppCompatActivity() {
                 ).show()
             }
         })
+
         viewModel.recipeState.observe(this, {
             when (it) {
                 is FormRecipeViewModel.SaveRecipe.Success -> {
@@ -116,6 +114,7 @@ class FormRecipeActivity : AppCompatActivity() {
             }
 
         })
+
         viewModel.progressUploadImage.observe(this, { progress ->
             binding.pbUploadImage.progress = progress.toInt()
             binding.tvProgressPercent.text = "$progress%"
@@ -165,8 +164,10 @@ class FormRecipeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.btn_post -> {
-                viewModel.validatedFields(ingredients = arrayListOf(
-                        etTitleRecipe.text.toString().trim(),
+                viewModel.validatedFields(
+                    titleRecipe = etTitleRecipe.text.toString().trim(),
+                    descriptionRecipe = etDescription.text.toString().trim(),
+                    ingredients = arrayListOf(
                         etIngredient1.text.toString().trim(),
                         etIngredient2.text.toString().trim(),
                         etIngredient3.text.toString().trim(),

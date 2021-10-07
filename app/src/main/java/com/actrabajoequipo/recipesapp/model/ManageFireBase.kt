@@ -1,7 +1,7 @@
 package com.actrabajoequipo.recipesapp.model
 
 import android.net.Uri
-import com.actrabajoequipo.recipesapp.Recipe
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -19,12 +19,11 @@ object ManageFireBase {
 
     private lateinit var callBack : PhotoCallBack
 
-    const val PATH_IMAGES = "images"
-    const val PATH_REALTIME_DATABASE = "recipes"
+    private const val PATH_IMAGES = "images"
+    private const val PATH_REALTIME_DATABASE = "recipes"
 
     private var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(PATH_REALTIME_DATABASE)
-    private var id : String? = null
 
 
     fun returnIdKeyEntry() : String?{
@@ -32,19 +31,22 @@ object ManageFireBase {
     }
 
 
-   fun uploadPhotoRecipe(photoSelectedUri : Uri, callBack: PhotoCallBack){
+   fun uploadPhotoRecipe(
+       id: String?,
+       imageUri: Uri?,
+       callBack: PhotoCallBack
+   ){
        this.callBack = callBack
-        id = returnIdKeyEntry()
-        val storageReference = FirebaseAuth.getInstance().currentUser?.let {
+        val storageReference = FirebaseAuth.getInstance().currentUser?.let { user->
             id?.let { idGenerated ->
                 storageReference.child(PATH_IMAGES).child(
-                    it.uid
+                    user.uid
                 ).child(idGenerated)
             }
         }
 
-        if (photoSelectedUri != null) {
-            storageReference?.putFile(photoSelectedUri!!)
+        if (imageUri != null) {
+            storageReference?.putFile(imageUri)
                 ?.addOnProgressListener {
                     val progress =
                         (100 * it.bytesTransferred / it.totalByteCount).toDouble()
@@ -64,11 +66,9 @@ object ManageFireBase {
         }
     }
 
-    fun uploadRecipe(user: String, recipe: Recipe) : Boolean{
-        var isValid = false
-        databaseReference.child(user).setValue(recipe).addOnSuccessListener {
-            isValid = true
-            //finish()
+    fun uploadRecipe(recipe: RecipeDto) : Boolean{
+        var isValid = true
+        databaseReference.child(recipe.id).setValue(recipe).addOnSuccessListener {
         }.addOnFailureListener {
             isValid = false
         }
