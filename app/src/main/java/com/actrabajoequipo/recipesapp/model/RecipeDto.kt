@@ -5,10 +5,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class RecipeDto(
-    val id: Int,
+    val id: String,
     val name: String,
     val description: String?,
     val imgUrl: String?,
-    val ingredients: List<String>?,
+    val ingredients: List<String>,
     val preparation: String?
 ) : Parcelable
