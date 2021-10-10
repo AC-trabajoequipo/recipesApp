@@ -7,10 +7,13 @@ import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
 import com.actrabajoequipo.recipesapp.model.RecipeBook
 import com.actrabajoequipo.recipesapp.model.RecipeDto
+import com.actrabajoequipo.recipesapp.model.RecipeRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import kotlinx.coroutines.launch
 
 class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
+
+    private val userRepository: RecipeRepository by lazy { RecipeRepository() }
 
     private var photoUrl: String? = null
     private var id: String? = null
@@ -78,16 +81,15 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
         stepRecipe: String
     ) {
         launch {
-            Log.d("DEBUG", "saveRecipe: $ingredientsWithoutEmpties")
-            val recipe = RecipeDto(
+
+            var responsePostRecipe = userRepository.postRecipe(RecipeDto(
                 idUser = idUser,
                 name = titleRecipe,
                 description = descriptionRecipe,
                 imgUrl = photoUrl,
                 ingredients = ingredientsWithoutEmpties,
                 preparation = stepRecipe
-            )
-            var responsePostRecipe = RecipeBook.service.postRecipe(recipe)
+            ))
             if (responsePostRecipe.nodoId == null)
                 _recipeState.postValue(SaveRecipe.Success())
             else
