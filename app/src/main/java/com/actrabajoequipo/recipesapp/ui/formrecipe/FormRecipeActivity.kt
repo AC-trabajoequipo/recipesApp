@@ -50,7 +50,7 @@ class FormRecipeActivity : AppCompatActivity() {
                     with(binding) {
                         //viewModel.uploadRecipe
                         viewModel.saveRecipe(
-                            emailUser = FirebaseAuth.getInstance().currentUser?.email.toString(),
+                            idUser = FirebaseAuth.getInstance().currentUser?.uid.toString(),
                             titleRecipe = etTitleRecipe.text.toString().trim(),
                             descriptionRecipe = etDescription.text.toString().trim(),
                             stepRecipe = etStepForRecipe.text.toString().trim()

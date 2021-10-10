@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
+import com.actrabajoequipo.recipesapp.model.RecipeBook
 import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.ui.Scope
 import kotlinx.coroutines.launch
@@ -60,8 +61,6 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
         launch {
             if (photoUrl == null) {
                 _formState.postValue(ValidatedFields.EmptyPhotoFieldError())
-            } else if (id == null) {
-                _formState.postValue(ValidatedFields.EmptyIdFieldError())
             } else if (titleRecipe == null) {
                 _formState.postValue(ValidatedFields.EmptyTitleRecipeError())
             } else if (descriptionRecipe == null) {
@@ -73,28 +72,26 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
     }
 
     fun saveRecipe(
-        emailUser: String,
+        idUser: String,
         titleRecipe: String,
         descriptionRecipe: String,
-        //ingredients: ArrayList<String>,
         stepRecipe: String
     ) {
         launch {
             Log.d("DEBUG", "saveRecipe: $ingredientsWithoutEmpties")
             val recipe = RecipeDto(
-                id = id!!,
-                emailUser = emailUser,
+                idUser = idUser,
                 name = titleRecipe,
                 description = descriptionRecipe,
                 imgUrl = photoUrl,
                 ingredients = ingredientsWithoutEmpties,
                 preparation = stepRecipe
             )
-            if (ManageFireBase.uploadRecipe(recipe)) {
+            var responsePostRecipe = RecipeBook.service.postRecipe(recipe)
+            if (responsePostRecipe.nodoId == null)
                 _recipeState.postValue(SaveRecipe.Success())
-            } else {
+            else
                 _recipeState.postValue(SaveRecipe.Error())
-            }
         }
     }
 

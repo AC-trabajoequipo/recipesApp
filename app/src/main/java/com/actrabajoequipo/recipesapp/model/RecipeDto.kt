@@ -5,8 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class RecipeDto(
-    val id: String,
-    val emailUser: String,
+    val idUser: String,
     val name: String,
     val description: String?,
     val imgUrl: String?,

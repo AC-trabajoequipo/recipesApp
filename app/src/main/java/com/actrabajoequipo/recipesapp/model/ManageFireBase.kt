@@ -1,7 +1,6 @@
 package com.actrabajoequipo.recipesapp.model
 
 import android.net.Uri
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -64,14 +63,5 @@ object ManageFireBase {
                     callBack.onFailure()
                 }
         }
-    }
-
-    fun uploadRecipe(recipe: RecipeDto) : Boolean{
-        var isValid = true
-        databaseReference.child(recipe.id).setValue(recipe).addOnSuccessListener {
-        }.addOnFailureListener {
-            isValid = false
-        }
-        return isValid
     }
 }
