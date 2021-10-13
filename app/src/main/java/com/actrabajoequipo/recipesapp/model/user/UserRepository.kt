@@ -1,6 +1,8 @@
 package com.actrabajoequipo.recipesapp.model.user
 
 import com.actrabajoequipo.recipesapp.model.ApiBook
+import com.google.gson.JsonObject
+import org.json.JSONObject
 
 class UserRepository {
 
@@ -12,11 +14,7 @@ class UserRepository {
         ApiBook.SERVICE
             .putUser(user)
 
-    suspend fun patchUser(user: UserDto) =
+    suspend fun patchUser(uid :String,user: UserDto) =
         ApiBook.SERVICE
-            .patchUser(user)
-
-    suspend fun postUser2(user: UserDto) =
-        ApiBook.SERVICE
-            .postUser2(user)
+            .patchUser(uid, user)
 }
