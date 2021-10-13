@@ -2,13 +2,19 @@ package com.actrabajoequipo.recipesapp.model
 
 import com.actrabajoequipo.recipesapp.model.user.PostUserDto
 import com.actrabajoequipo.recipesapp.model.user.UserDto
-import com.google.gson.JsonObject
 import retrofit2.http.*
 
 interface ApiService {
 
+    ////////////////// R E C I P E S //////////////////
     @GET("recipes.json")
     suspend fun getRecipes(): List<RecipeDto>
+
+
+
+    ////////////////// U S E R S //////////////////
+    @GET("users.json")
+    suspend fun getUsers(): List<UserDto>
 
     @POST("users.json")
     suspend fun postUser(@Body userDto: UserDto): PostUserDto

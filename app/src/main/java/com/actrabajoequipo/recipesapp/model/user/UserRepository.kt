@@ -6,6 +6,13 @@ import org.json.JSONObject
 
 class UserRepository {
 
+    suspend fun getUsers() :List<UserDto>{
+        val a = ApiBook.SERVICE
+            .getUsers()
+        return a
+    }
+
+
     suspend fun postUser(user: UserDto) =
         ApiBook.SERVICE
             .postUser(user)

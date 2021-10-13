@@ -17,7 +17,6 @@ class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
     }
 
     private val fbAuth = FirebaseAuth.getInstance()
-    private val GOOGLE_SIGN_IN = 100
 
     private val _logeado = MutableLiveData<UiLogin>()
     val logeado: LiveData<UiLogin> get() = _logeado

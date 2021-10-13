@@ -33,4 +33,6 @@
     <string name="fields_required_empty">Revisa los campos requeridos</string>
     <string name="image_not_selected">No has seleccionado ninguna imagen</string>
     <string name="connection_firebase_error">La conexión con firebase ha fallado</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
