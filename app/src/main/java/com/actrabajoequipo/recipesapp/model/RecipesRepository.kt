@@ -33,7 +33,7 @@ class RecipesRepository(application: RecipesApp) {
 }
 
 private fun RecipeDto.convertToDbRecipe() = Recipe(
-    id,
+    idUser,
     name,
     description ?: "",
     imgUrl ?: "",
