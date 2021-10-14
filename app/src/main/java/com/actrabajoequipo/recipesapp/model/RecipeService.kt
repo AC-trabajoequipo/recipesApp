@@ -7,7 +7,7 @@ import retrofit2.http.POST
 interface RecipeService {
 
     @GET("recipes.json")
-    suspend fun getRecipes(): List<RecipeDto>
+    suspend fun getRecipes(): Map<String,RecipeDto>
 
     @POST("recipes.json")
     suspend fun postRecipe(@Body recipeDto: RecipeDto) : PostRecipeDto

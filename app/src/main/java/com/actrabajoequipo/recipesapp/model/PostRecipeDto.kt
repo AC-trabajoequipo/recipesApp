@@ -1,3 +1,5 @@
 package com.actrabajoequipo.recipesapp.model
 
-data class PostRecipeDto(var nodoId: String?)
+import com.google.gson.annotations.SerializedName
+
+data class PostRecipeDto(@SerializedName("name") var nodoId: String?)

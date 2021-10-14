@@ -90,7 +90,7 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
                 ingredients = ingredientsWithoutEmpties,
                 preparation = stepRecipe
             ))
-            if (responsePostRecipe.nodoId == null)
+            if (responsePostRecipe.nodoId != null)
                 _recipeState.postValue(SaveRecipe.Success())
             else
                 _recipeState.postValue(SaveRecipe.Error())
