@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentAddrecipeBinding
-import com.actrabajoequipo.recipesapp.FormRecipeActivity
+import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeActivity
 import com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileFragment
 import com.google.firebase.auth.FirebaseAuth
 

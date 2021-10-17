@@ -1,5 +1,7 @@
 package com.actrabajoequipo.recipesapp.ui.settings
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.actrabajoequipo.recipesapp.model.user.UserDto
 import com.actrabajoequipo.recipesapp.model.user.UserRepository
@@ -12,27 +14,34 @@ class EditUsernameViewModel: ViewModel(), Scope by Scope.Impl() {
     private val fbAuth = FirebaseAuth.getInstance()
     private val userRepository: UserRepository by lazy { UserRepository() }
 
+    private val _currentUsername = MutableLiveData<String>()
+    val currentUsername: LiveData<String> get() = _currentUsername
+
+    val currentUserUid = fbAuth.currentUser!!.uid
+
 
     init {
         initScope()
+        getCurrentUsername()
     }
 
-
-    fun getCurrentUsername() :String{
-        lateinit var usersList :List<UserDto>
-        var currentUsername = ""
-        val currentUserUid = fbAuth.currentUser!!.uid
+    fun getCurrentUsername(){
+        var usersMap :Map<String, UserDto>
 
         launch {
-            usersList = userRepository.getUsers()
-            usersList.forEach {
-                if(it.equals(currentUserUid)){
-                    //currentUsername = it.name
+            usersMap = userRepository.getUsers()
+            usersMap.forEach {
+                if(it.key.equals(currentUserUid)){
+                    _currentUsername.value = it.value.name ?: ""
                 }
             }
         }
+    }
 
-        return currentUsername
+    fun editUserName(newUsername :String){
+        launch {
+            userRepository.editUsername(currentUserUid, UserDto(newUsername, null))
+        }
     }
 
 

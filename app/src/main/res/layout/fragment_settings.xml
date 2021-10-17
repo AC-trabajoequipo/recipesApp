@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:text="Edit Username"/>
 
     <Button
@@ -36,6 +36,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp"
         android:text="Edit Password"/>
+
+    <Button
+        android:id="@+id/delete_user_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp"
+        android:text="Delete acount"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

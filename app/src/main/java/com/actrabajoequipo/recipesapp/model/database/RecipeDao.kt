@@ -1,6 +1,7 @@
 package com.actrabajoequipo.recipesapp.model.database
 
 import androidx.room.*
+import com.actrabajoequipo.recipesapp.model.RecipeDto
 
 @Dao
 interface RecipeDao {
@@ -15,7 +16,7 @@ interface RecipeDao {
     fun recipeCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertRecipes(recipes: List<Recipe>)
+    fun insertRecipes(recipes: MutableList<Recipe>)
 
     @Update
     fun updateRecipe(recipe: Recipe)

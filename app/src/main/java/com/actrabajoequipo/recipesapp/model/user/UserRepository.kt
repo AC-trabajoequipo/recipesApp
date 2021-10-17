@@ -6,11 +6,10 @@ import org.json.JSONObject
 
 class UserRepository {
 
-    suspend fun getUsers() :List<UserDto>{
-        val a = ApiBook.SERVICE
+    suspend fun getUsers() :Map<String, UserDto> =
+        ApiBook.SERVICE
             .getUsers()
-        return a
-    }
+
 
 
     suspend fun postUser(user: UserDto) =
@@ -24,4 +23,17 @@ class UserRepository {
     suspend fun patchUser(uid :String,user: UserDto) =
         ApiBook.SERVICE
             .patchUser(uid, user)
+
+    suspend fun editUsername(uid: String, newUsername :UserDto) =
+        ApiBook.SERVICE
+            .editUsername(uid, newUsername)
+
+    suspend fun editEmail(uid: String, newEmail :UserDto) =
+        ApiBook.SERVICE
+            .editEmail(uid, newEmail)
+
+    suspend fun deleteUser(uid: String) =
+        ApiBook.SERVICE
+            .deleteUser(uid)
+
 }

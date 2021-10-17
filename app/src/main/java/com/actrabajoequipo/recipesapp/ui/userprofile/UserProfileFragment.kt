@@ -36,7 +36,7 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserprofileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        if(fbAuth.currentUser != null){
+        if(fbAuth.currentUser?.uid ?: null != null){
             binding.nadie.text= fbAuth.currentUser?.email.toString()
             binding.buttonsProfile.visibility = View.INVISIBLE
             binding.userName.visibility = View.VISIBLE

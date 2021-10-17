@@ -9,13 +9,19 @@ class RecipesRepository(application: RecipesApp) {
 
     private val db = application.db
 
+
+
     suspend fun getRecipes(): List<Recipe> = withContext(Dispatchers.IO) {
         with(db.recipeDao()) {
             if (recipeCount() <= 0) {
                 val recipes = ApiBook.SERVICE
                     .getRecipes()
 
-                insertRecipes(recipes.map { it.convertToDbRecipe() })
+                //insertRecipes(recipes.map { it.value.convertToDbRecipe() })
+
+                val listRecipes: List<RecipeDto> = ArrayList<RecipeDto>(recipes.values)
+
+                insertRecipes(listRecipes.map{it.convertToDbRecipe()} as MutableList<Recipe>)
             }
 
             getAll()
