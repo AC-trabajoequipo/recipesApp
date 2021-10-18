@@ -14,10 +14,9 @@ class RecipesRepository(application: RecipesApp) {
             if (recipeCount() <= 0) {
                 val recipes = RecipeBook.service
                     .getRecipes()
-
-                insertRecipes(recipes.map { it.convertToDbRecipe() })
+                val list: List<RecipeDto> = ArrayList<RecipeDto>(recipes.values)
+                insertRecipes(list.map { it.convertToDbRecipe() })
             }
-
             getAll()
         }
     }
@@ -47,6 +46,7 @@ class RecipesRepository(application: RecipesApp) {
 
 private fun RecipeDto.convertToDbRecipe() = Recipe(
     id,
+    idUser,
     name,
     description ?: "",
     imgUrl ?: "",
