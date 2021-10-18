@@ -7,33 +7,36 @@ import org.json.JSONObject
 class UserRepository {
 
     suspend fun getUsers() :Map<String, UserDto> =
-        ApiBook.SERVICE
+        ApiBook.service
             .getUsers()
 
 
 
-    suspend fun postUser(user: UserDto) =
-        ApiBook.SERVICE
-            .postUser(user)
-
-    suspend fun putUser(user: UserDto) =
-        ApiBook.SERVICE
-            .putUser(user)
 
     suspend fun patchUser(uid :String,user: UserDto) =
-        ApiBook.SERVICE
+        ApiBook.service
             .patchUser(uid, user)
 
     suspend fun editUsername(uid: String, newUsername :UserDto) =
-        ApiBook.SERVICE
+        ApiBook.service
             .editUsername(uid, newUsername)
 
     suspend fun editEmail(uid: String, newEmail :UserDto) =
-        ApiBook.SERVICE
+        ApiBook.service
             .editEmail(uid, newEmail)
 
     suspend fun deleteUser(uid: String) =
-        ApiBook.SERVICE
+        ApiBook.service
             .deleteUser(uid)
+
+
+    //No se usan de momento
+    suspend fun postUser(user: UserDto) =
+        ApiBook.service
+            .postUser(user)
+
+    suspend fun putUser(user: UserDto) =
+        ApiBook.service
+            .putUser(user)
 
 }

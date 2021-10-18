@@ -11,7 +11,7 @@ object ApiBook {
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
 
-    val SERVICE: ApiService = Retrofit.Builder()
+    val service: ApiService = Retrofit.Builder()
         .baseUrl("https://recipesapp-ac-default-rtdb.europe-west1.firebasedatabase.app/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())

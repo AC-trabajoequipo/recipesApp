@@ -43,6 +43,8 @@ class RecipesRepository(application: RecipesApp) {
         }
     }
 
+    suspend fun postRecipe(recipeDto: RecipeDto) = ApiBook.service.postRecipe(recipeDto)
+
 }
 
 private fun RecipeDto.convertToDbRecipe() = Recipe(

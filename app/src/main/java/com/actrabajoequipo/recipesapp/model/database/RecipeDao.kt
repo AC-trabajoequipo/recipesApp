@@ -16,7 +16,7 @@ interface RecipeDao {
     fun recipeCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertRecipes(recipes: MutableList<Recipe>)
+    fun insertRecipes(recipes: List<Recipe>)
 
     @Update
     fun updateRecipe(recipe: Recipe)
