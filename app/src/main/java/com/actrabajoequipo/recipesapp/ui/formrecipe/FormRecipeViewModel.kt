@@ -1,19 +1,15 @@
 package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.*
 import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
-import com.actrabajoequipo.recipesapp.model.RecipeBook
 import com.actrabajoequipo.recipesapp.model.RecipeDto
-import com.actrabajoequipo.recipesapp.model.RecipeRepository
+import com.actrabajoequipo.recipesapp.model.RecipesRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import kotlinx.coroutines.launch
 
-class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
-
-    private val recipeRepository: RecipeRepository by lazy { RecipeRepository() }
+class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
 
     private var photoUrl: String? = null
     private var id: String? = null
@@ -82,7 +78,7 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
     ) {
         launch {
             if (id != null){
-                var responsePostRecipe = userRepository.postRecipe(
+                var responsePostRecipe = recipesRepository.postRecipe(
                     RecipeDto(
                         id = id!!,
                         idUser = idUser,
@@ -93,7 +89,7 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
                         preparation = stepRecipe
                     )
                 )
-                if (responsePostRecipe.nodoId != null)
+                if (responsePostRecipe.nodeId != null)
                     _recipeState.postValue(SaveRecipe.Success())
                 else
                     _recipeState.postValue(SaveRecipe.Error())
