@@ -1,9 +1,11 @@
 package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
 import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
+import com.actrabajoequipo.recipesapp.model.RecipeBook
 import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.model.RecipeRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
@@ -79,19 +81,25 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
         stepRecipe: String
     ) {
         launch {
-
-            var responsePostRecipe = recipeRepository.postRecipe(RecipeDto(
-                idUser = idUser,
-                name = titleRecipe,
-                description = descriptionRecipe,
-                imgUrl = photoUrl,
-                ingredients = ingredientsWithoutEmpties,
-                preparation = stepRecipe
-            ))
-            if (responsePostRecipe.name != null)
-                _recipeState.postValue(SaveRecipe.Success())
-            else
-                _recipeState.postValue(SaveRecipe.Error())
+            if (id != null){
+                var responsePostRecipe = userRepository.postRecipe(
+                    RecipeDto(
+                        id = id!!,
+                        idUser = idUser,
+                        name = titleRecipe,
+                        description = descriptionRecipe,
+                        imgUrl = photoUrl,
+                        ingredients = ingredientsWithoutEmpties,
+                        preparation = stepRecipe
+                    )
+                )
+                if (responsePostRecipe.nodoId != null)
+                    _recipeState.postValue(SaveRecipe.Success())
+                else
+                    _recipeState.postValue(SaveRecipe.Error())
+            }else{
+                _formState.postValue(ValidatedFields.EmptyIdFieldError())
+            }
         }
     }
 

@@ -30,12 +30,12 @@ object ManageFireBase {
     }
 
 
-    fun uploadPhotoRecipe(
-        id: String?,
-        imageUri: Uri?,
-        callBack: PhotoCallBack
-    ){
-        this.callBack = callBack
+   fun uploadPhotoRecipe(
+       id: String?,
+       imageUri: Uri?,
+       callBack: PhotoCallBack
+   ){
+       this.callBack = callBack
         val storageReference = FirebaseAuth.getInstance().currentUser?.let { user->
             id?.let { idGenerated ->
                 storageReference.child(PATH_IMAGES).child(

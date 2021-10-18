@@ -31,7 +31,7 @@ class HomeViewModel(private val recipesRepository: RecipesRepository) : ViewMode
         initScope()
     }
 
-    private fun refresh() {
+    fun refresh() {
         launch {
             _uiModel.value = UIModel.Loading
             _uiModel.value = UIModel.Content(recipesRepository.getRecipes())
@@ -45,5 +45,11 @@ class HomeViewModel(private val recipesRepository: RecipesRepository) : ViewMode
     override fun onCleared() {
         destroyScope()
         super.onCleared()
+    }
+
+    fun doSearch(query: String) {
+        launch {
+            _uiModel.value = UIModel.Content(recipesRepository.search(query))
+        }
     }
 }
