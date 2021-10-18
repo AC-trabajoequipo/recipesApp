@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivitySigninBinding
+import com.actrabajoequipo.recipesapp.ui.Scope
 import com.google.firebase.auth.FirebaseAuth
 
-class SignupActivity : AppCompatActivity() {
+class SignupActivity : AppCompatActivity(), Scope by Scope.Impl() {
+
 
     private lateinit var viewModel : SignupViewModel
     private lateinit var binding: ActivitySigninBinding

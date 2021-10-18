@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
             viewModel.login(email, password)
         }
 
-        binding!!.buttonLoginGoogle.setOnClickListener {
+        binding.buttonLoginGoogle.setOnClickListener {
             loginWithGoogleAccount()
         }
     }

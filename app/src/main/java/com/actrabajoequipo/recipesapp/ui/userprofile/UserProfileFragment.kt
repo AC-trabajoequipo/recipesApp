@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
 import com.actrabajoequipo.recipesapp.ui.login.LoginActivity
 import com.actrabajoequipo.recipesapp.MainActivity
+import com.actrabajoequipo.recipesapp.ui.settings.SettingsActivity
 import com.actrabajoequipo.recipesapp.ui.signup.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -35,7 +36,7 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserprofileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        if(fbAuth.currentUser != null){
+        if(fbAuth.currentUser?.uid ?: null != null){
             binding.nadie.text= fbAuth.currentUser?.email.toString()
             binding.buttonsProfile.visibility = View.INVISIBLE
             binding.userName.visibility = View.VISIBLE
@@ -53,6 +54,11 @@ class UserProfileFragment : Fragment() {
 
         binding.buttonSignout.setOnClickListener {
             signout()
+        }
+
+        binding.buttonSettings.setOnClickListener {
+            val intent = Intent(context, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         return root

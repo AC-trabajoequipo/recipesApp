@@ -12,11 +12,12 @@ class RecipesRepository(application: RecipesApp) {
     suspend fun getRecipes(): List<Recipe> = withContext(Dispatchers.IO) {
         with(db.recipeDao()) {
             if (recipeCount() <= 0) {
-                val recipes = RecipeBook.service
+                val recipes = ApiBook.service
                     .getRecipes()
                 val list: List<RecipeDto> = ArrayList<RecipeDto>(recipes.values)
                 insertRecipes(list.map { it.convertToDbRecipe() })
             }
+
             getAll()
         }
     }

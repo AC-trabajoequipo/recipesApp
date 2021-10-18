@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
 
-    private val userRepository: RecipeRepository by lazy { RecipeRepository() }
+    private val recipeRepository: RecipeRepository by lazy { RecipeRepository() }
 
     private var photoUrl: String? = null
     private var id: String? = null
