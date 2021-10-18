@@ -33,4 +33,6 @@
     <string name="fields_required_empty">Revisa los campos requeridos</string>
     <string name="image_not_selected">No has seleccionado ninguna imagen</string>
     <string name="connection_firebase_error">La conexión con firebase ha fallado</string>
+    <string name="search_title">Buscar</string>
+    <string name="search_hint">Buscar</string>
 </resources>
