@@ -30,6 +30,19 @@ class RecipesRepository(application: RecipesApp) {
         db.recipeDao().updateRecipe(recipe)
     }
 
+    suspend fun search(query: String): List<Recipe> {
+        return if (query.isBlank()) {
+            emptyList()
+        } else {
+            withContext(Dispatchers.IO) {
+                db.recipeDao().getAll().filter {
+                    val regex = query.toRegex(RegexOption.IGNORE_CASE)
+                    regex.containsMatchIn(it.name)
+                }
+            }
+        }
+    }
+
 }
 
 private fun RecipeDto.convertToDbRecipe() = Recipe(
