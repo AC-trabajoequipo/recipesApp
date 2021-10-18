@@ -81,19 +81,25 @@ class FormRecipeViewModel : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
         stepRecipe: String
     ) {
         launch {
-
-            var responsePostRecipe = userRepository.postRecipe(RecipeDto(
-                idUser = idUser,
-                name = titleRecipe,
-                description = descriptionRecipe,
-                imgUrl = photoUrl,
-                ingredients = ingredientsWithoutEmpties,
-                preparation = stepRecipe
-            ))
-            if (responsePostRecipe.nodoId != null)
-                _recipeState.postValue(SaveRecipe.Success())
-            else
-                _recipeState.postValue(SaveRecipe.Error())
+            if (id != null){
+                var responsePostRecipe = userRepository.postRecipe(
+                    RecipeDto(
+                        id = id!!,
+                        idUser = idUser,
+                        name = titleRecipe,
+                        description = descriptionRecipe,
+                        imgUrl = photoUrl,
+                        ingredients = ingredientsWithoutEmpties,
+                        preparation = stepRecipe
+                    )
+                )
+                if (responsePostRecipe.nodoId != null)
+                    _recipeState.postValue(SaveRecipe.Success())
+                else
+                    _recipeState.postValue(SaveRecipe.Error())
+            }else{
+                _formState.postValue(ValidatedFields.EmptyIdFieldError())
+            }
         }
     }
 

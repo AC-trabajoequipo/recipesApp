@@ -11,7 +11,7 @@ class RecipesRepository(application: RecipesApp) {
 
     suspend fun getRecipes(): List<Recipe> = withContext(Dispatchers.IO) {
         with(db.recipeDao()) {
-            if (recipeCount() <= 13) {
+            if (recipeCount() <= 0) {
                 val recipes = RecipeBook.service
                     .getRecipes()
                 val list: List<RecipeDto> = ArrayList<RecipeDto>(recipes.values)
@@ -32,6 +32,7 @@ class RecipesRepository(application: RecipesApp) {
 }
 
 private fun RecipeDto.convertToDbRecipe() = Recipe(
+    id,
     idUser,
     name,
     description ?: "",
