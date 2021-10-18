@@ -33,6 +33,8 @@
     <string name="fields_required_empty">Revisa los campos requeridos</string>
     <string name="image_not_selected">No has seleccionado ninguna imagen</string>
     <string name="connection_firebase_error">La conexión con firebase ha fallado</string>
+    <string name="search_title">Buscar</string>
+    <string name="search_hint">Buscar</string>
     <string name="upload_image_error">Error al subir imagen, inténtelo de nuevo</string>
     <string name="upload_image_complete">Imagen subida correctamente</string>
     <string name="description_recipe">¿Cúal es la historia de tu receta, en quien te inspiraste, es especial para ti?</string>
