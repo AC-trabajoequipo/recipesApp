@@ -52,10 +52,6 @@ class SignupActivity : AppCompatActivity(), Scope by Scope.Impl() {
 
             viewModel.signup(name, email, password, passwordConfirm)
         }
-
-        binding.buttonSigninPrueba.setOnClickListener {
-            viewModel.holaaa()
-        }
     }
 
 

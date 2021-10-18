@@ -2,7 +2,8 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -69,6 +70,16 @@
                 android:layout_height="wrap_content"
                 android:background="@color/grey"
                 android:hint="@string/title_recipe"
+                android:padding="@dimen/m_spacing" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey"
+                android:lines="3"
+                android:textSize="14sp"
+                android:hint="@string/description_recipe"
                 android:padding="@dimen/m_spacing" />
 
             <View
@@ -160,4 +171,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
-

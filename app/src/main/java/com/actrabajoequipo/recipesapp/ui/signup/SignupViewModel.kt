@@ -53,8 +53,8 @@ class SignupViewModel() : ViewModel(), Scope by Scope.Impl() {
                                     _registrado.value = UiSignup.UnconfirmedEmail()
                                     //ANADIMOS EL USER A NUESTRA BD
                                     viewModelScope.launch {
-                                        //val code = userRepository.postUser(UserDto(6,"aaaa", user!!.uid))
-                                        //Log.e("msg", "El ID del usuario es: " + code.name)
+                                        val reponsePatchUser = userRepository.patchUser(fbAuth.currentUser!!.uid,UserDto(name, email))
+                                        Log.e("msg", "El ID del usuario es: " + reponsePatchUser.name)
                                     }
                                 } else _registrado.value = UiSignup.EmailAlreadyRegistered()
                             }
@@ -64,16 +64,7 @@ class SignupViewModel() : ViewModel(), Scope by Scope.Impl() {
         }
     }
 
-    fun holaaa(){
-        launch {
-            //val user = UserDto(105,"Pepitooo", "pruebaaa")
-            val user = UserDto(222)
-            val code = userRepository.postUser2(user)
-
-
-
-            Log.e("msg", "El ID del usuario es: " + code.name)
-        }
-    }
 }
+
+
 

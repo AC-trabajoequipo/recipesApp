@@ -12,10 +12,10 @@ class RecipesRepository(application: RecipesApp) {
     suspend fun getRecipes(): List<Recipe> = withContext(Dispatchers.IO) {
         with(db.recipeDao()) {
             if (recipeCount() <= 0) {
-                val recipes = ApiBook.SERVICE
+                val recipes = ApiBook.service
                     .getRecipes()
-
-                insertRecipes(recipes.map { it.convertToDbRecipe() })
+                val list: List<RecipeDto> = ArrayList<RecipeDto>(recipes.values)
+                insertRecipes(list.map { it.convertToDbRecipe() })
             }
 
             getAll()
@@ -30,10 +30,24 @@ class RecipesRepository(application: RecipesApp) {
         db.recipeDao().updateRecipe(recipe)
     }
 
+    suspend fun search(query: String): List<Recipe> {
+        return if (query.isBlank()) {
+            emptyList()
+        } else {
+            withContext(Dispatchers.IO) {
+                db.recipeDao().getAll().filter {
+                    val regex = query.toRegex(RegexOption.IGNORE_CASE)
+                    regex.containsMatchIn(it.name)
+                }
+            }
+        }
+    }
+
 }
 
 private fun RecipeDto.convertToDbRecipe() = Recipe(
     id,
+    idUser,
     name,
     description ?: "",
     imgUrl ?: "",
