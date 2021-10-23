@@ -41,14 +41,21 @@
     <string name="no">No</string>
     <string name="informative_text_edit_email">Te enviaremos un mail a la nueva dirección y deberás verificarla</string>
     <string name="edit_email_confirmation_question">¿Estás seguro de que quieres cambiar tu direccion de correo? Al aceptar se cerrará tu sesión y tendás que entrar con la nueva dirección de correo tras haberla verificado. </string>
+    <string name="error_message_edit_username">No se pudo actualizar el username. Inténtelo de nuevo.</string>
+    <string name="message_edit_username_successfully">Username actualizado correctamente.</string>
     <string name="error_message_edit_email">No se pudo actualizar el correo. Inténtelo de nuevo.</string>
     <string name="message_edit_email_successfully">Verifica tu nueva dirección de correo para poder iniciar sesión en tu cuenta.</string>
-    <string name="informative_text_edit_password">Te enviaremos un mail con un link para restablecer tu password.</string>
+    <string name="informative_text_edit_password">Al hacer click en el botón te enviaremos un link a tu email para que modifiques tu password.</string>
     <string name="edit_password_confirmation_question">¿Estás seguro de que quieres cambiar tu password?</string>
     <string name="error_message_edit_password">No se pudo actualizar la password. Inténtelo de nuevo.</string>
     <string name="message_edit_password_successfully">Compueba tu correo. Debería haberte llegado un link para modificar tu password.</string>
+    <string name="delete_user_confirmation_question">¿Estás seguro de que quieres eliminar tu cuenta?</string>
     <string name="error_message_delete_user">No se pudo eliminar la cuenta. Inténtelo de nuevo.</string>
     <string name="message_delete_user_successfully">La cuenta se eliminó con éxito.</string>
     <string name="search_title">Buscar</string>
     <string name="search_hint">Buscar</string>
+    <string name="username">Username:</string>
+    <string name="email">Email:</string>
+    <string name="password">Password:</string>
+    <string name="delete_account">Delete account</string>
    </resources>

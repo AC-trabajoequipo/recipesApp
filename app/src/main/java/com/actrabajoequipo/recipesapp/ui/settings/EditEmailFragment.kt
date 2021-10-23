@@ -3,24 +3,17 @@ package com.actrabajoequipo.recipesapp.ui.settings
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentEditEmailBinding
-import com.actrabajoequipo.recipesapp.databinding.FragmentEditUsernameBinding
-import com.actrabajoequipo.recipesapp.databinding.FragmentSettingsBinding
-import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeActivity
-import com.actrabajoequipo.recipesapp.ui.signup.SignupViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 
 class EditEmailFragment : Fragment() {

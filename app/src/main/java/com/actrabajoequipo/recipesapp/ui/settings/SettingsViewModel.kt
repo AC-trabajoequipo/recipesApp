@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.actrabajoequipo.recipesapp.model.user.UserDto
 import com.actrabajoequipo.recipesapp.model.user.UserRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.google.firebase.auth.FirebaseAuth
@@ -11,21 +12,82 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
 
+    sealed class ResultEditUsername(){
+        class UsernameEditedSuccessfully : ResultEditUsername()
+        class UsernameNoEdited : ResultEditUsername()
+    }
+
+    sealed class ResultEditEmail(){
+        class EmailEditedSuccessfully : ResultEditEmail()
+        class EmailNoEdited : ResultEditEmail()
+    }
+
     sealed class ResultDeleteUser(){
-        class deleteUserSuccessfully : ResultDeleteUser()
-        class noDeleteUser : ResultDeleteUser()
+        class DeleteUserSuccessfully : ResultDeleteUser()
+        class NoDeleteUser : ResultDeleteUser()
     }
 
     private val fbAuth = FirebaseAuth.getInstance()
     private val userRepository: UserRepository by lazy { UserRepository() }
 
+    private val _currentUser = MutableLiveData<UserDto>()
+    val currentUser: LiveData<UserDto> get() = _currentUser
     val currentUserUid = fbAuth.currentUser!!.uid
 
-    private val _result = MutableLiveData<ResultDeleteUser>()
-    val result: LiveData<ResultDeleteUser> get() = _result
+    private val _resultEditUsername = MutableLiveData<ResultEditUsername>()
+    val resultEditUsername: LiveData<ResultEditUsername> get() = _resultEditUsername
+
+    private val _resultEditEmail = MutableLiveData<ResultEditEmail>()
+    val resultEditEmail: LiveData<ResultEditEmail> get() = _resultEditEmail
+
+    private val _resultDeleteUser = MutableLiveData<ResultDeleteUser>()
+    val resultDeleteUser: LiveData<ResultDeleteUser> get() = _resultDeleteUser
 
     init {
         initScope()
+        getCurrentUser()
+    }
+
+    fun getCurrentUser(){
+        var usersMap :Map<String, UserDto>
+
+        launch {
+            usersMap = userRepository.getUsers()
+            usersMap.forEach {
+                if(it.key.equals(currentUserUid)){
+                    _currentUser.value = it.value
+                }
+            }
+        }
+    }
+
+    fun editUserName(newUsername :String){
+        launch {
+            val responseEditUsername = userRepository.editUsername(currentUserUid, UserDto(newUsername, null))
+            if (responseEditUsername != null){
+                _resultEditUsername.value = ResultEditUsername.UsernameEditedSuccessfully()
+            }else{
+                _resultEditUsername.value = ResultEditUsername.UsernameNoEdited()
+            }
+        }
+    }
+
+    fun editEmail(newEmail :String){
+        launch {
+            fbAuth.currentUser?.updateEmail(newEmail)?.addOnCompleteListener { task->
+                if (task.isSuccessful){
+                    viewModelScope.launch {
+                        userRepository.editEmail(currentUserUid, UserDto(null, newEmail))
+                        fbAuth.currentUser!!.sendEmailVerification()
+                        fbAuth.signOut()
+                        _resultEditEmail.value = ResultEditEmail.EmailEditedSuccessfully()
+                    }
+                }else{
+                    _resultEditEmail.value = ResultEditEmail.EmailNoEdited()
+                }
+            }
+
+        }
     }
 
     fun deleteUser(){
@@ -34,10 +96,10 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
                 if(task.isSuccessful){
                     viewModelScope.launch {
                         userRepository.deleteUser(currentUserUid)
-                        _result.value = ResultDeleteUser.deleteUserSuccessfully()
+                        _resultDeleteUser.value = ResultDeleteUser.DeleteUserSuccessfully()
                     }
                 }else{
-                    _result.value = ResultDeleteUser.noDeleteUser()
+                    _resultDeleteUser.value = ResultDeleteUser.NoDeleteUser()
                 }
             }
         }
