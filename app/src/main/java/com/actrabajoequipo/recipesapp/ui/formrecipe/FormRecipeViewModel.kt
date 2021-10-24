@@ -77,25 +77,21 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
         stepRecipe: String
     ) {
         launch {
-            if (id != null){
-                var responsePostRecipe = recipesRepository.postRecipe(
-                    RecipeDto(
-                        id = id!!,
-                        idUser = idUser,
-                        name = titleRecipe,
-                        description = descriptionRecipe,
-                        imgUrl = photoUrl,
-                        ingredients = ingredientsWithoutEmpties,
-                        preparation = stepRecipe
-                    )
+            var responsePostRecipe = recipesRepository.postRecipe(
+                RecipeDto(
+                    id = null,
+                    idUser = idUser,
+                    name = titleRecipe,
+                    description = descriptionRecipe,
+                    imgUrl = photoUrl,
+                    ingredients = ingredientsWithoutEmpties,
+                    preparation = stepRecipe
                 )
-                if (responsePostRecipe.nodeId != null)
-                    _recipeState.postValue(SaveRecipe.Success())
-                else
-                    _recipeState.postValue(SaveRecipe.Error())
-            }else{
-                _formState.postValue(ValidatedFields.EmptyIdFieldError())
-            }
+            )
+            if (responsePostRecipe.nodeId != null)
+                _recipeState.postValue(SaveRecipe.Success())
+            else
+                _recipeState.postValue(SaveRecipe.Error())
         }
     }
 

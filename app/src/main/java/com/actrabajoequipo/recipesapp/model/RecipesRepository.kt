@@ -15,6 +15,13 @@ class RecipesRepository(application: RecipesApp) {
                 val recipes = ApiBook.service
                     .getRecipes()
                 val list: List<RecipeDto> = ArrayList<RecipeDto>(recipes.values)
+
+                var i = 0
+                recipes.keys.forEach { key ->
+                    list[i].id = key
+                    i++
+                }
+
                 insertRecipes(list.map { it.convertToDbRecipe() })
             }
 
@@ -48,7 +55,7 @@ class RecipesRepository(application: RecipesApp) {
 }
 
 private fun RecipeDto.convertToDbRecipe() = Recipe(
-    id,
+    id ?: "",
     idUser,
     name,
     description ?: "",
