@@ -25,6 +25,69 @@ class SettingsActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get()
         setListeners()
+        setObservers()
+    }
+
+
+    private fun setListeners() {
+
+        binding.okButtonEditUsername.setOnClickListener {
+            var newUsername = binding.edittextEditUsername.text.toString().trim()
+
+            AlertDialog.Builder(this)
+                .setMessage(getString(R.string.edit_username_confirmation_question))
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(getString(R.string.yes)){
+                        dialog, which ->    viewModel.editUserName(newUsername)
+                    binding.progressBarSettings.visibility = View.VISIBLE
+                    binding.settingsLayout.visibility = View.INVISIBLE
+
+                }
+                .show()
+        }
+
+        binding.okButtonEditEmail.setOnClickListener {
+            var newEmail = binding.edittextEditEmail.text.toString().trim()
+
+            AlertDialog.Builder(this)
+                .setMessage(getString(R.string.edit_email_confirmation_question))
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(getString(R.string.yes)){
+                        dialog, which ->    viewModel.editEmail(newEmail)
+                    binding.progressBarSettings.visibility = View.VISIBLE
+                    binding.settingsLayout.visibility = View.INVISIBLE
+                }
+                .show()
+        }
+
+        binding.okButtonEditPassword.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setMessage(getString(R.string.edit_password_confirmation_question))
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(getString(R.string.yes)){
+                        dialog, which ->    viewModel.editPassword()
+                        binding.progressBarSettings.visibility = View.VISIBLE
+                        binding.settingsLayout.visibility = View.INVISIBLE
+                }
+                .show()
+        }
+
+        binding.deleteUserButton.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setMessage(getString(R.string.delete_user_confirmation_question))
+                .setNegativeButton(R.string.no, null)
+                .setPositiveButton(getString(R.string.yes)){
+                        dialog, which ->    viewModel.deleteUser()
+                    binding.progressBarSettings.visibility = View.VISIBLE
+                    binding.settingsLayout.visibility = View.INVISIBLE
+                }
+                .show()
+        }
+
+    }
+
+
+    private fun setObservers(){
 
         viewModel.currentUser.observe(this,  Observer {
             binding.textviewEditUsername.text = it.name
@@ -66,6 +129,23 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.resultEditPassword.observe(this, Observer {
+            when(it){
+                is SettingsViewModel.ResultEditPassword.PasswordEditedSuccessfully -> {
+                    binding.progressBarSettings.visibility = View.INVISIBLE
+                    binding.settingsLayout.visibility = View.VISIBLE
+                    Toast.makeText(this, R.string.message_edit_password_successfully, Toast.LENGTH_LONG).show()
+                    val intentFormRecipeActivity = Intent(this, MainActivity::class.java)
+                    startActivity(intentFormRecipeActivity)
+                }
+                is SettingsViewModel.ResultEditPassword.PasswordNoEdited -> {
+                    binding.progressBarSettings.visibility = View.INVISIBLE
+                    binding.settingsLayout.visibility = View.VISIBLE
+                    Toast.makeText(this, R.string.error_message_edit_password, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
         viewModel.resultDeleteUser.observe(this, Observer {
             when(it){
                 is SettingsViewModel.ResultDeleteUser.DeleteUserSuccessfully -> {
@@ -82,49 +162,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun setListeners() {
-        binding.okButtonEditUsername.setOnClickListener {
-            var newUsername = binding.edittextEditUsername.text.toString().trim()
-
-            AlertDialog.Builder(this)
-                .setMessage(getString(R.string.edit_username_confirmation_question))
-                .setNegativeButton(R.string.no, null)
-                .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    viewModel.editUserName(newUsername)
-                                            binding.progressBarSettings.visibility = View.VISIBLE
-                                            binding.settingsLayout.visibility = View.INVISIBLE
-
-                }
-                .show()
-        }
-
-        binding.okButtonEditEmail.setOnClickListener {
-            var newEmail = binding.edittextEditEmail.text.toString().trim()
-
-            AlertDialog.Builder(this)
-                .setMessage(getString(R.string.edit_email_confirmation_question))
-                .setNegativeButton(R.string.no, null)
-                .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    viewModel.editEmail(newEmail)
-                                            binding.progressBarSettings.visibility = View.VISIBLE
-                                            binding.settingsLayout.visibility = View.INVISIBLE
-                }
-                .show()
-        }
-
-        binding.deleteUserButton.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setMessage(getString(R.string.delete_user_confirmation_question))
-                .setNegativeButton(R.string.no, null)
-                .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    viewModel.deleteUser()
-                        binding.progressBarSettings.visibility = View.VISIBLE
-                        binding.settingsLayout.visibility = View.INVISIBLE
-                }
-                .show()
-        }
     }
 
 

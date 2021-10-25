@@ -22,6 +22,11 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
         class EmailNoEdited : ResultEditEmail()
     }
 
+    sealed class ResultEditPassword(){
+        class PasswordEditedSuccessfully : ResultEditPassword()
+        class PasswordNoEdited : ResultEditPassword()
+    }
+
     sealed class ResultDeleteUser(){
         class DeleteUserSuccessfully : ResultDeleteUser()
         class NoDeleteUser : ResultDeleteUser()
@@ -39,6 +44,9 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
 
     private val _resultEditEmail = MutableLiveData<ResultEditEmail>()
     val resultEditEmail: LiveData<ResultEditEmail> get() = _resultEditEmail
+
+    private val _resultEditPassword = MutableLiveData<ResultEditPassword>()
+    val resultEditPassword: LiveData<ResultEditPassword> get() = _resultEditPassword
 
     private val _resultDeleteUser = MutableLiveData<ResultDeleteUser>()
     val resultDeleteUser: LiveData<ResultDeleteUser> get() = _resultDeleteUser
@@ -87,6 +95,19 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
                 }
             }
 
+        }
+    }
+
+    fun editPassword(){
+        launch {
+            fbAuth.sendPasswordResetEmail(fbAuth.currentUser!!.email.toString()).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    fbAuth.signOut()
+                    _resultEditPassword.value = ResultEditPassword.PasswordEditedSuccessfully()
+                } else {
+                    _resultEditPassword.value = ResultEditPassword.PasswordNoEdited()
+                }
+            }
         }
     }
 
