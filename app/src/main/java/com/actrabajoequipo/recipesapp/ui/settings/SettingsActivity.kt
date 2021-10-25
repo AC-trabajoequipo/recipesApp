@@ -3,7 +3,9 @@ package com.actrabajoequipo.recipesapp.ui.settings
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -17,6 +19,10 @@ class SettingsActivity : AppCompatActivity() {
 
     private lateinit var viewModel : SettingsViewModel
     private lateinit var binding: ActivitySettingsBinding
+
+    private var editUsernameFlag :Boolean = false
+    private var editEmailFlag :Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,32 +38,53 @@ class SettingsActivity : AppCompatActivity() {
     private fun setListeners() {
 
         binding.okButtonEditUsername.setOnClickListener {
-            var newUsername = binding.edittextEditUsername.text.toString().trim()
 
-            AlertDialog.Builder(this)
-                .setMessage(getString(R.string.edit_username_confirmation_question))
-                .setNegativeButton(R.string.no, null)
-                .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    viewModel.editUserName(newUsername)
-                    binding.progressBarSettings.visibility = View.VISIBLE
-                    binding.settingsLayout.visibility = View.INVISIBLE
+            if(!editUsernameFlag){
+                binding.textviewEditUsername.visibility = View.INVISIBLE
+                binding.edittextEditUsername.text = binding.textviewEditUsername.text as Editable?
+                binding.edittextEditUsername.isFocusableInTouchMode = true
+                binding.edittextEditUsername.isFocusable = true
+                binding.okButtonEditUsername.setImageResource(R.mipmap.ic_check)
+                editUsernameFlag = true
+            }else{
+                var newUsername = binding.edittextEditUsername.text.toString().trim()
 
-                }
-                .show()
+                AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.edit_username_confirmation_question))
+                    .setNegativeButton(R.string.no, null)
+                    .setPositiveButton(getString(R.string.yes)){
+                            dialog, which ->    viewModel.editUserName(newUsername)
+                        binding.progressBarSettings.visibility = View.VISIBLE
+                        binding.settingsLayout.visibility = View.INVISIBLE
+
+                    }
+                    .show()
+            }
+
         }
 
         binding.okButtonEditEmail.setOnClickListener {
-            var newEmail = binding.edittextEditEmail.text.toString().trim()
 
-            AlertDialog.Builder(this)
-                .setMessage(getString(R.string.edit_email_confirmation_question))
-                .setNegativeButton(R.string.no, null)
-                .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    viewModel.editEmail(newEmail)
-                    binding.progressBarSettings.visibility = View.VISIBLE
-                    binding.settingsLayout.visibility = View.INVISIBLE
-                }
-                .show()
+            if(!editEmailFlag){
+                binding.textviewEditEmail.visibility = View.INVISIBLE
+                binding.edittextEditEmail.text = binding.textviewEditEmail.text as Editable?
+                binding.edittextEditEmail.isFocusableInTouchMode = true
+                binding.edittextEditEmail.isFocusable = true
+                binding.okButtonEditEmail.setImageResource(R.mipmap.ic_check)
+                editEmailFlag = true
+            }else {
+                var newEmail = binding.edittextEditEmail.text.toString().trim()
+
+                AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.edit_email_confirmation_question))
+                    .setNegativeButton(R.string.no, null)
+                    .setPositiveButton(getString(R.string.yes)) { dialog, which ->
+                        viewModel.editEmail(newEmail)
+                        binding.progressBarSettings.visibility = View.VISIBLE
+                        binding.settingsLayout.visibility = View.INVISIBLE
+                    }
+                    .show()
+            }
         }
 
         binding.okButtonEditPassword.setOnClickListener {
