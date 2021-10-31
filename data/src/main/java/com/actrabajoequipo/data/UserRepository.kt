@@ -1,8 +1,7 @@
-package com.actrabajoequipo.recipesapp.model.user
+package com.actrabajoequipo.data
 
+import com.actrabajoequipo.domain.UserDto
 import com.actrabajoequipo.recipesapp.model.ApiBook
-import com.google.gson.JsonObject
-import org.json.JSONObject
 
 class UserRepository {
 
@@ -17,11 +16,11 @@ class UserRepository {
         ApiBook.service
             .patchUser(uid, user)
 
-    suspend fun editUsername(uid: String, newUsername :UserDto) =
+    suspend fun editUsername(uid: String, newUsername : UserDto) =
         ApiBook.service
             .editUsername(uid, newUsername)
 
-    suspend fun editEmail(uid: String, newEmail :UserDto) =
+    suspend fun editEmail(uid: String, newEmail : UserDto) =
         ApiBook.service
             .editEmail(uid, newEmail)
 

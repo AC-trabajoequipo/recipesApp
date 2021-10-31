@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.actrabajoequipo.recipesapp.model.user.UserDto
-import com.actrabajoequipo.recipesapp.model.user.UserRepository
+import com.actrabajoequipo.domain.UserDto
+import com.actrabajoequipo.data.UserRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -53,7 +53,9 @@ class SignupViewModel() : ViewModel(), Scope by Scope.Impl() {
                                     _registrado.value = UiSignup.UnconfirmedEmail()
                                     //ANADIMOS EL USER A NUESTRA BD
                                     viewModelScope.launch {
-                                        val reponsePatchUser = userRepository.patchUser(fbAuth.currentUser!!.uid,UserDto(name, email))
+                                        val reponsePatchUser = userRepository.patchUser(fbAuth.currentUser!!.uid,
+                                            UserDto(name, email)
+                                        )
                                         Log.e("msg", "El ID del usuario es: " + reponsePatchUser.nodeId)
                                     }
                                 } else _registrado.value = UiSignup.EmailAlreadyRegistered()

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.actrabajoequipo.recipesapp.model.user.UserRepository
+import com.actrabajoequipo.data.UserRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
