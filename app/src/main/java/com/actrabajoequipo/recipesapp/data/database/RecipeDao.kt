@@ -1,7 +1,6 @@
-package com.actrabajoequipo.recipesapp.model.database
+package com.actrabajoequipo.recipesapp.data.database
 
 import androidx.room.*
-import com.actrabajoequipo.recipesapp.model.RecipeDto
 
 @Dao
 interface RecipeDao {

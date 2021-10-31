@@ -2,9 +2,9 @@ package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import android.net.Uri
 import androidx.lifecycle.*
-import com.actrabajoequipo.recipesapp.model.ManageFireBase
-import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
-import com.actrabajoequipo.recipesapp.model.RecipeDto
+import com.actrabajoequipo.recipesapp.server.ManageFireBase
+import com.actrabajoequipo.recipesapp.server.ManageFireBase.PhotoCallBack
+import com.actrabajoequipo.domain.RecipeDto
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import kotlinx.coroutines.launch

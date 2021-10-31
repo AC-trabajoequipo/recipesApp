@@ -1,4 +1,4 @@
-package com.actrabajoequipo.data
+package com.actrabajoequipo.data.repository
 
 import com.actrabajoequipo.domain.UserDto
 import com.actrabajoequipo.recipesapp.model.ApiBook

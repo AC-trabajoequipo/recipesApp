@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.RecipeItemBinding
-import com.actrabajoequipo.recipesapp.model.database.Recipe
+import com.actrabajoequipo.recipesapp.data.database.Recipe
 import com.actrabajoequipo.recipesapp.ui.basicDiffUtil
 import com.actrabajoequipo.recipesapp.ui.inflate
 import com.actrabajoequipo.recipesapp.ui.loadUrl

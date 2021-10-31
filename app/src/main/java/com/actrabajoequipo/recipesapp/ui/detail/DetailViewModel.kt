@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.model.database.Recipe
+import com.actrabajoequipo.recipesapp.data.database.Recipe
 import com.actrabajoequipo.recipesapp.ui.Scope
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.model
+package com.actrabajoequipo.recipesapp.server
 
 import com.google.gson.annotations.SerializedName
 

@@ -9,7 +9,7 @@ import androidx.navigation.navArgs
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityDetailBinding
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.model.database.Recipe
+import com.actrabajoequipo.recipesapp.data.database.Recipe
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.actrabajoequipo.recipesapp.ui.loadUrl

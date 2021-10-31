@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.model
+package com.actrabajoequipo.recipesapp.server
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +22,9 @@ object ManageFireBase {
     private const val PATH_REALTIME_DATABASE = "recipes"
 
     private var storageReference: StorageReference = FirebaseStorage.getInstance().reference
-    private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(PATH_REALTIME_DATABASE)
+    private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(
+        PATH_REALTIME_DATABASE
+    )
 
 
     fun returnIdKeyEntry() : String?{
@@ -35,7 +37,7 @@ object ManageFireBase {
        imageUri: Uri?,
        callBack: PhotoCallBack
    ){
-       this.callBack = callBack
+       ManageFireBase.callBack = callBack
         val storageReference = FirebaseAuth.getInstance().currentUser?.let { user->
             id?.let { idGenerated ->
                 storageReference.child(PATH_IMAGES).child(

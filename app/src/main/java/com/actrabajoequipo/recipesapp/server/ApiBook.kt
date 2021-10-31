@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.model
+package com.actrabajoequipo.recipesapp.server
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

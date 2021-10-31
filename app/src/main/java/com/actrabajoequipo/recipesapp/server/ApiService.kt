@@ -1,17 +1,15 @@
-package com.actrabajoequipo.recipesapp.model
+package com.actrabajoequipo.recipesapp.server
 
-import com.actrabajoequipo.domain.UserDto
 import retrofit2.http.*
 
 interface ApiService {
 
     ////////////////// R E C I P E S //////////////////
     @GET("recipes.json")
-    suspend fun getRecipes() : MutableMap<String, RecipeDto>
+    suspend fun getRecipes(): MutableMap<String, RecipeDto>
 
     @POST("recipes.json")
-    suspend fun postRecipe(@Body recipeDto: RecipeDto) :PostResponseDto
-
+    suspend fun postRecipe(@Body recipeDto: RecipeDto): PostResponseDto
 
 
     ////////////////// U S E R S //////////////////
@@ -22,14 +20,13 @@ interface ApiService {
     suspend fun patchUser(@Path("uid") uid: String, @Body userDto: UserDto): PostResponseDto
 
     @PATCH("users/{uid}.json")
-    suspend fun editUsername(@Path("uid") uid: String, @Body newUsername : UserDto)
+    suspend fun editUsername(@Path("uid") uid: String, @Body newUsername: UserDto)
 
     @PATCH("users/{uid}.json")
-    suspend fun editEmail(@Path("uid") uid: String, @Body newEmail : UserDto)
+    suspend fun editEmail(@Path("uid") uid: String, @Body newEmail: UserDto)
 
     @DELETE("users/{uid}.json")
     suspend fun deleteUser(@Path("uid") uid: String)
-
 
 
     //No se usan de momento

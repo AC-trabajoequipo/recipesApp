@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.model.database
+package com.actrabajoequipo.recipesapp.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

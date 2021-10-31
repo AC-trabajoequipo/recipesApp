@@ -2,7 +2,7 @@ package com.actrabajoequipo.recipesapp
 
 import android.app.Application
 import androidx.room.Room
-import com.actrabajoequipo.recipesapp.model.database.RecipeDatabase
+import com.actrabajoequipo.recipesapp.data.database.RecipeDatabase
 
 class RecipesApp : Application() {
 
