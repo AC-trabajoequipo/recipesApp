@@ -20,10 +20,7 @@ interface ApiService {
     suspend fun patchUser(@Path("uid") uid: String, @Body userDto: UserDto): PostResponseDto
 
     @PATCH("users/{uid}.json")
-    suspend fun editUsername(@Path("uid") uid: String, @Body newUsername: UserDto)
-
-    @PATCH("users/{uid}.json")
-    suspend fun editEmail(@Path("uid") uid: String, @Body newEmail: UserDto)
+    suspend fun editUser(@Path("uid") uid: String, @Body newUser: UserDto)
 
     @DELETE("users/{uid}.json")
     suspend fun deleteUser(@Path("uid") uid: String)

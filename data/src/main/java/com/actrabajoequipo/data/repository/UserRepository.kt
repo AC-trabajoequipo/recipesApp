@@ -1,41 +1,29 @@
 package com.actrabajoequipo.data.repository
 
-import com.actrabajoequipo.domain.UserDto
-import com.actrabajoequipo.recipesapp.model.ApiBook
+import com.actrabajoequipo.data.source.RemoteDataSource
+import com.actrabajoequipo.domain.User
 
-class UserRepository {
+class UserRepository(
+    private val remoteDataSource: RemoteDataSource
+) {
 
-    suspend fun getUsers() :Map<String, UserDto> =
-        ApiBook.service
-            .getUsers()
+    suspend fun getUsers(): Map<String, User> =
+        remoteDataSource.getUsers()
 
+    suspend fun patchUser(uid: String, user: User) =
+        remoteDataSource.patchUser(uid, user)
 
-
-
-    suspend fun patchUser(uid :String,user: UserDto) =
-        ApiBook.service
-            .patchUser(uid, user)
-
-    suspend fun editUsername(uid: String, newUsername : UserDto) =
-        ApiBook.service
-            .editUsername(uid, newUsername)
-
-    suspend fun editEmail(uid: String, newEmail : UserDto) =
-        ApiBook.service
-            .editEmail(uid, newEmail)
+    suspend fun editUser(uid: String, newUser: User) =
+        remoteDataSource.editUser(uid, newUser)
 
     suspend fun deleteUser(uid: String) =
-        ApiBook.service
-            .deleteUser(uid)
+        remoteDataSource.deleteUser(uid)
 
 
     //No se usan de momento
-    suspend fun postUser(user: UserDto) =
-        ApiBook.service
-            .postUser(user)
+    suspend fun postUser(user: User) =
+        remoteDataSource.postUser(user)
 
-    suspend fun putUser(user: UserDto) =
-        ApiBook.service
-            .putUser(user)
-
+    suspend fun putUser(user: User) =
+        remoteDataSource.putUser(user)
 }

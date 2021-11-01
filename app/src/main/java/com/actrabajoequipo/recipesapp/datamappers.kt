@@ -1,8 +1,10 @@
 package com.actrabajoequipo.recipesapp
 
 import com.actrabajoequipo.domain.Recipe as DomainMovie
+import com.actrabajoequipo.domain.User as DomainUser
 import com.actrabajoequipo.recipesapp.data.database.Recipe as RoomRecipe
 import com.actrabajoequipo.recipesapp.server.RecipeDto as ServerMovie
+import com.actrabajoequipo.recipesapp.server.UserDto as ServerUser
 
 fun ServerMovie.toDomainMovie(): DomainMovie =
     DomainMovie(
@@ -49,4 +51,16 @@ fun RoomRecipe.toDomainMovie(): DomainMovie =
         ingredients,
         preparation,
         favorite
+    )
+
+fun ServerUser.toDomainUser(): DomainUser =
+    DomainUser(
+        name,
+        email
+    )
+
+fun DomainUser.toServerUser(): ServerUser =
+    ServerUser(
+        name,
+        email
     )
