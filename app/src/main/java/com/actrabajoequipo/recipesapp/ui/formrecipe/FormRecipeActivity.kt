@@ -1,5 +1,6 @@
 package com.actrabajoequipo.recipesapp.ui.formrecipe
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,7 +12,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.R
+import com.actrabajoequipo.recipesapp.RecipesApp
 import com.actrabajoequipo.recipesapp.databinding.ActivityFormRecipeBinding
+import com.actrabajoequipo.recipesapp.model.RecipesRepository
+import com.actrabajoequipo.recipesapp.ui.app
+import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_form_recipe.*
 
@@ -37,7 +42,8 @@ class FormRecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityFormRecipeBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(FormRecipeViewModel::class.java)
+
+        viewModel = getViewModel { FormRecipeViewModel(RecipesRepository(app)) }
 
         with(binding) {
             setContentView(root)
@@ -143,6 +149,11 @@ class FormRecipeActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun onBackClicked() {
+        finish()
+        overridePendingTransition(0, R.anim.slide_out);
     }
 
     private fun openGallery() {

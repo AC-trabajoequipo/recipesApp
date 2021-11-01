@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -17,7 +19,8 @@
             app:layout_constraintDimensionRatio="H, 4:3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/btnAddImage"
@@ -29,7 +32,8 @@
             app:layout_constraintBottom_toBottomOf="@id/photoRecipe"
             app:layout_constraintEnd_toEndOf="@id/photoRecipe"
             app:layout_constraintStart_toStartOf="@id/photoRecipe"
-            app:layout_constraintTop_toTopOf="@id/photoRecipe" />
+            app:layout_constraintTop_toTopOf="@id/photoRecipe"
+            tools:ignore="ContentDescription" />
 
         <ProgressBar
             android:id="@+id/pbUploadImage"
@@ -70,7 +74,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/grey"
                 android:hint="@string/title_recipe"
-                android:padding="@dimen/m_spacing" />
+                android:padding="@dimen/m_spacing"
+                tools:ignore="Autofill,TextFields" />
 
             <EditText
                 android:id="@+id/etDescription"
@@ -80,7 +85,8 @@
                 android:lines="3"
                 android:textSize="14sp"
                 android:hint="@string/description_recipe"
-                android:padding="@dimen/m_spacing" />
+                android:padding="@dimen/m_spacing"
+                tools:ignore="Autofill,TextFields" />
 
             <View
                 android:layout_width="match_parent"
@@ -100,7 +106,8 @@
                 android:layout_marginBottom="@dimen/xs_spacing"
                 android:background="@color/grey"
                 android:hint="@string/ingredientes"
-                android:padding="@dimen/m_spacing" />
+                android:padding="@dimen/m_spacing"
+                tools:ignore="Autofill,TextFields" />
 
             <EditText
                 android:id="@+id/etIngredient2"
@@ -109,7 +116,8 @@
                 android:layout_marginBottom="@dimen/xs_spacing"
                 android:background="@color/grey"
                 android:hint="@string/ingredientes"
-                android:padding="@dimen/m_spacing" />
+                android:padding="@dimen/m_spacing"
+                tools:ignore="Autofill,TextFields" />
 
             <EditText
                 android:id="@+id/etIngredient3"
@@ -118,7 +126,8 @@
                 android:layout_marginBottom="@dimen/xs_spacing"
                 android:background="@color/grey"
                 android:hint="@string/ingredientes"
-                android:padding="@dimen/m_spacing" />
+                android:padding="@dimen/m_spacing"
+                tools:ignore="Autofill,TextFields" />
 
             <EditText
                 android:id="@+id/etIngredient4"
@@ -127,7 +136,8 @@
                 android:layout_marginBottom="@dimen/xs_spacing"
                 android:background="@color/grey"
                 android:hint="@string/ingredientes"
-                android:padding="@dimen/m_spacing" />
+                android:padding="@dimen/m_spacing"
+                tools:ignore="Autofill,TextFields" />
 
             <EditText
                 android:id="@+id/etIngredient5"
@@ -136,7 +146,8 @@
                 android:layout_marginBottom="@dimen/xs_spacing"
                 android:background="@color/grey"
                 android:hint="@string/ingredientes"
-                android:padding="@dimen/m_spacing" />
+                android:padding="@dimen/m_spacing"
+                tools:ignore="Autofill,TextFields" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -165,7 +176,8 @@
                 android:gravity="start|top"
                 android:hint="@string/steps_recipe"
                 android:inputType="textMultiLine"
-                android:lines="5" />
+                android:lines="5"
+                tools:ignore="Autofill" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

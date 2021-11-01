@@ -29,7 +29,15 @@
         android:id="@+id/navigation_userprofile"
         android:name="com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileFragment"
         android:label="@string/title_userprofile"
-        tools:layout="@layout/fragment_userprofile" />
+        tools:layout="@layout/fragment_userprofile">
+        <action
+            android:id="@+id/action_navigation_home_to_detailActivity"
+            app:destination="@id/detailActivity"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
+    </fragment>
 
     <activity
         android:id="@+id/detailActivity"

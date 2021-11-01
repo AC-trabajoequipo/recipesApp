@@ -33,6 +33,14 @@ class RecipesRepository(application: RecipesApp) {
         db.recipeDao().findById(id)
     }
 
+    suspend fun findByUserUID(userId: String): List<Recipe> = withContext(Dispatchers.IO) {
+        db.recipeDao().findByUserUID(userId)
+    }
+
+    suspend fun findByFavourites(isFavTrue: Boolean): List<Recipe> = withContext(Dispatchers.IO) {
+        db.recipeDao().findByFavourites(isFavTrue)
+    }
+
     suspend fun update(recipe: Recipe) = withContext(Dispatchers.IO) {
         db.recipeDao().updateRecipe(recipe)
     }

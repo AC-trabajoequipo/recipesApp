@@ -77,7 +77,7 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
         stepRecipe: String
     ) {
         launch {
-            var responsePostRecipe = recipesRepository.postRecipe(
+            val responsePostRecipe = recipesRepository.postRecipe(
                 RecipeDto(
                     id = null,
                     idUser = idUser,

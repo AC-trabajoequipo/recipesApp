@@ -51,4 +51,6 @@
     <string name="message_delete_user_successfully">La cuenta se eliminó con éxito.</string>
     <string name="search_title">Buscar</string>
     <string name="search_hint">Buscar</string>
-   </resources>
+    <string name="title_confirm_signout">Cerrar la sesión</string>
+    <string name="message_confirm_signout">¿Realmente desear cerrar la sesión?</string>
+</resources>
