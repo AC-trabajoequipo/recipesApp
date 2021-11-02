@@ -64,7 +64,7 @@ class UserProfileFragment : Fragment() {
 
         if (fbAuth.currentUser?.uid ?: null != null) {
             binding.nadie.text = fbAuth.currentUser?.email.toString()
-            binding.buttonsProfile.visibility = View.INVISIBLE
+            binding.buttonsProfile.visibility = View.GONE
             binding.userName.visibility = View.VISIBLE
         }
 
