@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.MainActivity
@@ -51,7 +52,6 @@ class UserProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         adapterMyRecipes = RecipesAdapter(userProfileViewModel::onRecipeClicked)
         adapterMyFavourites = RecipesAdapter(userProfileViewModel::onRecipeClicked)
 

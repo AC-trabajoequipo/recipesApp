@@ -43,6 +43,8 @@ class FormRecipeActivity : AppCompatActivity() {
 
         binding = ActivityFormRecipeBinding.inflate(layoutInflater)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         viewModel = getViewModel { FormRecipeViewModel(RecipesRepository(app)) }
 
         with(binding) {
@@ -180,6 +182,11 @@ class FormRecipeActivity : AppCompatActivity() {
                         etIngredient5.text.toString().trim()
                     )
                 )
+                true
+            }
+
+            android.R.id.home ->{
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
