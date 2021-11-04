@@ -54,7 +54,7 @@
             android:id="@+id/userName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <ProgressBar
                 android:id="@+id/progress"
@@ -91,7 +91,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/m_text_size"
                     android:layout_marginTop="@dimen/xl_spacing"
-                    android:text="Mis recetas" />
+                    android:text="Mis recetas"
+                    android:textSize="@dimen/page_title"/>
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -110,7 +111,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/m_text_size"
-                    android:text="Favoritas" />
+                    android:text="Favoritas"
+                    android:textSize="@dimen/page_title"
+                    />
 
 
                 <androidx.recyclerview.widget.RecyclerView

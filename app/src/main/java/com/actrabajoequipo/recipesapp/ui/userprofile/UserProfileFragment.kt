@@ -3,15 +3,15 @@ package com.actrabajoequipo.recipesapp.ui.userprofile
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
+import com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeFragmentDirections
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.actrabajoequipo.recipesapp.ui.login.LoginActivity
@@ -30,6 +30,7 @@ class UserProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = FragmentUserprofileBinding.inflate(layoutInflater)
 
         userProfileViewModel =
@@ -138,6 +139,7 @@ class UserProfileFragment : Fragment() {
                 builder.setPositiveButton("Sí") { dialog, _ ->
                     signout()
                     dialog.cancel()
+                    findNavController().navigate(UserProfileFragmentDirections.actionNavigationProfileToProfile())
                 }
                 builder.setNegativeButton("No") { dialog, _ ->
                     dialog.cancel()
