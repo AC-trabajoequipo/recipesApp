@@ -26,7 +26,7 @@
     <string name="title_recipe">Título. Ej: Tortilla de patatas</string>
     <string name="steps_recipe">Pasos para la elaboración de la receta</string>
     <string name="form_add_recipe">Formulario nueva receta</string>
-    <string name="btn_save">post</string>
+    <string name="btn_save">Publicar</string>
     <string name="tv_list_ingredients">Lista de ingredientes</string>
     <string name="tv_steps_recipe">Pasos</string>
     <string name="add_recipe_message_invalid">Revisa los campos requeridos</string>

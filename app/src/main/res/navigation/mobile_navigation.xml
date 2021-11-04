@@ -23,7 +23,22 @@
         android:id="@+id/navigation_addrecipe"
         android:name="com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeFragment"
         android:label="@string/title_addrecipe"
-        tools:layout="@layout/fragment_addrecipe" />
+        tools:layout="@layout/fragment_addrecipe">
+        <action
+            android:id="@+id/action_navigation_addRecipe_to_formRecipeActivity"
+            app:destination="@id/formRecipeActivity"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out" />
+        <action
+            android:id="@+id/action_navigation_addrecipe_to_navigation_userprofile"
+            app:destination="@id/navigation_userprofile"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in"
+            app:popExitAnim="@anim/slide_out"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_userprofile"
@@ -31,7 +46,7 @@
         android:label="@string/title_userprofile"
         tools:layout="@layout/fragment_userprofile">
         <action
-            android:id="@+id/action_navigation_home_to_detailActivity"
+            android:id="@+id/action_navigation_profile_to_detailActivity"
             app:destination="@id/detailActivity"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
@@ -47,5 +62,11 @@
             android:name="recipeId"
             app:argType="string" />
     </activity>
+
+    <activity
+        android:id="@+id/formRecipeActivity"
+        android:name="com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeActivity"
+        android:label="FormRecipeActivity"
+        />
 
 </navigation>

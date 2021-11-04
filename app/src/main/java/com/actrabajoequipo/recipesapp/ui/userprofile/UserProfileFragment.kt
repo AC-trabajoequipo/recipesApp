@@ -41,7 +41,7 @@ class UserProfileFragment : Fragment() {
         userProfileViewModel.navigation.observe(this, { event ->
             event.getContentIfNotHandled()?.let {
                 findNavController().navigate(
-                    UserProfileFragmentDirections.actionNavigationHomeToDetailActivity(it.id)
+                    UserProfileFragmentDirections.actionNavigationProfileToDetailActivity(it.id)
                 )
             }
         })
@@ -81,6 +81,11 @@ class UserProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        setRecipesInitialState()
+        super.onResume()
+    }
+
     private fun goToSettingActivity() {
         val intent = Intent(context, SettingsActivity::class.java)
         startActivity(intent)
@@ -89,8 +94,6 @@ class UserProfileFragment : Fragment() {
     private fun signout() {
         Toast.makeText(context, "SESIÓN CERRADA CORRECTAMENTE :)", Toast.LENGTH_LONG).show()
         fbAuth.signOut()
-        val intent = Intent(context, MainActivity::class.java)
-        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {

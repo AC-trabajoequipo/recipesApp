@@ -6,7 +6,9 @@ import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
 import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
+import com.actrabajoequipo.recipesapp.model.database.Recipe
 import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.ui.common.Event
 import kotlinx.coroutines.launch
 
 class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
