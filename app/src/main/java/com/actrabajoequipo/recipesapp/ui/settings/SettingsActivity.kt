@@ -14,6 +14,9 @@ import androidx.lifecycle.get
 import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivitySettingsBinding
+import com.actrabajoequipo.recipesapp.model.user.UserDto
+import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeViewModel
+import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -111,6 +114,9 @@ class SettingsActivity : AppCompatActivity() {
                 .show()
         }
 
+        binding.button2.setOnClickListener {
+            viewModel.pruebaaa()
+        }
     }
 
 

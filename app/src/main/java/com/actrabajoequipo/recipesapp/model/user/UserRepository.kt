@@ -2,6 +2,7 @@ package com.actrabajoequipo.recipesapp.model.user
 
 import com.actrabajoequipo.recipesapp.model.ApiBook
 import com.google.gson.JsonObject
+import com.google.protobuf.Api
 import org.json.JSONObject
 
 class UserRepository {
@@ -28,6 +29,10 @@ class UserRepository {
     suspend fun deleteUser(uid: String) =
         ApiBook.service
             .deleteUser(uid)
+
+    suspend fun findUserById(uid: String) =
+        ApiBook.service
+            .findUserById(uid)
 
     suspend fun patchRecipeInUser(uid: String, newRecipe :UserDto) =
         ApiBook.service
