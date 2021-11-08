@@ -13,7 +13,7 @@ class UserRepository {
 
 
 
-    suspend fun patchUser(uid :String,user: UserDto) =
+    suspend fun patchUser(uid :String, user: UserDto) =
         ApiBook.service
             .patchUser(uid, user)
 
@@ -28,6 +28,11 @@ class UserRepository {
     suspend fun deleteUser(uid: String) =
         ApiBook.service
             .deleteUser(uid)
+
+    suspend fun patchRecipeInUser(uid: String, newRecipe :UserDto) =
+        ApiBook.service
+            .patchRecipeInUser(uid, newRecipe)
+
 
 
     //No se usan de momento

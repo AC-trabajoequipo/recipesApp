@@ -45,7 +45,7 @@
     <string name="message_edit_username_successfully">Username actualizado correctamente.</string>
     <string name="error_message_edit_email">No se pudo actualizar el correo. Inténtelo de nuevo.</string>
     <string name="message_edit_email_successfully">Verifica tu nueva dirección de correo para poder iniciar sesión en tu cuenta.</string>
-    <string name="informative_text_edit_password">Al hacer click en el botón te enviaremos un link a tu email para que modifiques tu password.</string>
+    <string name="informative_text_edit_password">Te enviaremos un link a tu email para que modifiques tu password.</string>
     <string name="edit_password_confirmation_question">¿Estás seguro de que quieres cambiar tu password?</string>
     <string name="error_message_edit_password">No se pudo actualizar la password. Inténtelo de nuevo.</string>
     <string name="message_edit_password_successfully">Compueba tu correo. Debería haberte llegado un link para modificar tu password.</string>
@@ -58,4 +58,15 @@
     <string name="email">Email:</string>
     <string name="password">Password:</string>
     <string name="delete_account">Delete account</string>
-   </resources>
+    <string name="edit_password">Edit password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="email_edittext">Email</string>
+    <string name="password_edittext">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="log_in_google_account">Log in with your Google account</string>
+    <string name="or">or</string>
+    <string name="ok">Ok</string>
+    <string name="not_have_an_account">Not have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="informative_text_forgot_password">Introduce tu dirección de correo electrónico. Te enviaremos un link para que modifiques tu password.</string>
+</resources>

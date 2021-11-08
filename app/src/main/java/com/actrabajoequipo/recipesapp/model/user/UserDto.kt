@@ -8,7 +8,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UserDto(
     val name: String?,
-    val email: String?
+    val email: String?,
+    val recipes: List<String>?
 ) : Parcelable
 
 

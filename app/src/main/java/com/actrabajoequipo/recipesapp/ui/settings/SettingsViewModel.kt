@@ -71,7 +71,7 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
 
     fun editUserName(newUsername :String){
         launch {
-            val responseEditUsername = userRepository.editUsername(currentUserUid, UserDto(newUsername, null))
+            val responseEditUsername = userRepository.editUsername(currentUserUid, UserDto(newUsername, null, null))
             if (responseEditUsername != null){
                 _resultEditUsername.value = ResultEditUsername.UsernameEditedSuccessfully()
             }else{
@@ -85,7 +85,7 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
             fbAuth.currentUser?.updateEmail(newEmail)?.addOnCompleteListener { task->
                 if (task.isSuccessful){
                     viewModelScope.launch {
-                        userRepository.editEmail(currentUserUid, UserDto(null, newEmail))
+                        userRepository.editEmail(currentUserUid, UserDto(null, newEmail, null))
                         fbAuth.currentUser!!.sendEmailVerification()
                         fbAuth.signOut()
                         _resultEditEmail.value = ResultEditEmail.EmailEditedSuccessfully()

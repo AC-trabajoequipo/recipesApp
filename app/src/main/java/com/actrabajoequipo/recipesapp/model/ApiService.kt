@@ -30,6 +30,9 @@ interface ApiService {
     @DELETE("users/{uid}.json")
     suspend fun deleteUser(@Path("uid") uid: String)
 
+    @PATCH("users/{uid}.json")
+    suspend fun patchRecipeInUser(@Path("uid") uid: String, @Body newRecipe: UserDto): PostResponseDto
+
 
 
     //No se usan de momento

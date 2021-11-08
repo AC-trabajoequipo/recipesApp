@@ -6,6 +6,8 @@ import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
 import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
+import com.actrabajoequipo.recipesapp.model.user.UserDto
+import com.actrabajoequipo.recipesapp.model.user.UserRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
 import kotlinx.coroutines.launch
 
@@ -14,6 +16,7 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
     private var photoUrl: String? = null
     private var id: String? = null
     private var ingredientsWithoutEmpties = ArrayList<String>()
+    private val userRepository: UserRepository by lazy { UserRepository() }
 
     sealed class ValidatedFields() {
         class EmptyTitleRecipeError : ValidatedFields()
@@ -90,7 +93,14 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
                     )
                 )
                 if (responsePostRecipe.nodeId != null)
-                    _recipeState.postValue(SaveRecipe.Success())
+                    launch {
+                        var response = userRepository.patchRecipeInUser(idUser, UserDto(null, null, listOf("aaa")))
+                        if(response.nodeId != null){
+                            _recipeState.postValue(SaveRecipe.Success())
+                        }else{
+                            _recipeState.postValue(SaveRecipe.Error())
+                        }
+                    }
                 else
                     _recipeState.postValue(SaveRecipe.Error())
             }else{

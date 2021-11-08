@@ -53,7 +53,7 @@ class SignupViewModel() : ViewModel(), Scope by Scope.Impl() {
                                     _registrado.value = UiSignup.UnconfirmedEmail()
                                     //ANADIMOS EL USER A NUESTRA BD
                                     viewModelScope.launch {
-                                        val reponsePatchUser = userRepository.patchUser(fbAuth.currentUser!!.uid,UserDto(name, email))
+                                        val reponsePatchUser = userRepository.patchUser(fbAuth.currentUser!!.uid,UserDto(name, email, null))
                                         Log.e("msg", "El ID del usuario es: " + reponsePatchUser.nodeId)
                                     }
                                 } else _registrado.value = UiSignup.EmailAlreadyRegistered()
