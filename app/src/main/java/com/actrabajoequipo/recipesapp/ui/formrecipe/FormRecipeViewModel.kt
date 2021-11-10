@@ -82,42 +82,38 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
         stepRecipe: String
     ) {
         launch {
-            if (id != null){
-                var responsePostRecipe = recipesRepository.postRecipe(
-                    RecipeDto(
-                        id = id!!,
-                        idUser = idUser,
-                        name = titleRecipe,
-                        description = descriptionRecipe,
-                        imgUrl = photoUrl,
-                        ingredients = ingredientsWithoutEmpties,
-                        preparation = stepRecipe
-                    )
+            val responsePostRecipe = recipesRepository.postRecipe(
+                RecipeDto(
+                    id = null,
+                    idUser = idUser,
+                    name = titleRecipe,
+                    description = descriptionRecipe,
+                    imgUrl = photoUrl,
+                    ingredients = ingredientsWithoutEmpties,
+                    preparation = stepRecipe
                 )
-                if (responsePostRecipe.nodeId != null){
-                    var user = userRepository.findUserById(fbAuth.currentUser!!.uid)
-                    if(user != null){
-                        var recipes : MutableList<String>?
-                        if (user.recipes != null){
-                            recipes = user.recipes
-                        }else{
-                            recipes = mutableListOf()
-                        }
-                        recipes?.add(id!!)
-                        var responsePostRecipeInUser = userRepository.patchRecipeInUser(fbAuth.currentUser!!.uid, UserDto(null, null, recipes))
-                        if(responsePostRecipeInUser.nodeId != null){
-                            _recipeState.postValue(SaveRecipe.Success())
-                        }else{
-                            _recipeState.postValue(SaveRecipe.Error())
-                        }
+            )
+            if (responsePostRecipe.nodeId != null){
+                var user = userRepository.findUserById(fbAuth.currentUser!!.uid)
+                if(user != null){
+                    var recipes : MutableList<String>?
+                    if (user.recipes != null){
+                        recipes = user.recipes
+                    }else{
+                        recipes = mutableListOf()
+                    }
+                    recipes?.add(id!!)
+                    var responsePostRecipeInUser = userRepository.patchRecipeInUser(fbAuth.currentUser!!.uid, UserDto(null, null, recipes))
+                    if(responsePostRecipeInUser.nodeId != null){
+                        _recipeState.postValue(SaveRecipe.Success())
                     }else{
                         _recipeState.postValue(SaveRecipe.Error())
                     }
-                }else {
+                }else{
                     _recipeState.postValue(SaveRecipe.Error())
                 }
-            }else{
-                _formState.postValue(ValidatedFields.EmptyIdFieldError())
+            }else {
+                _recipeState.postValue(SaveRecipe.Error())
             }
         }
     }

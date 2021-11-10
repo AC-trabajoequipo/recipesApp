@@ -2,7 +2,7 @@
     <string name="app_name">RecipesApp</string>
     <string name="title_home">Home</string>
     <string name="title_addrecipe">Add recipe</string>
-    <string name="title_userprofile">User</string>
+    <string name="title_userprofile">Perfil</string>
     <string name="prefs_file">com.actrabajoequipo.recipesapp.PREFERENCE_FILE_KEY</string>
     <string name="login_success">"LOGIN REALIZADO CORRECTAMENTE :)"</string>
     <string name="login_error">LOGIN INCORRECTO</string>
@@ -26,7 +26,7 @@
     <string name="title_recipe">Título. Ej: Tortilla de patatas</string>
     <string name="steps_recipe">Pasos para la elaboración de la receta</string>
     <string name="form_add_recipe">Formulario nueva receta</string>
-    <string name="btn_save">post</string>
+    <string name="btn_save">Publicar</string>
     <string name="tv_list_ingredients">Lista de ingredientes</string>
     <string name="tv_steps_recipe">Pasos</string>
     <string name="add_recipe_message_invalid">Revisa los campos requeridos</string>
@@ -73,4 +73,7 @@
     <string name="informative_text_username_for_google_account">Escoge tu nombre de usuario</string>
     <string name="informative_text_set_username_for_google_account_successfully">Nombre guardado con éxito.</string>
     <string name="error_message_set_username_for_google_account">No se pudo gaurdar su username. Inténtelo de nuevo.</string>
+</resources>
+    <string name="title_confirm_signout">Cerrar la sesión</string>
+    <string name="message_confirm_signout">¿Realmente desear cerrar la sesión?</string>
 </resources>

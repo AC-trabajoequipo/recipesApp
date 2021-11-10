@@ -1,17 +1,23 @@
 package com.actrabajoequipo.recipesapp.ui.formrecipe
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.R
+import com.actrabajoequipo.recipesapp.RecipesApp
 import com.actrabajoequipo.recipesapp.databinding.ActivityFormRecipeBinding
+import com.actrabajoequipo.recipesapp.model.RecipesRepository
+import com.actrabajoequipo.recipesapp.ui.app
+import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_form_recipe.*
 
@@ -37,12 +43,23 @@ class FormRecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityFormRecipeBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(FormRecipeViewModel::class.java)
+
+        viewModel = getViewModel { FormRecipeViewModel(RecipesRepository(app)) }
 
         with(binding) {
             setContentView(root)
+            setSupportActionBar(detailToolbar)
+            detailToolbar.setNavigationOnClickListener { onBackClicked() }
             btnAddImage.setOnClickListener { openGallery() }
         }
+
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = (getString(R.string.form_add_recipe))
+
+        //permite que al cargar la vista el teclado no tape el formulario.
+        //además hace que el teclado no se abrá automaticamente al cargar la activity
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         viewModel.formState.observe(this, {
             when (it) {
@@ -143,6 +160,11 @@ class FormRecipeActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun onBackClicked() {
+        finish()
+        overridePendingTransition(0, R.anim.slide_out);
     }
 
     private fun openGallery() {
