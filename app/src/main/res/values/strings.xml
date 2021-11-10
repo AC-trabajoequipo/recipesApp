@@ -73,7 +73,6 @@
     <string name="informative_text_username_for_google_account">Escoge tu nombre de usuario</string>
     <string name="informative_text_set_username_for_google_account_successfully">Nombre guardado con éxito.</string>
     <string name="error_message_set_username_for_google_account">No se pudo gaurdar su username. Inténtelo de nuevo.</string>
-</resources>
     <string name="title_confirm_signout">Cerrar la sesión</string>
     <string name="message_confirm_signout">¿Realmente desear cerrar la sesión?</string>
 </resources>
