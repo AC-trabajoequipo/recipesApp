@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentAddrecipeBinding
 import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeActivity
+import com.actrabajoequipo.recipesapp.ui.home.HomeFragmentDirections
 import com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileFragment
 import com.google.firebase.auth.FirebaseAuth
 
@@ -32,18 +34,20 @@ class AddRecipeFragment : Fragment() {
 
         binding.btnAddRecipe.setOnClickListener {
             if (fauth.currentUser != null) {
-                val intentFormRecipeActivity = Intent(activity, FormRecipeActivity::class.java)
-                startActivity(intentFormRecipeActivity)
+                /*val intentFormRecipeActivity = Intent(activity, FormRecipeActivity::class.java)
+                startActivity(intentFormRecipeActivity)*/
+                findNavController().navigate(AddRecipeFragmentDirections.actionNavigationAddRecipeToFormRecipeActivity())
             } else {
                 Toast.makeText(context, "Necesitas estar logado para subir recetas", Toast.LENGTH_SHORT).show()
-                activity?.supportFragmentManager?.beginTransaction()
+                /*activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(
                         R.id.nav_host_fragment_activity_main,
                         UserProfileFragment::class.java,
                         null,
                         null
                     )
-                    ?.commit()
+                    ?.commit()*/
+                findNavController().navigate(AddRecipeFragmentDirections.actionNavigationAddrecipeToNavigationUserprofile())
             }
         }
 

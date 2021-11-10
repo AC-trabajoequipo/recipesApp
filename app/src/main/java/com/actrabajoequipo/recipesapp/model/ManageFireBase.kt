@@ -23,12 +23,15 @@ object ManageFireBase {
 
     private var storageReference: StorageReference = FirebaseStorage.getInstance().reference
     private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(PATH_REALTIME_DATABASE)
-
+    private val fbAuth = FirebaseAuth.getInstance()
 
     fun returnIdKeyEntry() : String?{
         return databaseReference.push().key
     }
 
+    fun returnUserUID() : String?{
+           return fbAuth.currentUser?.uid
+    }
 
    fun uploadPhotoRecipe(
        id: String?,
