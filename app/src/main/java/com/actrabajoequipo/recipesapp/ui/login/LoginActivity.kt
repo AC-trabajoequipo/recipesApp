@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.textSignUp.setOnClickListener {
+        binding.signUp.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
@@ -97,8 +97,7 @@ class LoginActivity : AppCompatActivity() {
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     fbAuth.signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful){
-                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, UsernameForGoogleAccountActivity::class.java)
                             startActivity(intent)
                         }else{
                             Toast.makeText(this, R.string.login_error, Toast.LENGTH_LONG).show()

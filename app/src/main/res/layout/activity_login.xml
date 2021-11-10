@@ -147,7 +147,7 @@
         android:textSize="16sp"/>
 
     <TextView
-        android:id="@+id/text_sign_up"
+        android:id="@+id/sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/text_not_have_account"

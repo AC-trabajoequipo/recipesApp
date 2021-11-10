@@ -61,6 +61,7 @@
     <string name="edit_password">Edit password</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="email_edittext">Email</string>
+    <string name="username_edittext">Username</string>
     <string name="password_edittext">Password</string>
     <string name="log_in">Log in</string>
     <string name="log_in_google_account">Log in with your Google account</string>
@@ -69,4 +70,7 @@
     <string name="not_have_an_account">Not have an account?</string>
     <string name="sign_up">Sign up</string>
     <string name="informative_text_forgot_password">Introduce tu dirección de correo electrónico. Te enviaremos un link para que modifiques tu password.</string>
+    <string name="informative_text_username_for_google_account">Escoge tu nombre de usuario</string>
+    <string name="informative_text_set_username_for_google_account_successfully">Nombre guardado con éxito.</string>
+    <string name="error_message_set_username_for_google_account">No se pudo gaurdar su username. Inténtelo de nuevo.</string>
 </resources>
