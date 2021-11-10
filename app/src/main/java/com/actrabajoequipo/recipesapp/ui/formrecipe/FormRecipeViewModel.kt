@@ -6,9 +6,10 @@ import com.actrabajoequipo.recipesapp.model.ManageFireBase
 import com.actrabajoequipo.recipesapp.model.ManageFireBase.PhotoCallBack
 import com.actrabajoequipo.recipesapp.model.RecipeDto
 import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.model.database.Recipe
+import com.actrabajoequipo.recipesapp.model.user.UserDto
+import com.actrabajoequipo.recipesapp.model.user.UserRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
-import com.actrabajoequipo.recipesapp.ui.common.Event
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
@@ -16,6 +17,8 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
     private var photoUrl: String? = null
     private var id: String? = null
     private var ingredientsWithoutEmpties = ArrayList<String>()
+    private val fbAuth = FirebaseAuth.getInstance()
+    private val userRepository: UserRepository by lazy { UserRepository() }
 
     sealed class ValidatedFields() {
         class EmptyTitleRecipeError : ValidatedFields()
@@ -90,10 +93,28 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
                     preparation = stepRecipe
                 )
             )
-            if (responsePostRecipe.nodeId != null)
-                _recipeState.postValue(SaveRecipe.Success())
-            else
+            if (responsePostRecipe.nodeId != null){
+                var user = userRepository.findUserById(fbAuth.currentUser!!.uid)
+                if(user != null){
+                    var recipes : MutableList<String>?
+                    if (user.recipes != null){
+                        recipes = user.recipes
+                    }else{
+                        recipes = mutableListOf()
+                    }
+                    recipes?.add(id!!)
+                    var responsePostRecipeInUser = userRepository.patchRecipeInUser(fbAuth.currentUser!!.uid, UserDto(null, null, recipes))
+                    if(responsePostRecipeInUser.nodeId != null){
+                        _recipeState.postValue(SaveRecipe.Success())
+                    }else{
+                        _recipeState.postValue(SaveRecipe.Error())
+                    }
+                }else{
+                    _recipeState.postValue(SaveRecipe.Error())
+                }
+            }else {
                 _recipeState.postValue(SaveRecipe.Error())
+            }
         }
     }
 

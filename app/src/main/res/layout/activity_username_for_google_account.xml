@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.login.UsernameForGoogleAccountActivity">
+
+    <TextView
+        android:id="@+id/username_for_google_account_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="@string/informative_text_username_for_google_account"/>
+
+
+
+    <EditText
+        android:id="@+id/username_for_google_account"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        android:hint="@string/username_edittext"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username_for_google_account_info"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="10dp"
+        android:background="@drawable/custom_edittext"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"/>
+
+    <Button
+        android:id="@+id/button_ok_username_for_google_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/username_for_google_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"
+        android:text="@string/ok"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
