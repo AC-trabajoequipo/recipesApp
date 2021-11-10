@@ -3,14 +3,16 @@ package com.actrabajoequipo.recipesapp.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.data.database.Recipe
+import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.usecases.FindRecipeByIdUseCase
+import com.actrabajoequipo.usecases.UpdateRecipeUseCase
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
     private val recipeId: String,
-    private val recipesRepository: RecipesRepository
+    private val findRecipeByIdUseCase: FindRecipeByIdUseCase,
+    private val updateRecipeUseCase: UpdateRecipeUseCase
 ) : ViewModel(),
     Scope by Scope.Impl() {
 
@@ -22,7 +24,7 @@ class DetailViewModel(
     }
 
     fun findRecipe() = launch {
-        _recipe.value = recipesRepository.findById(recipeId)
+        _recipe.value = findRecipeByIdUseCase.invoke(recipeId)
     }
 
     fun onFavoriteClicked() {
@@ -30,7 +32,7 @@ class DetailViewModel(
             recipe.value?.let {
                 val updateRecipe = it.copy(favorite = !it.favorite)
                 _recipe.value = updateRecipe
-                recipesRepository.update(updateRecipe)
+                updateRecipeUseCase.invoke(updateRecipe)
             }
         }
     }

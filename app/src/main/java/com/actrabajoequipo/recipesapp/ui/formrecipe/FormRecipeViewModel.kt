@@ -2,14 +2,16 @@ package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import android.net.Uri
 import androidx.lifecycle.*
+import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.recipesapp.server.ManageFireBase
 import com.actrabajoequipo.recipesapp.server.ManageFireBase.PhotoCallBack
-import com.actrabajoequipo.domain.RecipeDto
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
 import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.usecases.PostRecipeUseCase
 import kotlinx.coroutines.launch
 
-class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
+class FormRecipeViewModel(
+    private val postRecipeUseCase: PostRecipeUseCase
+) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
 
     private var photoUrl: String? = null
     private var id: String? = null
@@ -77,23 +79,24 @@ class FormRecipeViewModel(private val recipesRepository: RecipesRepository) : Vi
         stepRecipe: String
     ) {
         launch {
-            if (id != null){
-                var responsePostRecipe = recipesRepository.postRecipe(
-                    RecipeDto(
+            if (id != null) {
+                val nodeId = postRecipeUseCase.invoke(
+                    Recipe(
                         id = id!!,
                         idUser = idUser,
                         name = titleRecipe,
                         description = descriptionRecipe,
-                        imgUrl = photoUrl,
+                        imgUrl = photoUrl ?: "",
                         ingredients = ingredientsWithoutEmpties,
-                        preparation = stepRecipe
+                        preparation = stepRecipe,
+                        favorite = false
                     )
                 )
-                if (responsePostRecipe.nodeId != null)
+                if (nodeId != null)
                     _recipeState.postValue(SaveRecipe.Success())
                 else
                     _recipeState.postValue(SaveRecipe.Error())
-            }else{
+            } else {
                 _formState.postValue(ValidatedFields.EmptyIdFieldError())
             }
         }

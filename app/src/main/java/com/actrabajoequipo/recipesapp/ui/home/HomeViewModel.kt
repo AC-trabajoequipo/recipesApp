@@ -3,13 +3,19 @@ package com.actrabajoequipo.recipesapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.data.database.Recipe
+import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.recipesapp.ui.common.Event
+import com.actrabajoequipo.usecases.GetRecipesUseCase
+import com.actrabajoequipo.usecases.SearchRecipeUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val recipesRepository: RecipesRepository) : ViewModel(),
+class HomeViewModel
+@Inject constructor(
+    private val getRecipesUseCase: GetRecipesUseCase,
+    private val searchRecipeUseCase: SearchRecipeUseCase
+) : ViewModel(),
     Scope by Scope.Impl() {
 
     private val _uiModel = MutableLiveData<UIModel>()
@@ -34,7 +40,7 @@ class HomeViewModel(private val recipesRepository: RecipesRepository) : ViewMode
     fun refresh() {
         launch {
             _uiModel.value = UIModel.Loading
-            _uiModel.value = UIModel.Content(recipesRepository.getRecipes())
+            _uiModel.value = UIModel.Content(getRecipesUseCase.invoke())
         }
     }
 
@@ -49,7 +55,7 @@ class HomeViewModel(private val recipesRepository: RecipesRepository) : ViewMode
 
     fun doSearch(query: String) {
         launch {
-            _uiModel.value = UIModel.Content(recipesRepository.search(query))
+            _uiModel.value = UIModel.Content(searchRecipeUseCase.invoke(query))
         }
     }
 }

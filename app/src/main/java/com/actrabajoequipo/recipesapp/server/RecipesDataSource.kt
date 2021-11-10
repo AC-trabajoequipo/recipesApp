@@ -16,10 +16,9 @@ class RecipesDataSource : RemoteDataSource {
                 it.toDomainMovie()
             }
 
-    override suspend fun postRecipe(recipe: Recipe) {
+    override suspend fun postRecipe(recipe: Recipe) =
         ApiBook.service
-            .postRecipe(recipe.toServerMovie())
-    }
+            .postRecipe(recipe.toServerMovie()).nodeId
 
     override suspend fun getUsers(): Map<String, User> =
         ApiBook.service
