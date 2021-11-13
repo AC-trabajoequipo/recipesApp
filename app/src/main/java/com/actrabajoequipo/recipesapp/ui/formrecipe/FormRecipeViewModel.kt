@@ -79,25 +79,39 @@ class FormRecipeViewModel(
         stepRecipe: String
     ) {
         launch {
-            if (id != null) {
-                val nodeId = postRecipeUseCase.invoke(
-                    Recipe(
-                        id = id!!,
-                        idUser = idUser,
-                        name = titleRecipe,
-                        description = descriptionRecipe,
-                        imgUrl = photoUrl ?: "",
-                        ingredients = ingredientsWithoutEmpties,
-                        preparation = stepRecipe,
-                        favorite = false
-                    )
+            val nodeId = postRecipeUseCase.invoke(
+                Recipe(
+                    id = null,
+                    idUser = idUser,
+                    name = titleRecipe,
+                    description = descriptionRecipe,
+                    imgUrl = photoUrl ?: "",
+                    ingredients = ingredientsWithoutEmpties,
+                    preparation = stepRecipe,
+                    favorite = false
                 )
-                if (nodeId != null)
-                    _recipeState.postValue(SaveRecipe.Success())
-                else
+            )
+            if (nodeId != null){
+                var user = userRepository.findUserById(fbAuth.currentUser!!.uid)
+                if(user != null){
+                    var recipes : MutableList<String>?
+                    if (user.recipes != null){
+                        recipes = user.recipes
+                    }else{
+                        recipes = mutableListOf()
+                    }
+                    recipes?.add(id!!)
+                    var responsePostRecipeInUser = userRepository.patchRecipeInUser(fbAuth.currentUser!!.uid, UserDto(null, null, recipes))
+                    if(responsePostRecipeInUser.nodeId != null){
+                        _recipeState.postValue(SaveRecipe.Success())
+                    }else{
+                        _recipeState.postValue(SaveRecipe.Error())
+                    }
+                }else{
                     _recipeState.postValue(SaveRecipe.Error())
-            } else {
-                _formState.postValue(ValidatedFields.EmptyIdFieldError())
+                }
+            }else {
+                _recipeState.postValue(SaveRecipe.Error())
             }
         }
     }

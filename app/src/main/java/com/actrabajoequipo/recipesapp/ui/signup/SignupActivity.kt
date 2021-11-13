@@ -34,7 +34,10 @@ class SignupActivity : AppCompatActivity(), Scope by Scope.Impl() {
 
         viewModel.registrado.observe(this, Observer {
             when(it){
-                is SignupViewModel.UiSignup.UnconfirmedEmail -> Toast.makeText(this, R.string.confirm_your_email, Toast.LENGTH_LONG).show()
+                is SignupViewModel.UiSignup.UnconfirmedEmail -> {
+                    Toast.makeText(this, R.string.confirm_your_email, Toast.LENGTH_LONG).show()
+                    onBackPressed()
+                }
                 is SignupViewModel.UiSignup.EmailAlreadyRegistered -> Toast.makeText(this, R.string.email_already_registered, Toast.LENGTH_LONG).show()
                 is SignupViewModel.UiSignup.PasswordRequirements -> Toast.makeText(this, R.string.password_requirement, Toast.LENGTH_LONG).show()
                 is SignupViewModel.UiSignup.PasswordsDoNotMatch -> Toast.makeText(this, R.string.passwords_do_not_match, Toast.LENGTH_LONG).show()

@@ -25,6 +25,12 @@ interface ApiService {
     @DELETE("users/{uid}.json")
     suspend fun deleteUser(@Path("uid") uid: String)
 
+    @GET("users/{uid}.json")
+    suspend fun findUserById(@Path("uid")uid: String) : UserDto
+
+    @PATCH("users/{uid}.json")
+    suspend fun patchRecipeInUser(@Path("uid") uid: String, @Body newRecipe: UserDto): PostResponseDto
+
 
     //No se usan de momento
     @POST("users.json")

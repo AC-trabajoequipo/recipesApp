@@ -10,6 +10,7 @@ import androidx.lifecycle.get
 import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityLoginBinding
+import com.actrabajoequipo.recipesapp.ui.signup.SignupActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -60,6 +61,16 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonLoginGoogle.setOnClickListener {
             loginWithGoogleAccount()
         }
+
+        binding.forgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.signUp.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
@@ -86,8 +97,7 @@ class LoginActivity : AppCompatActivity() {
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     fbAuth.signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful){
-                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, UsernameForGoogleAccountActivity::class.java)
                             startActivity(intent)
                         }else{
                             Toast.makeText(this, R.string.login_error, Toast.LENGTH_LONG).show()
