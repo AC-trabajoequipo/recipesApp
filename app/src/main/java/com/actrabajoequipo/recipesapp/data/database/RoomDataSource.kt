@@ -2,8 +2,8 @@ package com.actrabajoequipo.recipesapp.data.database
 
 import com.actrabajoequipo.data.source.LocalDataSource
 import com.actrabajoequipo.domain.Recipe
-import com.actrabajoequipo.recipesapp.toDomainMovie
-import com.actrabajoequipo.recipesapp.toRoomMovie
+import com.actrabajoequipo.recipesapp.toDomainRecipe
+import com.actrabajoequipo.recipesapp.toRoomRecipe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,20 +16,20 @@ class RoomDataSource(db: RecipeDatabase) : LocalDataSource {
 
     override suspend fun saveRecipes(recipes: List<Recipe>) =
         withContext(Dispatchers.IO) {
-            recipesDao.insertRecipes(recipes.map { it.toRoomMovie() })
+            recipesDao.insertRecipes(recipes.map { it.toRoomRecipe() })
         }
 
     override suspend fun getRecipes(): List<Recipe> =
         withContext(Dispatchers.IO) {
-            recipesDao.getAll().map { it.toDomainMovie() }
+            recipesDao.getAll().map { it.toDomainRecipe() }
         }
 
     override suspend fun update(recipe: Recipe) = withContext(Dispatchers.IO) {
-        recipesDao.updateRecipe(recipe.toRoomMovie())
+        recipesDao.updateRecipe(recipe.toRoomRecipe())
     }
 
     override suspend fun findById(id: String): Recipe =
-        recipesDao.findById(id).toDomainMovie()
+        recipesDao.findById(id).toDomainRecipe()
 
     override suspend fun search(query: String): List<Recipe> {
         return if (query.isBlank()) {
@@ -39,7 +39,7 @@ class RoomDataSource(db: RecipeDatabase) : LocalDataSource {
                 val regex = query.toRegex(RegexOption.IGNORE_CASE)
                 regex.containsMatchIn(it.name)
             }.map {
-                it.toDomainMovie()
+                it.toDomainRecipe()
             }
         }
     }

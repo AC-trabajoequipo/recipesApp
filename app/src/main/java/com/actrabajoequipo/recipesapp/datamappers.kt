@@ -1,13 +1,13 @@
 package com.actrabajoequipo.recipesapp
 
-import com.actrabajoequipo.domain.Recipe as DomainMovie
+import com.actrabajoequipo.domain.Recipe as DomainRecipe
 import com.actrabajoequipo.domain.User as DomainUser
 import com.actrabajoequipo.recipesapp.data.database.Recipe as RoomRecipe
-import com.actrabajoequipo.recipesapp.server.RecipeDto as ServerMovie
+import com.actrabajoequipo.recipesapp.server.RecipeDto as ServerRecipe
 import com.actrabajoequipo.recipesapp.server.UserDto as ServerUser
 
-fun ServerMovie.toDomainMovie(): DomainMovie =
-    DomainMovie(
+fun ServerRecipe.toDomainRecipe(): DomainRecipe =
+    DomainRecipe(
         id,
         idUser,
         name,
@@ -18,7 +18,7 @@ fun ServerMovie.toDomainMovie(): DomainMovie =
         false
     )
 
-fun DomainMovie.toRoomMovie(): RoomRecipe =
+fun DomainRecipe.toRoomRecipe(): RoomRecipe =
     RoomRecipe(
         id,
         idUser,
@@ -30,8 +30,8 @@ fun DomainMovie.toRoomMovie(): RoomRecipe =
         favorite
     )
 
-fun DomainMovie.toServerMovie(): ServerMovie =
-    ServerMovie(
+fun DomainRecipe.toServerRecipe(): ServerRecipe =
+    ServerRecipe(
         id,
         idUser,
         name,
@@ -41,8 +41,8 @@ fun DomainMovie.toServerMovie(): ServerMovie =
         preparation
     )
 
-fun RoomRecipe.toDomainMovie(): DomainMovie =
-    DomainMovie(
+fun RoomRecipe.toDomainRecipe(): DomainRecipe =
+    DomainRecipe(
         id,
         idUser,
         name,

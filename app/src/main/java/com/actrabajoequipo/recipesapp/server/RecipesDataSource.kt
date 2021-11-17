@@ -3,9 +3,9 @@ package com.actrabajoequipo.recipesapp.server
 import com.actrabajoequipo.data.source.RemoteDataSource
 import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.domain.User
-import com.actrabajoequipo.recipesapp.toDomainMovie
+import com.actrabajoequipo.recipesapp.toDomainRecipe
 import com.actrabajoequipo.recipesapp.toDomainUser
-import com.actrabajoequipo.recipesapp.toServerMovie
+import com.actrabajoequipo.recipesapp.toServerRecipe
 import com.actrabajoequipo.recipesapp.toServerUser
 
 class RecipesDataSource : RemoteDataSource {
@@ -13,12 +13,12 @@ class RecipesDataSource : RemoteDataSource {
         ApiBook.service
             .getRecipes().values
             .map {
-                it.toDomainMovie()
+                it.toDomainRecipe()
             }
 
     override suspend fun postRecipe(recipe: Recipe) =
         ApiBook.service
-            .postRecipe(recipe.toServerMovie()).nodeId
+            .postRecipe(recipe.toServerRecipe()).nodeId
 
     override suspend fun getUsers(): Map<String, User> =
         ApiBook.service
