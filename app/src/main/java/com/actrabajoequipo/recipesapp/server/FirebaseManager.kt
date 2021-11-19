@@ -7,40 +7,43 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-object ManageFireBase {
+class FirebaseManager {
 
-    interface PhotoCallBack{
+    interface PhotoCallBack {
         fun onProgress(progress: Int)
         fun onComplete()
         fun onSuccess(imageURL: String)
         fun onFailure()
     }
 
-    private lateinit var callBack : PhotoCallBack
-
-    private const val PATH_IMAGES = "images"
-    private const val PATH_REALTIME_DATABASE = "recipes"
-
-    private var storageReference: StorageReference = FirebaseStorage.getInstance().reference
-    private var databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(
-        PATH_REALTIME_DATABASE
-    )
-
-
-    fun returnIdKeyEntry() : String?{
-        return databaseReference.push().key
+    companion object {
+        private const val PATH_IMAGES = "images"
+        private const val PATH_REALTIME_DATABASE = "recipes"
     }
 
+    private lateinit var callBack: PhotoCallBack
+
+    private var storageReference: StorageReference = FirebaseStorage.getInstance().reference
+    private var databaseReference: DatabaseReference =
+        FirebaseDatabase.getInstance().reference.child(
+            PATH_REALTIME_DATABASE
+        )
+
+    val fbAuth = FirebaseAuth.getInstance()
+
+    fun returnIdKeyEntry(): String? {
+        return databaseReference.push().key
+    }
 
    fun uploadPhotoRecipe(
        id: String?,
        imageUri: Uri?,
        callBack: PhotoCallBack
    ){
-       ManageFireBase.callBack = callBack
+       this.callBack = callBack
         val storageReference = FirebaseAuth.getInstance().currentUser?.let { user->
             id?.let { idGenerated ->
-                storageReference.child(PATH_IMAGES).child(
+                storageReference.child(Companion.PATH_IMAGES).child(
                     user.uid
                 ).child(idGenerated)
             }
