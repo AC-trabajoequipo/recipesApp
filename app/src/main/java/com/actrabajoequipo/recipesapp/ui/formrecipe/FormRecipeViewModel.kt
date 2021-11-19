@@ -3,38 +3,44 @@ package com.actrabajoequipo.recipesapp.ui.formrecipe
 import android.net.Uri
 import androidx.lifecycle.*
 import com.actrabajoequipo.domain.Recipe
-import com.actrabajoequipo.recipesapp.server.ManageFireBase
-import com.actrabajoequipo.recipesapp.server.ManageFireBase.PhotoCallBack
+import com.actrabajoequipo.domain.User
+import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.server.FirebaseManager.PhotoCallBack
 import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.usecases.FindUserByIdUseCase
+import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.actrabajoequipo.usecases.PostRecipeUseCase
 import kotlinx.coroutines.launch
 
 class FormRecipeViewModel(
-    private val postRecipeUseCase: PostRecipeUseCase
+    private val postRecipeUseCase: PostRecipeUseCase,
+    private val findUserByIdUseCase: FindUserByIdUseCase,
+    private val patchUserUseCase: PatchUserUseCase,
+    private val firebaseManager: FirebaseManager
 ) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
 
     private var photoUrl: String? = null
     private var id: String? = null
     private var ingredientsWithoutEmpties = ArrayList<String>()
 
-    sealed class ValidatedFields() {
-        class EmptyTitleRecipeError : ValidatedFields()
-        class EmptyDescriptionRecipeError : ValidatedFields()
-        class EmptyIngredientsError : ValidatedFields()
-        class EmptyPhotoFieldError : ValidatedFields()
-        class EmptyIdFieldError : ValidatedFields()
-        class FormValidated : ValidatedFields()
+    sealed class ValidatedFields {
+        object EmptyTitleRecipeError : ValidatedFields()
+        object EmptyDescriptionRecipeError : ValidatedFields()
+        object EmptyIngredientsError : ValidatedFields()
+        object EmptyPhotoFieldError : ValidatedFields()
+        object EmptyIdFieldError : ValidatedFields()
+        object FormValidated : ValidatedFields()
     }
 
-    sealed class SaveRecipe() {
-        class Success : SaveRecipe()
-        class Error : SaveRecipe()
+    sealed class SaveRecipe {
+        object Success : SaveRecipe()
+        object Error : SaveRecipe()
     }
 
-    sealed class ImageUpload() {
-        class Success : ImageUpload()
-        class InProgress : ImageUpload()
-        class Error : ImageUpload()
+    sealed class ImageUpload {
+        object Success : ImageUpload()
+        object InProgress : ImageUpload()
+        object Error : ImageUpload()
     }
 
     init {
@@ -61,14 +67,14 @@ class FormRecipeViewModel(
     ) {
         launch {
             if (photoUrl == null) {
-                _formState.postValue(ValidatedFields.EmptyPhotoFieldError())
+                _formState.postValue(ValidatedFields.EmptyPhotoFieldError)
             } else if (titleRecipe == null) {
-                _formState.postValue(ValidatedFields.EmptyTitleRecipeError())
+                _formState.postValue(ValidatedFields.EmptyTitleRecipeError)
             } else if (descriptionRecipe == null) {
-                _formState.postValue(ValidatedFields.EmptyDescriptionRecipeError())
+                _formState.postValue(ValidatedFields.EmptyDescriptionRecipeError)
             } else if (!editTextArrayListValidated(ingredients)) {
-                _formState.postValue(ValidatedFields.EmptyIngredientsError())
-            } else _formState.postValue(ValidatedFields.FormValidated())
+                _formState.postValue(ValidatedFields.EmptyIngredientsError)
+            } else _formState.postValue(ValidatedFields.FormValidated)
         }
     }
 
@@ -79,7 +85,7 @@ class FormRecipeViewModel(
         stepRecipe: String
     ) {
         launch {
-            val nodeId = postRecipeUseCase.invoke(
+            val nodeRecipeId = postRecipeUseCase.invoke(
                 Recipe(
                     id = null,
                     idUser = idUser,
@@ -91,27 +97,31 @@ class FormRecipeViewModel(
                     favorite = false
                 )
             )
-            if (nodeId != null){
-                var user = userRepository.findUserById(fbAuth.currentUser!!.uid)
-                if(user != null){
-                    var recipes : MutableList<String>?
-                    if (user.recipes != null){
-                        recipes = user.recipes
-                    }else{
-                        recipes = mutableListOf()
+            if (nodeRecipeId != null) {
+                firebaseManager.fbAuth.currentUser?.let { firebaseUser ->
+
+                    val user = findUserByIdUseCase.invoke(firebaseUser.uid)
+                    val recipes: MutableList<String> = if (user.recipes != null) {
+                        user.recipes
+                    } else {
+                        mutableListOf()
                     }
-                    recipes?.add(id!!)
-                    var responsePostRecipeInUser = userRepository.patchRecipeInUser(fbAuth.currentUser!!.uid, UserDto(null, null, recipes))
-                    if(responsePostRecipeInUser.nodeId != null){
-                        _recipeState.postValue(SaveRecipe.Success())
-                    }else{
-                        _recipeState.postValue(SaveRecipe.Error())
+
+                    id?.let {
+                        recipes.add(it)
+                        val nodeUserId = patchUserUseCase.invoke(
+                            it,
+                            User(null, null, recipes)
+                        )
+                        if (nodeUserId != null) {
+                            _recipeState.postValue(SaveRecipe.Success)
+                        } else {
+                            _recipeState.postValue(SaveRecipe.Error)
+                        }
                     }
-                }else{
-                    _recipeState.postValue(SaveRecipe.Error())
                 }
-            }else {
-                _recipeState.postValue(SaveRecipe.Error())
+            } else {
+                _recipeState.postValue(SaveRecipe.Error)
             }
         }
     }
@@ -130,11 +140,11 @@ class FormRecipeViewModel(
     fun uploadImage(imageUri: Uri?) {
         launch {
             if (imageUri != null) {
-                id = ManageFireBase.returnIdKeyEntry()
+                id = firebaseManager.returnIdKeyEntry()
                 if (id != null)
-                    ManageFireBase.uploadPhotoRecipe(id, imageUri, this@FormRecipeViewModel)
+                    firebaseManager.uploadPhotoRecipe(id, imageUri, this@FormRecipeViewModel)
                 else
-                    _formState.postValue(ValidatedFields.EmptyIdFieldError())
+                    _formState.postValue(ValidatedFields.EmptyIdFieldError)
             }
         }
     }
@@ -142,7 +152,7 @@ class FormRecipeViewModel(
     override fun onProgress(progress: Int) {
         launch {
             _progressUploadImage.postValue(progress)
-            _imageUpload.postValue(ImageUpload.InProgress())
+            _imageUpload.postValue(ImageUpload.InProgress)
         }
     }
 
@@ -151,14 +161,14 @@ class FormRecipeViewModel(
 
     override fun onSuccess(imageURL: String) {
         launch {
-            _imageUpload.postValue(ImageUpload.Success())
+            _imageUpload.postValue(ImageUpload.Success)
             photoUrl = imageURL
         }
     }
 
     override fun onFailure() {
         launch {
-            _imageUpload.postValue(ImageUpload.Error())
+            _imageUpload.postValue(ImageUpload.Error)
         }
     }
 }
