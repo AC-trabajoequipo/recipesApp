@@ -1,7 +1,7 @@
 package com.actrabajoequipo.domain
 
 data class Recipe(
-    val id: String,
+    val id: String?,
     val idUser: String,
     val name: String,
     val description: String,

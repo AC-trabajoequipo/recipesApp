@@ -1,12 +1,15 @@
 package com.actrabajoequipo.recipesapp.di
 
 import android.app.Application
+import com.actrabajoequipo.recipesapp.ui.detail.DetailActivity
 import com.actrabajoequipo.recipesapp.ui.detail.DetailComponent
 import com.actrabajoequipo.recipesapp.ui.detail.DetailModule
 import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeComponent
 import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeModule
 import com.actrabajoequipo.recipesapp.ui.home.HomeComponent
 import com.actrabajoequipo.recipesapp.ui.home.HomeModule
+import com.actrabajoequipo.recipesapp.ui.signup.SignupComponent
+import com.actrabajoequipo.recipesapp.ui.signup.SignupModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -18,6 +21,7 @@ interface AppComponent {
     fun plus(module: HomeModule): HomeComponent
     fun plus(module: DetailModule): DetailComponent
     fun plus(module: FormRecipeModule): FormRecipeComponent
+    fun plus(module: SignupModule): SignupComponent
 
     @Component.Factory
     interface Factory {
