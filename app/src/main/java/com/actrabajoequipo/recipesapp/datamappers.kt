@@ -20,7 +20,7 @@ fun ServerRecipe.toDomainRecipe(): DomainRecipe =
 
 fun DomainRecipe.toRoomRecipe(): RoomRecipe =
     RoomRecipe(
-        id,
+        id ?: "-1",
         idUser,
         name,
         description,
@@ -56,11 +56,13 @@ fun RoomRecipe.toDomainRecipe(): DomainRecipe =
 fun ServerUser.toDomainUser(): DomainUser =
     DomainUser(
         name,
-        email
+        email,
+        recipes
     )
 
 fun DomainUser.toServerUser(): ServerUser =
     ServerUser(
         name,
-        email
+        email,
+        recipes
     )

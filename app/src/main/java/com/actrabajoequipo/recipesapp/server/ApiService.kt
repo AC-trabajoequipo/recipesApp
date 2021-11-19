@@ -19,23 +19,9 @@ interface ApiService {
     @PATCH("users/{uid}.json")
     suspend fun patchUser(@Path("uid") uid: String, @Body userDto: UserDto): PostResponseDto
 
-    @PATCH("users/{uid}.json")
-    suspend fun editUser(@Path("uid") uid: String, @Body newUser: UserDto)
-
     @DELETE("users/{uid}.json")
     suspend fun deleteUser(@Path("uid") uid: String)
 
     @GET("users/{uid}.json")
     suspend fun findUserById(@Path("uid")uid: String) : UserDto
-
-    @PATCH("users/{uid}.json")
-    suspend fun patchRecipeInUser(@Path("uid") uid: String, @Body newRecipe: UserDto): PostResponseDto
-
-
-    //No se usan de momento
-    @POST("users.json")
-    suspend fun postUser(@Body userDto: UserDto): PostResponseDto
-
-    @PUT("users/-MljPbrZgjsv0DwFiRyI.json")
-    suspend fun putUser(@Body userDto: UserDto): PostResponseDto
 }
