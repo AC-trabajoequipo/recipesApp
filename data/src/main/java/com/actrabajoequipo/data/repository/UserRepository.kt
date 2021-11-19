@@ -13,17 +13,9 @@ class UserRepository(
     suspend fun patchUser(uid: String, user: User) =
         remoteDataSource.patchUser(uid, user)
 
-    suspend fun editUser(uid: String, newUser: User) =
-        remoteDataSource.editUser(uid, newUser)
-
     suspend fun deleteUser(uid: String) =
         remoteDataSource.deleteUser(uid)
 
-
-    //No se usan de momento
-    suspend fun postUser(user: User) =
-        remoteDataSource.postUser(user)
-
-    suspend fun putUser(user: User) =
-        remoteDataSource.putUser(user)
+    suspend fun findUserById(uid: String): User =
+        remoteDataSource.findUserById(uid)
 }

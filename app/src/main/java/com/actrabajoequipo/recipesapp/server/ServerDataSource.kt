@@ -8,7 +8,7 @@ import com.actrabajoequipo.recipesapp.toDomainUser
 import com.actrabajoequipo.recipesapp.toServerRecipe
 import com.actrabajoequipo.recipesapp.toServerUser
 
-class RecipesDataSource : RemoteDataSource {
+class ServerDataSource : RemoteDataSource {
     override suspend fun getRecipes(): List<Recipe> =
         ApiBook.service
             .getRecipes().values
@@ -26,28 +26,14 @@ class RecipesDataSource : RemoteDataSource {
                 it.value.toDomainUser()
             }
 
-    override suspend fun patchUser(uid: String, user: User) {
-        ApiBook.service
-            .patchUser(uid, user.toServerUser())
-    }
-
-    override suspend fun editUser(uid: String, newUser: User) {
-        ApiBook.service
-            .editUser(uid, newUser.toServerUser())
-    }
+    override suspend fun patchUser(uid: String, user: User): String? =
+        ApiBook.service.patchUser(uid, user.toServerUser()).nodeId
 
     override suspend fun deleteUser(uid: String) {
         ApiBook.service
             .deleteUser(uid)
     }
 
-    override suspend fun postUser(user: User) {
-        ApiBook.service
-            .postUser(user.toServerUser())
-    }
-
-    override suspend fun putUser(user: User) {
-        ApiBook.service
-            .putUser(user.toServerUser())
-    }
+    override suspend fun findUserById(uid: String): User =
+        ApiBook.service.findUserById(uid).toDomainUser()
 }
