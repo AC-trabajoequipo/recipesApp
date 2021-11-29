@@ -1,6 +1,8 @@
 package com.actrabajoequipo.recipesapp.di
 
 import android.app.Application
+import com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeComponent
+import com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeModule
 import com.actrabajoequipo.recipesapp.ui.detail.DetailActivity
 import com.actrabajoequipo.recipesapp.ui.detail.DetailComponent
 import com.actrabajoequipo.recipesapp.ui.detail.DetailModule
@@ -22,6 +24,7 @@ interface AppComponent {
     fun plus(module: DetailModule): DetailComponent
     fun plus(module: FormRecipeModule): FormRecipeComponent
     fun plus(module: SignupModule): SignupComponent
+    fun plus(module: AddRecipeModule): AddRecipeComponent
 
     @Component.Factory
     interface Factory {
