@@ -10,4 +10,9 @@ interface LocalDataSource {
     suspend fun update(recipe: Recipe)
     suspend fun findById(id: String): Recipe
     suspend fun search(query: String): List<Recipe>
+
+    //
+    suspend fun findRecipeByUserUID(userId: String): List<Recipe>
+    suspend fun findRecipeByFavourites(isFav: Boolean): List<Recipe>
+
 }

@@ -35,6 +35,10 @@ class FirebaseManager {
         return databaseReference.push().key
     }
 
+    fun returnUserUID(): String?{
+        return fbAuth.currentUser?.uid
+    }
+
    fun uploadPhotoRecipe(
        id: String?,
        imageUri: Uri?,

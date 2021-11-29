@@ -12,6 +12,8 @@ import com.actrabajoequipo.recipesapp.ui.home.HomeComponent
 import com.actrabajoequipo.recipesapp.ui.home.HomeModule
 import com.actrabajoequipo.recipesapp.ui.signup.SignupComponent
 import com.actrabajoequipo.recipesapp.ui.signup.SignupModule
+import com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileComponent
+import com.actrabajoequipo.recipesapp.ui.userprofile.UserProfileModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -25,6 +27,7 @@ interface AppComponent {
     fun plus(module: FormRecipeModule): FormRecipeComponent
     fun plus(module: SignupModule): SignupComponent
     fun plus(module: AddRecipeModule): AddRecipeComponent
+    fun plus(module: UserProfileModule): UserProfileComponent
 
     @Component.Factory
     interface Factory {
