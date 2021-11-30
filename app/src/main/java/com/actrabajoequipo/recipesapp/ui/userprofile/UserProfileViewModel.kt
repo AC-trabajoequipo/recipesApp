@@ -71,4 +71,17 @@ class UserProfileViewModel
         destroyScope()
         super.onCleared()
     }
+
+    fun signOut() {
+        firebaseManager.signOut()
+    }
+
+    fun isUserLoggedNotNull() : Boolean{
+        return (firebaseManager.returnUserUID() != null)
+    }
+
+    fun getEmailUser(): String {
+        return firebaseManager.getEmailUser()
+    }
+
 }

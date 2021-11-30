@@ -39,6 +39,14 @@ class FirebaseManager {
         return fbAuth.currentUser?.uid
     }
 
+    fun signOut(){
+        fbAuth.signOut()
+    }
+
+    fun getEmailUser(): String{
+        return fbAuth.currentUser?.email.toString()
+    }
+
    fun uploadPhotoRecipe(
        id: String?,
        imageUri: Uri?,

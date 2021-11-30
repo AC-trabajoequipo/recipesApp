@@ -1,49 +1,52 @@
 package com.actrabajoequipo.recipesapp.ui.userprofile
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeFragmentDirections
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.actrabajoequipo.recipesapp.ui.login.LoginActivity
 import com.actrabajoequipo.recipesapp.ui.settings.SettingsActivity
 import com.actrabajoequipo.recipesapp.ui.signup.SignupActivity
 import com.actrabajoequipo.recipesapp.ui.userprofile.adapter.RecipesAdapter
-import com.google.firebase.auth.FirebaseAuth
 
 class UserProfileFragment : Fragment() {
 
-    private lateinit var userProfileViewModel: UserProfileViewModel
     private lateinit var adapterMyRecipes: RecipesAdapter
     private lateinit var adapterMyFavourites: RecipesAdapter
     private lateinit var binding: FragmentUserprofileBinding
-    private val fbAuth = FirebaseAuth.getInstance()
 
+    private lateinit var component: UserProfileComponent
+    private val userProfileViewModel: UserProfileViewModel by lazy {
+        getViewModel { component.userProfileViewModel }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        component = context.app.component.plus(UserProfileModule())
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = FragmentUserprofileBinding.inflate(layoutInflater)
 
-        userProfileViewModel =
-            getViewModel { UserProfileViewModel(RecipesRepository(requireContext().app)) }
-
         userProfileViewModel.uiModelMyRecipes.observe(this, ::updateRecyclerMyRecipes)
         userProfileViewModel.uiModelMyFavRecipes.observe(this, ::updateRecyclerMyFavRecipes)
 
         userProfileViewModel.navigation.observe(this, { event ->
-            event.getContentIfNotHandled()?.let {
-                findNavController().navigate(
-                    UserProfileFragmentDirections.actionNavigationProfileToDetailActivity(it.id)
-                )
+            event.getContentIfNotHandled()?.let { recipe ->
+                if(recipe.id != null) {
+                    findNavController().navigate(
+                        UserProfileFragmentDirections.actionNavigationProfileToDetailActivity(recipe.id!!)
+                    )
+                }
             }
         })
     }
@@ -63,8 +66,8 @@ class UserProfileFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        if (fbAuth.currentUser?.uid ?: null != null) {
-            binding.nadie.text = fbAuth.currentUser?.email.toString()
+        if (userProfileViewModel.isUserLoggedNotNull()) {
+            binding.nadie.text = userProfileViewModel.getEmailUser()
             binding.buttonsProfile.visibility = View.GONE
             binding.userName.visibility = View.VISIBLE
         }
@@ -94,11 +97,11 @@ class UserProfileFragment : Fragment() {
 
     private fun signout() {
         Toast.makeText(context, "SESIÓN CERRADA CORRECTAMENTE :)", Toast.LENGTH_LONG).show()
-        fbAuth.signOut()
+        userProfileViewModel.signOut()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        if (fbAuth.currentUser?.uid != null)
+        if (userProfileViewModel.isUserLoggedNotNull())
             menuInflater.inflate(R.menu.toolbar_profile_menu, menu)
         return super.onCreateOptionsMenu(menu, menuInflater)
     }
