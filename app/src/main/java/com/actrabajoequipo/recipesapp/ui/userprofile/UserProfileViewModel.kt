@@ -3,15 +3,21 @@ package com.actrabajoequipo.recipesapp.ui.userprofile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.actrabajoequipo.recipesapp.model.ManageFireBase
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.model.database.Recipe
+import com.actrabajoequipo.domain.Recipe
+import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.recipesapp.ui.common.Event
+import com.actrabajoequipo.usecases.FindRecipeByUserIdUseCase
+import com.actrabajoequipo.usecases.FindRecipeFavouriteUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserProfileViewModel (private val recipesRepository: RecipesRepository) : ViewModel(),
-    Scope by Scope.Impl() {
+class UserProfileViewModel
+@Inject constructor(
+    private val firebaseManager: FirebaseManager,
+    private val findRecipeFavouriteUseCase: FindRecipeFavouriteUseCase,
+    private val findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase
+    ) : ViewModel(), Scope by Scope.Impl() {
 
     private val _uiModelMyRecipes = MutableLiveData<UIModelMyRecipes>()
     val uiModelMyRecipes: LiveData<UIModelMyRecipes>
@@ -45,15 +51,15 @@ class UserProfileViewModel (private val recipesRepository: RecipesRepository) : 
     fun refresh() {
         launch {
             _uiModelMyRecipes.value = UIModelMyRecipes.Loading
-            _uiModelMyRecipes.value = ManageFireBase.returnUserUID()?.let { userUID ->
-                recipesRepository.findByUserUID(
+            _uiModelMyRecipes.value = firebaseManager.returnUserUID()?.let { userUID ->
+                findRecipeByUserIdUseCase.invoke(
                     userUID
                 )
             }?.let { recipeList ->
                 UIModelMyRecipes.ContentMyRecipes(recipeList) }
 
             _uiModelMyFavRecipes.value = UIModelMyFavRecipes.Loading
-            _uiModelMyFavRecipes.value = UIModelMyFavRecipes.ContentMyFavourites(recipesRepository.findByFavourites(true))
+            _uiModelMyFavRecipes.value = UIModelMyFavRecipes.ContentMyFavourites(findRecipeFavouriteUseCase.invoke(true))
         }
     }
 
@@ -65,4 +71,17 @@ class UserProfileViewModel (private val recipesRepository: RecipesRepository) : 
         destroyScope()
         super.onCleared()
     }
+
+    fun signOut() {
+        firebaseManager.signOut()
+    }
+
+    fun isUserLoggedNotNull() : Boolean{
+        return (firebaseManager.returnUserUID() != null)
+    }
+
+    fun getEmailUser(): String {
+        return firebaseManager.getEmailUser()
+    }
+
 }
