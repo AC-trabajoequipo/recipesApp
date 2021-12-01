@@ -6,12 +6,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.actrabajoequipo.data.repository.UserRepository
+import com.actrabajoequipo.domain.User
+import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.server.UserDto
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeViewModel
+import com.actrabajoequipo.usecases.DeleteUserUseCase
+import com.actrabajoequipo.usecases.FindUserByIdUseCase
+import com.actrabajoequipo.usecases.GetUsersUseCase
+import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
+class SettingsViewModel(
+    private val getUsersUseCase: GetUsersUseCase,
+    private val patchUserUseCase: PatchUserUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase,
+    private val findUserByIdUseCase: FindUserByIdUseCase,
+    private val firebaseManager: FirebaseManager
+): ViewModel(), Scope by Scope.Impl(){
 
     sealed class ResultEditUsername(){
         class UsernameEditedSuccessfully : ResultEditUsername()
@@ -33,12 +46,10 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
         class NoDeleteUser : ResultDeleteUser()
     }
 
-    private val fbAuth = FirebaseAuth.getInstance()
-    private val userRepository: UserRepository by lazy { UserRepository() }
 
     private val _currentUser = MutableLiveData<UserDto>()
     val currentUser: LiveData<UserDto> get() = _currentUser
-    val currentUserUid = fbAuth.currentUser!!.uid
+    val currentUserUid = firebaseManager.fbAuth.currentUser!!.uid
 
     private val _resultEditUsername = MutableLiveData<ResultEditUsername>()
     val resultEditUsername: LiveData<ResultEditUsername> get() = _resultEditUsername
@@ -58,10 +69,10 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
     }
 
     fun getCurrentUser(){
-        var usersMap :Map<String, UserDto>
+        var usersMap :Map<String, User>
 
         launch {
-            usersMap = userRepository.getUsers()
+            usersMap = getUsersUseCase.invoke()
             usersMap.forEach {
                 if(it.key.equals(currentUserUid)){
                     _currentUser.value = it.value
@@ -72,7 +83,7 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
 
     fun editUserName(newUsername :String){
         launch {
-            val responseEditUsername = userRepository.editUsername(currentUserUid, UserDto(newUsername, null, null))
+            val responseEditUsername = patchUserUseCase.invoke(currentUserUid, User(newUsername, null, null))
             if (responseEditUsername != null){
                 _resultEditUsername.value = ResultEditUsername.UsernameEditedSuccessfully()
             }else{
@@ -83,12 +94,12 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
 
     fun editEmail(newEmail :String){
         launch {
-            fbAuth.currentUser?.updateEmail(newEmail)?.addOnCompleteListener { task->
+            firebaseManager.fbAuth.currentUser?.updateEmail(newEmail)?.addOnCompleteListener { task->
                 if (task.isSuccessful){
                     viewModelScope.launch {
-                        userRepository.editEmail(currentUserUid, UserDto(null, newEmail, null))
-                        fbAuth.currentUser!!.sendEmailVerification()
-                        fbAuth.signOut()
+                        patchUserUseCase.invoke(currentUserUid, User(null, newEmail, null))
+                        firebaseManager.fbAuth.currentUser!!.sendEmailVerification()
+                        firebaseManager.fbAuth.signOut()
                         _resultEditEmail.value = ResultEditEmail.EmailEditedSuccessfully()
                     }
                 }else{
@@ -101,9 +112,9 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
 
     fun editPassword(){
         launch {
-            fbAuth.sendPasswordResetEmail(fbAuth.currentUser!!.email.toString()).addOnCompleteListener { task ->
+            firebaseManager.fbAuth.sendPasswordResetEmail(firebaseManager.fbAuth.currentUser!!.email.toString()).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    fbAuth.signOut()
+                    firebaseManager.fbAuth.signOut()
                     _resultEditPassword.value = ResultEditPassword.PasswordEditedSuccessfully()
                 } else {
                     _resultEditPassword.value = ResultEditPassword.PasswordNoEdited()
@@ -114,10 +125,10 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
 
     fun deleteUser(){
         launch {
-            fbAuth.currentUser!!.delete().addOnCompleteListener { task ->
+            firebaseManager.fbAuth.currentUser!!.delete().addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     viewModelScope.launch {
-                        userRepository.deleteUser(currentUserUid)
+                        deleteUserUseCase.invoke(currentUserUid)
                         _resultDeleteUser.value = ResultDeleteUser.DeleteUserSuccessfully()
                     }
                 }else{
@@ -134,7 +145,7 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
     //BORRAR CUANDO YA AÑADA BIEN LA RECETA EN EL USER AL CREAR UNA NUEVA RECETA
     fun pruebaaa(){
         launch {
-            var user = userRepository.findUserById(fbAuth.currentUser!!.uid)
+            var user = findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
             if(user != null){
                 var recipes : MutableList<String>?
                 if (user.recipes != null){
@@ -143,7 +154,7 @@ class SettingsViewModel: ViewModel(), Scope by Scope.Impl(){
                     recipes = mutableListOf()
                 }
                 recipes?.add("zzz")
-                var responsePostRecipeInUser = userRepository.patchRecipeInUser(fbAuth.currentUser!!.uid, UserDto(null, null, recipes))
+                var responsePostRecipeInUser = patchUserUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid, User(null, null, recipes))
                 if(responsePostRecipeInUser.nodeId != null){
 
                 }else{

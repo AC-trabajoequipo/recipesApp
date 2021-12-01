@@ -5,34 +5,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivitySettingsBinding
-import com.actrabajoequipo.recipesapp.model.user.UserDto
-import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeViewModel
-import kotlinx.coroutines.launch
+import com.actrabajoequipo.recipesapp.ui.app
+import com.actrabajoequipo.recipesapp.ui.getViewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel : SettingsViewModel
+
     private lateinit var binding: ActivitySettingsBinding
+    private lateinit var component: SettingsComponent
+    private val settingsViewModel: SettingsViewModel by lazy {
+        getViewModel { component.settingsViewModel }
+    }
 
     private var editUsernameFlag :Boolean = false
     private var editEmailFlag :Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component = app.component.plus(SettingsModule())
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get()
         setListeners()
         setObservers()
     }
@@ -56,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
                     .setMessage(getString(R.string.edit_username_confirmation_question))
                     .setNegativeButton(R.string.no, null)
                     .setPositiveButton(getString(R.string.yes)){
-                            dialog, which ->    viewModel.editUserName(newUsername)
+                            dialog, which ->    settingsViewModel.editUserName(newUsername)
                         binding.progressBarSettings.visibility = View.VISIBLE
                         binding.settingsLayout.visibility = View.INVISIBLE
 
@@ -82,7 +82,7 @@ class SettingsActivity : AppCompatActivity() {
                     .setMessage(getString(R.string.edit_email_confirmation_question))
                     .setNegativeButton(R.string.no, null)
                     .setPositiveButton(getString(R.string.yes)) { dialog, which ->
-                        viewModel.editEmail(newEmail)
+                        settingsViewModel.editEmail(newEmail)
                         binding.progressBarSettings.visibility = View.VISIBLE
                         binding.settingsLayout.visibility = View.INVISIBLE
                     }
@@ -95,7 +95,7 @@ class SettingsActivity : AppCompatActivity() {
                 .setMessage(getString(R.string.edit_password_confirmation_question))
                 .setNegativeButton(R.string.no, null)
                 .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    viewModel.editPassword()
+                        dialog, which ->    settingsViewModel.editPassword()
                         binding.progressBarSettings.visibility = View.VISIBLE
                         binding.settingsLayout.visibility = View.INVISIBLE
                 }
@@ -107,7 +107,7 @@ class SettingsActivity : AppCompatActivity() {
                 .setMessage(getString(R.string.delete_user_confirmation_question))
                 .setNegativeButton(R.string.no, null)
                 .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    viewModel.deleteUser()
+                        dialog, which ->    settingsViewModel.deleteUser()
                     binding.progressBarSettings.visibility = View.VISIBLE
                     binding.settingsLayout.visibility = View.INVISIBLE
                 }
@@ -115,21 +115,21 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.button2.setOnClickListener {
-            viewModel.pruebaaa()
+            settingsViewModel.pruebaaa()
         }
     }
 
 
     private fun setObservers(){
 
-        viewModel.currentUser.observe(this,  Observer {
+        settingsViewModel.currentUser.observe(this,  Observer {
             binding.textviewEditUsername.text = it.name
             binding.textviewEditEmail.text = it.email
             binding.progressBarSettings.visibility = View.INVISIBLE
             binding.settingsLayout.visibility = View.VISIBLE
         })
 
-        viewModel.resultEditUsername.observe(this, Observer {
+        settingsViewModel.resultEditUsername.observe(this, Observer {
             when(it){
                 is SettingsViewModel.ResultEditUsername.UsernameEditedSuccessfully -> {
                     binding.progressBarSettings.visibility = View.INVISIBLE
@@ -145,7 +145,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.resultEditEmail.observe(this, Observer {
+        settingsViewModel.resultEditEmail.observe(this, Observer {
             when(it){
                 is SettingsViewModel.ResultEditEmail.EmailEditedSuccessfully -> {
                     binding.progressBarSettings.visibility = View.INVISIBLE
@@ -162,7 +162,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.resultEditPassword.observe(this, Observer {
+        settingsViewModel.resultEditPassword.observe(this, Observer {
             when(it){
                 is SettingsViewModel.ResultEditPassword.PasswordEditedSuccessfully -> {
                     binding.progressBarSettings.visibility = View.INVISIBLE
@@ -179,7 +179,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.resultDeleteUser.observe(this, Observer {
+        settingsViewModel.resultDeleteUser.observe(this, Observer {
             when(it){
                 is SettingsViewModel.ResultDeleteUser.DeleteUserSuccessfully -> {
                     binding.progressBarSettings.visibility = View.INVISIBLE
