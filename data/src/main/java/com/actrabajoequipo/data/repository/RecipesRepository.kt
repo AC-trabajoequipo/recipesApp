@@ -25,10 +25,9 @@ class RecipesRepository(
 
     suspend fun postRecipe(recipe: Recipe) = remoteDataSource.postRecipe(recipe)
 
-    //
     suspend fun findRecipeByUserUID(userId: String): List<Recipe> =
-        localDataSource.findByUserId(userId)
+        localDataSource.findRecipeByUserUID(userId)
 
     suspend fun findRecipeByFavourites(isFav: Boolean): List<Recipe> =
-        localDataSource.findByFavourites(isFav)
+        localDataSource.findRecipeByFavourites(isFav)
 }

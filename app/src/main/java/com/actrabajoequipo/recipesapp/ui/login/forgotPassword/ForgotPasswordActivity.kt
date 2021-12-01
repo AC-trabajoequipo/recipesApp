@@ -1,31 +1,37 @@
-package com.actrabajoequipo.recipesapp.ui.login
+package com.actrabajoequipo.recipesapp.ui.login.forgotPassword
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
-import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityForgotPasswordBinding
-import com.actrabajoequipo.recipesapp.databinding.ActivitySettingsBinding
-import com.actrabajoequipo.recipesapp.ui.settings.SettingsViewModel
+import com.actrabajoequipo.recipesapp.ui.app
+import com.actrabajoequipo.recipesapp.ui.getViewModel
+import com.actrabajoequipo.recipesapp.ui.login.ForgotPasswordComponent
+import com.actrabajoequipo.recipesapp.ui.login.ForgotPasswordModule
+import com.actrabajoequipo.recipesapp.ui.login.LoginModule
+import com.actrabajoequipo.recipesapp.ui.signup.SignupComponent
+import com.actrabajoequipo.recipesapp.ui.signup.SignupViewModel
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
-    private lateinit var viewModel : ForgotPasswordViewModel
+
     private lateinit var binding: ActivityForgotPasswordBinding
+    private lateinit var component: ForgotPasswordComponent
+    private val forgotPasswordViewModel: ForgotPasswordViewModel by lazy {
+        getViewModel { component.forgotPasswordViewModel }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component = app.component.plus(ForgotPasswordModule())
         super.onCreate(savedInstanceState)
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get()
         setListeners()
         setObservers()
     }
@@ -33,12 +39,12 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.buttonOkEmailForgotPassword.setOnClickListener {
             var email = binding.forgotPasswordEmail.text.toString().trim()
-            viewModel.editPassword(email)
+            forgotPasswordViewModel.editPassword(email)
         }
     }
 
     private fun setObservers(){
-        viewModel.resultEditPassword.observe(this, Observer {
+        forgotPasswordViewModel.resultEditPassword.observe(this, Observer {
             when(it){
                 is ForgotPasswordViewModel.ResultEditPassword.PasswordEditedSuccessfully -> {
                     Toast.makeText(this, R.string.message_edit_password_successfully, Toast.LENGTH_LONG).show()

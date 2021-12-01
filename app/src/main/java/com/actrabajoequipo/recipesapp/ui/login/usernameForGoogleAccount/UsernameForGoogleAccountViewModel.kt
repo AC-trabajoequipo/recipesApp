@@ -1,25 +1,27 @@
-package com.actrabajoequipo.recipesapp.ui.login
+package com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.actrabajoequipo.domain.UserDto
-import com.actrabajoequipo.data.repository.UserRepository
+import com.actrabajoequipo.domain.User
+import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.Scope
-import com.google.firebase.auth.FirebaseAuth
+import com.actrabajoequipo.usecases.PatchUserUseCase
 import kotlinx.coroutines.launch
 
-class UsernameForGoogleAccountViewModel: ViewModel(), Scope by Scope.Impl(){
+
+class UsernameForGoogleAccountViewModel(
+    private val patchUserUseCase: PatchUserUseCase,
+    private val firebaseManager: FirebaseManager
+): ViewModel(), Scope by Scope.Impl(){
 
     sealed class ResultSetUsername(){
         class SetUsernameSuccessfully : ResultSetUsername()
         class SetUsernameNoEdited : ResultSetUsername()
     }
 
-    private val fbAuth = FirebaseAuth.getInstance()
-    private val userRepository: UserRepository by lazy { UserRepository() }
-    val currentUser = fbAuth.currentUser
+
+    val currentUser = firebaseManager.fbAuth.currentUser
 
     private val _resultSetUsername = MutableLiveData<ResultSetUsername>()
     val resultSetUsername: LiveData<ResultSetUsername> get() = _resultSetUsername
@@ -32,7 +34,7 @@ class UsernameForGoogleAccountViewModel: ViewModel(), Scope by Scope.Impl(){
 
     fun setUsername(username :String){
         launch {
-            val reponsePatchUser = userRepository.patchUser(currentUser!!.uid,UserDto(username, currentUser.email, null))
+            val reponsePatchUser = patchUserUseCase.invoke(currentUser!!.uid, User(username, currentUser.email, null))
             if (reponsePatchUser != null){
                 _resultSetUsername.value = ResultSetUsername.SetUsernameSuccessfully()
             }else{

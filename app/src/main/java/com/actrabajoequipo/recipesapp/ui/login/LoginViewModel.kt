@@ -3,11 +3,13 @@ package com.actrabajoequipo.recipesapp.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.Scope
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
+class LoginViewModel(
+    private val firebaseManager: FirebaseManager
+) : ViewModel(), Scope by Scope.Impl() {
 
     sealed class UiLogin(){
         class Success : UiLogin()
@@ -16,7 +18,6 @@ class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
         class FillinFields : UiLogin()
     }
 
-    private val fbAuth = FirebaseAuth.getInstance()
 
     private val _logeado = MutableLiveData<UiLogin>()
     val logeado: LiveData<UiLogin> get() = _logeado
@@ -30,10 +31,10 @@ class LoginViewModel() : ViewModel(), Scope by Scope.Impl() {
         launch {
             if (email.length > 0 && password.length > 0) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
-                fbAuth.signInWithEmailAndPassword(email.trim(), password.trim())
+                firebaseManager.fbAuth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val user = fbAuth.currentUser
+                            val user = firebaseManager.fbAuth.currentUser
                             if (user!!.isEmailVerified) {
                                 _logeado.value = UiLogin.Success()
                             } else {
