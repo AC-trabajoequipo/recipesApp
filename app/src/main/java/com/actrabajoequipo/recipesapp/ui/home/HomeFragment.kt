@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.R
@@ -36,9 +37,12 @@ class HomeFragment : Fragment() {
         homeViewModel.uiModel.observe(this, ::updateUI)
         homeViewModel.navigation.observe(this, { event ->
             event.getContentIfNotHandled()?.let {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionNavigationHomeToDetailActivity(it.id)
-                )
+                    if(it.id != null) {
+                        findNavController().navigate(
+                            HomeFragmentDirections.actionNavigationHomeToDetailActivity(it.id!!))
+                    }else{
+                       Toast.makeText(context, R.string.detail_not_disponible,Toast.LENGTH_LONG).show()
+                    }
             }
         })
     }

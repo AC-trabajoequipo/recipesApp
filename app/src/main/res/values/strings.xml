@@ -75,4 +75,5 @@
     <string name="error_message_set_username_for_google_account">No se pudo gaurdar su username. Inténtelo de nuevo.</string>
     <string name="title_confirm_signout">Cerrar la sesión</string>
     <string name="message_confirm_signout">¿Realmente desear cerrar la sesión?</string>
+    <string name="detail_not_disponible">Receta no disponible. Prueba más tarde</string>
 </resources>

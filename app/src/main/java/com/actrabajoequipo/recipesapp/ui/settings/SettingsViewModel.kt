@@ -47,8 +47,8 @@ class SettingsViewModel(
     }
 
 
-    private val _currentUser = MutableLiveData<UserDto>()
-    val currentUser: LiveData<UserDto> get() = _currentUser
+    private val _currentUser = MutableLiveData<User>()
+    val currentUser: LiveData<User> get() = _currentUser
     val currentUserUid = firebaseManager.fbAuth.currentUser!!.uid
 
     private val _resultEditUsername = MutableLiveData<ResultEditUsername>()
@@ -155,11 +155,11 @@ class SettingsViewModel(
                 }
                 recipes?.add("zzz")
                 var responsePostRecipeInUser = patchUserUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid, User(null, null, recipes))
-                if(responsePostRecipeInUser.nodeId != null){
+                /*if(responsePostRecipeInUser.nodeId != null){
 
                 }else{
 
-                }
+                }*/
             }else{
 
             }

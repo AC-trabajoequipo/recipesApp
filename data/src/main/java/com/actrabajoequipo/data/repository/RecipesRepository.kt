@@ -24,4 +24,10 @@ class RecipesRepository(
     suspend fun search(query: String) = localDataSource.search(query)
 
     suspend fun postRecipe(recipe: Recipe) = remoteDataSource.postRecipe(recipe)
+
+    suspend fun findRecipeByUserUID(userId: String): List<Recipe> =
+        localDataSource.findRecipeByUserUID(userId)
+
+    suspend fun findRecipeByFavourites(isFav: Boolean): List<Recipe> =
+        localDataSource.findRecipeByFavourites(isFav)
 }

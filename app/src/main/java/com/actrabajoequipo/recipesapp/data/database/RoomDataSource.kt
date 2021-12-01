@@ -43,4 +43,14 @@ class RoomDataSource(db: RecipeDatabase) : LocalDataSource {
             }
         }
     }
+
+    override suspend fun findRecipeByUserUID(userId: String): List<Recipe> =
+        withContext(Dispatchers.IO) {
+            recipesDao.findRecipeByUserUID(userId).map { it.toDomainRecipe() }
+        }
+
+    override suspend fun findRecipeByFavourites(isFav: Boolean): List<Recipe> =
+        withContext(Dispatchers.IO) {
+            recipesDao.findRecipeByFavourites(isFav).map { it.toDomainRecipe() }
+        }
 }
