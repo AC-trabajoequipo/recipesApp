@@ -15,10 +15,10 @@ interface RecipeDao {
     fun recipeCount(): Int
 
     @Query("SELECT * FROM Recipe WHERE idUser = :userId")
-    fun findByUserUID(userId: String): List<Recipe>
+    fun findRecipeByUserUID(userId: String): List<Recipe>
 
     @Query("SELECT * FROM Recipe WHERE favorite = :isFavTrue")
-    fun findByFavourites(isFavTrue: Boolean): List<Recipe>
+    fun findRecipeByFavourites(isFavTrue: Boolean): List<Recipe>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertRecipes(recipes: List<Recipe>)
