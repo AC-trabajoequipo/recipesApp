@@ -63,7 +63,7 @@ class UserProfileViewModel
         }
     }
 
-    fun onRecipeClicked(recipe: Recipe) {
+    fun onRecipeClicked(recipe: Recipe){
         _navigation.value = Event(recipe)
     }
 

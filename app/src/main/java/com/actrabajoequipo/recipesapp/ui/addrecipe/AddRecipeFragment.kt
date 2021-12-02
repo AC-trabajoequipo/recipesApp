@@ -31,6 +31,10 @@ class AddRecipeFragment : Fragment() {
     ): View {
         binding = FragmentAddrecipeBinding.inflate(layoutInflater)
 
+        binding.btnAddRecipe.setOnClickListener {
+            viewModel.isUserLogged()
+        }
+        
         viewModel.userLoggedState.observe(viewLifecycleOwner, {
             when(it){
                 is AddRecipeViewModel.UserLogged.Logged ->

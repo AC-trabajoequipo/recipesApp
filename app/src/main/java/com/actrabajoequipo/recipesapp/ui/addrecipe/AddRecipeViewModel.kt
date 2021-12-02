@@ -17,7 +17,7 @@ class AddRecipeViewModel(private val firebaseManger: FirebaseManager) : ViewMode
     val userLoggedState: LiveData<AddRecipeViewModel.UserLogged> get() = _userLoggedState
 
     fun isUserLogged(){
-        if (firebaseManger.fbAuth != null) {
+        if (firebaseManger.fbAuth.currentUser != null) {
             _userLoggedState.postValue(AddRecipeViewModel.UserLogged.Logged)
         } else {
             _userLoggedState.postValue(AddRecipeViewModel.UserLogged.NotLogged)

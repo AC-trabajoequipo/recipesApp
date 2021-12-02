@@ -3,6 +3,7 @@ package com.actrabajoequipo.recipesapp.ui.formrecipe
 import com.actrabajoequipo.data.repository.RecipesRepository
 import com.actrabajoequipo.data.repository.UserRepository
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeModule
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.actrabajoequipo.usecases.PostRecipeUseCase
@@ -41,7 +42,7 @@ class FormRecipeModule {
         PatchUserUseCase(userRepository)
 }
 
-@Subcomponent
+@Subcomponent(modules = [(FormRecipeModule::class)])
 interface FormRecipeComponent {
     val formRecipeViewModel: FormRecipeViewModel
 }

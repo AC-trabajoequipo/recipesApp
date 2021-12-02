@@ -9,12 +9,18 @@ import com.actrabajoequipo.recipesapp.toServerRecipe
 import com.actrabajoequipo.recipesapp.toServerUser
 
 class ServerDataSource : RemoteDataSource {
-    override suspend fun getRecipes(): List<Recipe> =
-        ApiBook.service
-            .getRecipes().values
-            .map {
-                it.toDomainRecipe()
-            }
+    override suspend fun getRecipes(): List<Recipe> {
+        val recipesDto = ApiBook.service
+            .getRecipes()
+        val list : List<RecipeDto> = ArrayList<RecipeDto>(recipesDto.values)
+        var i = 0
+        
+        recipesDto.keys.forEach { key ->
+            list[i].id = key
+            i++
+        }
+        return list.map { it.toDomainRecipe() }
+    }
 
     override suspend fun postRecipe(recipe: Recipe) =
         ApiBook.service

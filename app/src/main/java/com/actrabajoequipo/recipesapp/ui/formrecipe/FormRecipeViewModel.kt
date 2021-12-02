@@ -25,7 +25,7 @@ class FormRecipeViewModel(
 
     sealed class ValidatedFields {
         object EmptyTitleRecipeError : ValidatedFields()
-        object EmptyDescriptionRecipeError : ValidatedFields()
+        object EmptyStepsRecipeError : ValidatedFields()
         object EmptyIngredientsError : ValidatedFields()
         object EmptyPhotoFieldError : ValidatedFields()
         object EmptyIdFieldError : ValidatedFields()
@@ -62,16 +62,16 @@ class FormRecipeViewModel(
 
     fun validatedFields(
         titleRecipe: String?,
-        descriptionRecipe: String?,
+        stepRecipe: String?,
         ingredients: ArrayList<String>
     ) {
         launch {
             if (photoUrl == null) {
                 _formState.postValue(ValidatedFields.EmptyPhotoFieldError)
-            } else if (titleRecipe == null) {
+            } else if (titleRecipe == null || titleRecipe.isEmpty()) {
                 _formState.postValue(ValidatedFields.EmptyTitleRecipeError)
-            } else if (descriptionRecipe == null) {
-                _formState.postValue(ValidatedFields.EmptyDescriptionRecipeError)
+            } else if (stepRecipe == null || stepRecipe.isEmpty()) {
+                _formState.postValue(ValidatedFields.EmptyStepsRecipeError)
             } else if (!editTextArrayListValidated(ingredients)) {
                 _formState.postValue(ValidatedFields.EmptyIngredientsError)
             } else _formState.postValue(ValidatedFields.FormValidated)
@@ -107,17 +107,10 @@ class FormRecipeViewModel(
                         mutableListOf()
                     }
 
-                    id?.let {
-                        recipes.add(it)
-                        val nodeUserId = patchUserUseCase.invoke(
-                            it,
-                            User(null, null, recipes)
-                        )
-                        if (nodeUserId != null) {
-                            _recipeState.postValue(SaveRecipe.Success)
-                        } else {
-                            _recipeState.postValue(SaveRecipe.Error)
-                        }
+                    recipes.add(nodeRecipeId)
+                    firebaseManager.returnUserUID()?.let { uidUser->
+                        patchUserUseCase.invoke(uidUser, User(null, null, recipes))
+                        _recipeState.postValue(SaveRecipe.Success)
                     }
                 }
             } else {
