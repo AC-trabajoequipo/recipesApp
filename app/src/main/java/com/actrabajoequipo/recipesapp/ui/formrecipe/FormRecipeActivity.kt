@@ -72,19 +72,19 @@ class FormRecipeActivity : AppCompatActivity() {
 
                 is FormRecipeViewModel.ValidatedFields.EmptyTitleRecipeError -> Toast.makeText(
                     this,
-                    R.string.fields_required_empty,
+                    R.string.formRecipe_title_required,
                     Toast.LENGTH_LONG
                 ).show()
 
-                is FormRecipeViewModel.ValidatedFields.EmptyDescriptionRecipeError -> Toast.makeText(
+                is FormRecipeViewModel.ValidatedFields.EmptyStepsRecipeError -> Toast.makeText(
                     this,
-                    R.string.fields_required_empty,
+                    R.string.formRecipe_step_required,
                     Toast.LENGTH_LONG
                 ).show()
 
                 is FormRecipeViewModel.ValidatedFields.EmptyIngredientsError -> Toast.makeText(
                     this,
-                    R.string.fields_required_empty,
+                    R.string.formRecipe_ingredients_required,
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -177,7 +177,7 @@ class FormRecipeActivity : AppCompatActivity() {
             R.id.btn_post -> {
                 viewModel.validatedFields(
                     titleRecipe = etTitleRecipe.text.toString().trim(),
-                    descriptionRecipe = etDescription.text.toString().trim(),
+                    stepRecipe = etStepForRecipe.text.toString().trim(),
                     ingredients = arrayListOf(
                         etIngredient1.text.toString().trim(),
                         etIngredient2.text.toString().trim(),

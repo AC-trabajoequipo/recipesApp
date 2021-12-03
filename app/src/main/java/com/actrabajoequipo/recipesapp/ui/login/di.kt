@@ -19,7 +19,7 @@ class LoginModule{
     ) = LoginViewModel(firebaseManager)
 }
 
-@Subcomponent(modules = [LoginViewModel::class])
+@Subcomponent(modules = [LoginModule::class])
 interface LoginComponent{
     val loginViewModel: LoginViewModel
 }
@@ -35,7 +35,7 @@ class ForgotPasswordModule{
     ) = ForgotPasswordViewModel(firebaseManager)
 }
 
-@Subcomponent(modules = [ForgotPasswordViewModel::class])
+@Subcomponent(modules = [ForgotPasswordModule::class])
 interface ForgotPasswordComponent{
     val forgotPasswordViewModel: ForgotPasswordViewModel
 }

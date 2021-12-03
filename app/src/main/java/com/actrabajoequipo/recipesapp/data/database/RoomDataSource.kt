@@ -28,18 +28,21 @@ class RoomDataSource(db: RecipeDatabase) : LocalDataSource {
         recipesDao.updateRecipe(recipe.toRoomRecipe())
     }
 
-    override suspend fun findById(id: String): Recipe =
-        recipesDao.findById(id).toDomainRecipe()
+    override suspend fun findById(id: String): Recipe = withContext(Dispatchers.IO) {
+    recipesDao.findById(id).toDomainRecipe()
+    }
 
     override suspend fun search(query: String): List<Recipe> {
         return if (query.isBlank()) {
             emptyList()
         } else {
-            recipesDao.getAll().filter {
-                val regex = query.toRegex(RegexOption.IGNORE_CASE)
-                regex.containsMatchIn(it.name)
-            }.map {
-                it.toDomainRecipe()
+            withContext(Dispatchers.IO) {
+                recipesDao.getAll().filter {
+                    val regex = query.toRegex(RegexOption.IGNORE_CASE)
+                    regex.containsMatchIn(it.name)
+                }.map {
+                    it.toDomainRecipe()
+                }
             }
         }
     }
