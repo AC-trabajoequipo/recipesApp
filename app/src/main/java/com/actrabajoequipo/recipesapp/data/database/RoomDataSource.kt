@@ -36,11 +36,13 @@ class RoomDataSource(db: RecipeDatabase) : LocalDataSource {
         return if (query.isBlank()) {
             emptyList()
         } else {
-            recipesDao.getAll().filter {
-                val regex = query.toRegex(RegexOption.IGNORE_CASE)
-                regex.containsMatchIn(it.name)
-            }.map {
-                it.toDomainRecipe()
+            withContext(Dispatchers.IO) {
+                recipesDao.getAll().filter {
+                    val regex = query.toRegex(RegexOption.IGNORE_CASE)
+                    regex.containsMatchIn(it.name)
+                }.map {
+                    it.toDomainRecipe()
+                }
             }
         }
     }
