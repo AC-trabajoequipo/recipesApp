@@ -7,6 +7,7 @@
     <string name="login_success">"LOGIN REALIZADO CORRECTAMENTE :)"</string>
     <string name="login_error">LOGIN INCORRECTO</string>
     <string name="login_error2">NO SE RECUPERÓ BIEN LA CUENTA</string>
+    <string name="login_error3">"HUBO ALGÚN ERROR, INTÉNTALO DE NUEVO.</string>
     <string name="email_no_confirmed">Email no confirmado. Haz click en el enlace de confirmación que recibiste en tu correo."</string>
     <string name="email_or_password_failed">Email o contraseña incorrectos."</string>
     <string name="fill_in_the_fields">Rellena los dos campos, por favor."</string>
