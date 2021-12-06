@@ -1,6 +1,5 @@
 package com.actrabajoequipo.recipesapp.ui.formrecipe
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,21 +10,18 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.actrabajoequipo.recipesapp.R
-import com.actrabajoequipo.recipesapp.RecipesApp
 import com.actrabajoequipo.recipesapp.databinding.ActivityFormRecipeBinding
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_form_recipe.*
 
-
 class FormRecipeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFormRecipeBinding
-    private lateinit var viewModel: FormRecipeViewModel
+    private val viewModel by lazy { getViewModel { component.formRecipeViewModel } }
+    private lateinit var component: FormRecipeComponent
 
     private val galleryResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -40,11 +36,10 @@ class FormRecipeActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component = app.component.plus(FormRecipeModule())
         super.onCreate(savedInstanceState)
 
         binding = ActivityFormRecipeBinding.inflate(layoutInflater)
-
-        viewModel = getViewModel { FormRecipeViewModel(RecipesRepository(app)) }
 
         with(binding) {
             setContentView(root)
@@ -77,19 +72,19 @@ class FormRecipeActivity : AppCompatActivity() {
 
                 is FormRecipeViewModel.ValidatedFields.EmptyTitleRecipeError -> Toast.makeText(
                     this,
-                    R.string.fields_required_empty,
+                    R.string.formRecipe_title_required,
                     Toast.LENGTH_LONG
                 ).show()
 
-                is FormRecipeViewModel.ValidatedFields.EmptyDescriptionRecipeError -> Toast.makeText(
+                is FormRecipeViewModel.ValidatedFields.EmptyStepsRecipeError -> Toast.makeText(
                     this,
-                    R.string.fields_required_empty,
+                    R.string.formRecipe_step_required,
                     Toast.LENGTH_LONG
                 ).show()
 
                 is FormRecipeViewModel.ValidatedFields.EmptyIngredientsError -> Toast.makeText(
                     this,
-                    R.string.fields_required_empty,
+                    R.string.formRecipe_ingredients_required,
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -182,7 +177,7 @@ class FormRecipeActivity : AppCompatActivity() {
             R.id.btn_post -> {
                 viewModel.validatedFields(
                     titleRecipe = etTitleRecipe.text.toString().trim(),
-                    descriptionRecipe = etDescription.text.toString().trim(),
+                    stepRecipe = etStepForRecipe.text.toString().trim(),
                     ingredients = arrayListOf(
                         etIngredient1.text.toString().trim(),
                         etIngredient2.text.toString().trim(),

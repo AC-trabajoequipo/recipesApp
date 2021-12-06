@@ -5,11 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentHomeBinding
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.actrabajoequipo.recipesapp.ui.home.HomeViewModel.UIModel
@@ -17,22 +17,32 @@ import com.actrabajoequipo.recipesapp.ui.home.adapter.RecipesAdapter
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: RecipesAdapter
+
+    private lateinit var component: HomeComponent
+    private val homeViewModel: HomeViewModel by lazy {
+        getViewModel { component.homeViewModel }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        component = context.app.component.plus(HomeModule())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        homeViewModel = getViewModel { HomeViewModel(RecipesRepository(requireContext().app)) }
-
         homeViewModel.uiModel.observe(this, ::updateUI)
         homeViewModel.navigation.observe(this, { event ->
             event.getContentIfNotHandled()?.let {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionNavigationHomeToDetailActivity(it.id)
-                )
+                    if(it.id != null) {
+                        findNavController().navigate(
+                            HomeFragmentDirections.actionNavigationHomeToDetailActivity(it.id!!))
+                    }else{
+                       Toast.makeText(context, R.string.detail_not_disponible,Toast.LENGTH_LONG).show()
+                    }
             }
         })
     }

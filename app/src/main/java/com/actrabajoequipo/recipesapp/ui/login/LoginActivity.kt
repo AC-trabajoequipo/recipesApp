@@ -10,7 +10,14 @@ import androidx.lifecycle.get
 import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityLoginBinding
+import com.actrabajoequipo.recipesapp.ui.app
+import com.actrabajoequipo.recipesapp.ui.getViewModel
+import com.actrabajoequipo.recipesapp.ui.login.forgotPassword.ForgotPasswordActivity
+import com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount.UsernameForGoogleAccountActivity
 import com.actrabajoequipo.recipesapp.ui.signup.SignupActivity
+import com.actrabajoequipo.recipesapp.ui.signup.SignupComponent
+import com.actrabajoequipo.recipesapp.ui.signup.SignupModule
+import com.actrabajoequipo.recipesapp.ui.signup.SignupViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -19,8 +26,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var viewModel : LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var component: LoginComponent
+    private val loginViewModel: LoginViewModel by lazy {
+        getViewModel { component.loginViewModel }
+    }
+
     private val GOOGLE_SIGN_IN = 100
     private val fbAuth = FirebaseAuth.getInstance()
 
@@ -29,14 +40,14 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component = app.component.plus(LoginModule())
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get()
         setListeners()
 
-        viewModel.logeado.observe(this, Observer {
+        loginViewModel.logeado.observe(this, Observer {
             when(it){
                 is LoginViewModel.UiLogin.Success -> {
                     Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
@@ -55,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
             email = binding.ETemail.text.toString()
             password = binding.ETpassword.text.toString()
 
-            viewModel.login(email, password)
+            loginViewModel.login(email, password)
         }
 
         binding.buttonLoginGoogle.setOnClickListener {

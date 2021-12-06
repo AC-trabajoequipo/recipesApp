@@ -6,10 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.navArgs
+import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityDetailBinding
-import com.actrabajoequipo.recipesapp.model.RecipesRepository
-import com.actrabajoequipo.recipesapp.model.database.Recipe
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.actrabajoequipo.recipesapp.ui.loadUrl
@@ -17,18 +16,18 @@ import com.actrabajoequipo.recipesapp.ui.loadUrl
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var component: DetailComponent
+    private val detailViewModel: DetailViewModel by lazy {
+        getViewModel { component.detailViewModel }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val args: DetailActivityArgs by navArgs()
+        component = app.component.plus(DetailModule(args.recipeId))
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
-
-        val args: DetailActivityArgs by navArgs()
-
-        detailViewModel = getViewModel {
-            DetailViewModel(args.recipeId, RecipesRepository(app))
-        }
 
         with(binding) {
             setContentView(root)
@@ -47,7 +46,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun onBackClicked() {
         finish()
-        overridePendingTransition(0, R.anim.slide_out);
+        overridePendingTransition(0, R.anim.slide_out)
     }
 
     private fun updateUI(recipe: Recipe) {

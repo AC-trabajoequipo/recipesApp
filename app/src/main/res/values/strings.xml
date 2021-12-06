@@ -31,6 +31,10 @@
     <string name="tv_steps_recipe">Pasos</string>
     <string name="add_recipe_message_invalid">Revisa los campos requeridos</string>
     <string name="fields_required_empty">Revisa los campos requeridos</string>
+    <string name="formRecipe_title_required">El título es un campo obligatorio</string>
+    <string name="formRecipe_step_required">Es obligatorio poner una descripción de la receta</string>
+    <string name="formRecipe_ingredients_required">Es obligatorio al menos introducir un nuevo ingrediente</string>
+
     <string name="image_not_selected">No has seleccionado ninguna imagen</string>
     <string name="connection_firebase_error">La conexión con firebase ha fallado</string>
     <string name="upload_image_error">Error al subir imagen, inténtelo de nuevo</string>
@@ -75,4 +79,5 @@
     <string name="error_message_set_username_for_google_account">No se pudo gaurdar su username. Inténtelo de nuevo.</string>
     <string name="title_confirm_signout">Cerrar la sesión</string>
     <string name="message_confirm_signout">¿Realmente desear cerrar la sesión?</string>
+    <string name="detail_not_disponible">Receta no disponible. Prueba más tarde</string>
 </resources>
