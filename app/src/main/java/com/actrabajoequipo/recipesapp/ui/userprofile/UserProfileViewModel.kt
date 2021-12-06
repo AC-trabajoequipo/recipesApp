@@ -2,13 +2,13 @@ package com.actrabajoequipo.recipesapp.ui.userprofile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.recipesapp.ui.common.Event
 import com.actrabajoequipo.usecases.FindRecipeByUserIdUseCase
 import com.actrabajoequipo.usecases.FindRecipeFavouriteUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,8 +16,9 @@ class UserProfileViewModel
 @Inject constructor(
     private val firebaseManager: FirebaseManager,
     private val findRecipeFavouriteUseCase: FindRecipeFavouriteUseCase,
-    private val findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase
-    ) : ViewModel(), Scope by Scope.Impl() {
+    private val findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase,
+    uiDisptcher: CoroutineDispatcher
+) : ScopedViewModel(uiDisptcher) {
 
     private val _uiModelMyRecipes = MutableLiveData<UIModelMyRecipes>()
     val uiModelMyRecipes: LiveData<UIModelMyRecipes>
@@ -40,10 +41,12 @@ class UserProfileViewModel
         object Loading : UIModelMyRecipes()
         class ContentMyRecipes(val myRecipes: List<Recipe>) : UIModelMyRecipes()
     }
+
     sealed class UIModelMyFavRecipes {
         object Loading : UIModelMyFavRecipes()
         class ContentMyFavourites(val myFavRecipes: List<Recipe>) : UIModelMyFavRecipes()
     }
+
     init {
         initScope()
     }
@@ -56,14 +59,16 @@ class UserProfileViewModel
                     userUID
                 )
             }?.let { recipeList ->
-                UIModelMyRecipes.ContentMyRecipes(recipeList) }
+                UIModelMyRecipes.ContentMyRecipes(recipeList)
+            }
 
             _uiModelMyFavRecipes.value = UIModelMyFavRecipes.Loading
-            _uiModelMyFavRecipes.value = UIModelMyFavRecipes.ContentMyFavourites(findRecipeFavouriteUseCase.invoke(true))
+            _uiModelMyFavRecipes.value =
+                UIModelMyFavRecipes.ContentMyFavourites(findRecipeFavouriteUseCase.invoke(true))
         }
     }
 
-    fun onRecipeClicked(recipe: Recipe){
+    fun onRecipeClicked(recipe: Recipe) {
         _navigation.value = Event(recipe)
     }
 
@@ -76,7 +81,7 @@ class UserProfileViewModel
         firebaseManager.signOut()
     }
 
-    fun isUserLoggedNotNull() : Boolean{
+    fun isUserLoggedNotNull(): Boolean {
         return (firebaseManager.returnUserUID() != null)
     }
 

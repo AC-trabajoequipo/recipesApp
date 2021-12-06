@@ -6,6 +6,7 @@ import com.actrabajoequipo.usecases.PatchUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 class SignupModule {
@@ -13,8 +14,9 @@ class SignupModule {
     @Provides
     fun signupViewModelProvider(
         patchUserUseCase: PatchUserUseCase,
-        firebaseManager: FirebaseManager
-    ) = SignupViewModel(patchUserUseCase, firebaseManager)
+        firebaseManager: FirebaseManager,
+        coroutineDispatcher: CoroutineDispatcher
+    ) = SignupViewModel(patchUserUseCase, firebaseManager, coroutineDispatcher)
 
     @Provides
     fun patchUserUseCaseProvider(

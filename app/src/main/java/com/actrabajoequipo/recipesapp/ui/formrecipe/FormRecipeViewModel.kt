@@ -6,18 +6,20 @@ import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.domain.User
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.server.FirebaseManager.PhotoCallBack
-import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.actrabajoequipo.usecases.PostRecipeUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class FormRecipeViewModel(
     private val postRecipeUseCase: PostRecipeUseCase,
     private val findUserByIdUseCase: FindUserByIdUseCase,
     private val patchUserUseCase: PatchUserUseCase,
-    private val firebaseManager: FirebaseManager
-) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
+    private val firebaseManager: FirebaseManager,
+    uiDispatcher: CoroutineDispatcher
+) : ScopedViewModel(uiDispatcher), PhotoCallBack {
 
     private var photoUrl: String? = null
     private var id: String? = null
@@ -108,7 +110,7 @@ class FormRecipeViewModel(
                     }
 
                     recipes.add(nodeRecipeId)
-                    firebaseManager.returnUserUID()?.let { uidUser->
+                    firebaseManager.returnUserUID()?.let { uidUser ->
                         patchUserUseCase.invoke(uidUser, User(null, null, recipes))
                         _recipeState.postValue(SaveRecipe.Success)
                     }

@@ -7,27 +7,32 @@ import com.actrabajoequipo.usecases.FindRecipeFavouriteUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.CoroutineDispatcher
 
 
 @Module
-class UserProfileModule{
+class UserProfileModule {
 
     @Provides
     fun userProfileViewModelProvider(
         firebaseManager: FirebaseManager,
         findRecipeFavouriteUseCase: FindRecipeFavouriteUseCase,
-        findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase
+        findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase,
+        coroutineDispatcher: CoroutineDispatcher
     ) = UserProfileViewModel(
         firebaseManager,
         findRecipeFavouriteUseCase,
-        findRecipeByUserIdUseCase
+        findRecipeByUserIdUseCase,
+        coroutineDispatcher
     )
 
     @Provides
-    fun findRecipeFavouriteUseCaseProvider(recipesRespository: RecipesRepository) = FindRecipeFavouriteUseCase(recipesRespository)
+    fun findRecipeFavouriteUseCaseProvider(recipesRespository: RecipesRepository) =
+        FindRecipeFavouriteUseCase(recipesRespository)
 
     @Provides
-    fun findRecipeByUserIdUseCaseProvides(recipesRespository: RecipesRepository) = FindRecipeByUserIdUseCase(recipesRespository)
+    fun findRecipeByUserIdUseCaseProvides(recipesRespository: RecipesRepository) =
+        FindRecipeByUserIdUseCase(recipesRespository)
 }
 
 @Subcomponent(modules = [(UserProfileModule::class)])

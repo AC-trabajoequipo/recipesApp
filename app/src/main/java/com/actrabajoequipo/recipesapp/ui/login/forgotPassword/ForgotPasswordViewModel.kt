@@ -2,16 +2,17 @@ package com.actrabajoequipo.recipesapp.ui.login.forgotPassword
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class ForgotPasswordViewModel(
-    private val firebaseManager: FirebaseManager
-): ViewModel(), Scope by Scope.Impl(){
+    private val firebaseManager: FirebaseManager,
+    uiDispatcher: CoroutineDispatcher
+) : ScopedViewModel(uiDispatcher) {
 
-    sealed class ResultEditPassword(){
+    sealed class ResultEditPassword() {
         class PasswordEditedSuccessfully : ResultEditPassword()
         class PasswordNoEdited : ResultEditPassword()
     }
@@ -25,7 +26,7 @@ class ForgotPasswordViewModel(
         initScope()
     }
 
-    fun editPassword(email :String){
+    fun editPassword(email: String) {
         launch {
             firebaseManager.fbAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -39,6 +40,7 @@ class ForgotPasswordViewModel(
     }
 
     override fun onCleared() {
+        super.onCleared()
         destroyScope()
     }
 }

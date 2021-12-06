@@ -2,16 +2,17 @@ package com.actrabajoequipo.recipesapp.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val firebaseManager: FirebaseManager
-) : ViewModel(), Scope by Scope.Impl() {
+    private val firebaseManager: FirebaseManager,
+    uiDispatcher: CoroutineDispatcher
+) : ScopedViewModel(uiDispatcher) {
 
-    sealed class UiLogin(){
+    sealed class UiLogin {
         class Success : UiLogin()
         class UnconfirmedEmail : UiLogin()
         class WrongEmailOrPassword : UiLogin()
@@ -27,7 +28,7 @@ class LoginViewModel(
         initScope()
     }
 
-    fun login(email :String, password: String) {
+    fun login(email: String, password: String) {
         launch {
             if (email.length > 0 && password.length > 0) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
@@ -51,10 +52,8 @@ class LoginViewModel(
     }
 
 
-
-
-
     override fun onCleared() {
+        super.onCleared()
         destroyScope()
     }
 }

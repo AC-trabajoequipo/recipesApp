@@ -4,12 +4,16 @@ import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
-class AddRecipeModule{
+class AddRecipeModule {
     @Provides
-    fun addRecipeViewModelProvider(firebaseManager: FirebaseManager) : AddRecipeViewModel {
-        return AddRecipeViewModel(firebaseManager)
+    fun addRecipeViewModelProvider(
+        firebaseManager: FirebaseManager,
+        coroutineDispatcher: CoroutineDispatcher
+    ): AddRecipeViewModel {
+        return AddRecipeViewModel(firebaseManager, coroutineDispatcher)
     }
 }
 
