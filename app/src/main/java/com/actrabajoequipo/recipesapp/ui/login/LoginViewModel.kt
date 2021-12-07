@@ -10,6 +10,7 @@ import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount.UsernameForGoogleAccountActivity
+import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -17,6 +18,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
+    private val findUserByIdUseCase: FindUserByIdUseCase,
     private val firebaseManager: FirebaseManager
 ) : ViewModel(), Scope by Scope.Impl() {
 
@@ -80,7 +82,14 @@ class LoginViewModel(
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     firebaseManager.fbAuth.signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful){
-                            _logeadoGoogle.value = UiLoginWithGoogleAccount.Success()
+                            try {
+                                launch {
+                                        findUserByIdUseCase.invoke(it.result.user!!.uid)
+                                        _logeadoGoogle.value = UiLoginWithGoogleAccount.Success()
+                                }
+                            }catch (e: ApiException){
+                                var a =1
+                            }
                         }else{
                             _logeadoGoogle.value = UiLoginWithGoogleAccount.NotSuccess()
                         }

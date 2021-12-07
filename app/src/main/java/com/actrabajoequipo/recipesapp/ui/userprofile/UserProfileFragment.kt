@@ -68,9 +68,14 @@ class UserProfileFragment : Fragment() {
         setHasOptionsMenu(true)
 
         if (userProfileViewModel.isUserLoggedNotNull()) {
-            binding.buttonsProfile.visibility = View.INVISIBLE
+            binding.loginRequired.visibility = View.GONE
             binding.nadie.text = userProfileViewModel.getEmailUser()
-            binding.userName.visibility = View.VISIBLE
+            binding.userProfile.visibility = View.VISIBLE
+        }
+
+        binding.goToLogin.setOnClickListener {
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root

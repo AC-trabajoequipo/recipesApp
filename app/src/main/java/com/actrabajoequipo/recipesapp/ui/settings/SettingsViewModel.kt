@@ -1,21 +1,16 @@
 package com.actrabajoequipo.recipesapp.ui.settings
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.actrabajoequipo.data.repository.UserRepository
 import com.actrabajoequipo.domain.User
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.server.UserDto
 import com.actrabajoequipo.recipesapp.ui.Scope
-import com.actrabajoequipo.recipesapp.ui.formrecipe.FormRecipeViewModel
 import com.actrabajoequipo.usecases.DeleteUserUseCase
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.GetUsersUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
@@ -138,31 +133,16 @@ class SettingsViewModel(
         }
     }
 
+    fun isGoogleAccount() :Boolean{
+        if(firebaseManager.fbAuth.currentUser!!.providerData.get(0).displayName.equals("")){
+            return false
+        }else{
+            return true
+        }
+    }
+
     override fun onCleared() {
         destroyScope()
     }
 
-    //BORRAR CUANDO YA AÑADA BIEN LA RECETA EN EL USER AL CREAR UNA NUEVA RECETA
-    fun pruebaaa(){
-        launch {
-            var user = findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
-            if(user != null){
-                var recipes : MutableList<String>?
-                if (user.recipes != null){
-                    recipes = user.recipes
-                }else{
-                    recipes = mutableListOf()
-                }
-                recipes?.add("zzz")
-                var responsePostRecipeInUser = patchUserUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid, User(null, null, recipes))
-                /*if(responsePostRecipeInUser.nodeId != null){
-
-                }else{
-
-                }*/
-            }else{
-
-            }
-        }
-    }
 }

@@ -40,6 +40,13 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        if(settingsViewModel.isGoogleAccount()){
+            binding.infoOptionsGoogleAccount.visibility = View.VISIBLE
+            binding.modifyEmailLayout.visibility = View.GONE
+            binding.modifyPasswordLayout.visibility = View.GONE
+        }
+
         setListeners()
         setObservers()
     }
@@ -110,11 +117,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
                 .show()
         }
-
-        binding.button2.setOnClickListener {
-            settingsViewModel.pruebaaa()
-        }
-
 
         val spannableString = SpannableString(getString(R.string.informative_text_edit_password))
         val clickableSpan :ClickableSpan  = object :ClickableSpan(){
