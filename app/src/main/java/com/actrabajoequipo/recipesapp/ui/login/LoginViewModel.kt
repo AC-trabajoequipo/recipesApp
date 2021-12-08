@@ -84,10 +84,10 @@ class LoginViewModel(
                         if (it.isSuccessful){
                             try {
                                 launch {
-                                        findUserByIdUseCase.invoke(it.result.user!!.uid)
-                                        _logeadoGoogle.value = UiLoginWithGoogleAccount.Success()
+                                    var response = findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
+                                    _logeadoGoogle.value = UiLoginWithGoogleAccount.Success()
                                 }
-                            }catch (e: ApiException){
+                            }catch (t: Throwable){
                                 var a =1
                             }
                         }else{
