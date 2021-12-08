@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.actrabajoequipo.domain.User
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.Scope
@@ -82,14 +83,16 @@ class LoginViewModel(
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     firebaseManager.fbAuth.signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful){
-                            try {
+
                                 launch {
-                                    var response = findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
-                                    _logeadoGoogle.value = UiLoginWithGoogleAccount.Success()
+                                    try {
+                                        var userResponse= findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
+                                        _logeadoGoogle.value = UiLoginWithGoogleAccount.Success()
+                                    }catch (e: KotlinNullPointerException){
+                                        var a =1
+                                    }
                                 }
-                            }catch (t: Throwable){
-                                var a =1
-                            }
+
                         }else{
                             _logeadoGoogle.value = UiLoginWithGoogleAccount.NotSuccess()
                         }

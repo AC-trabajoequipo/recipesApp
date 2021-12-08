@@ -23,5 +23,5 @@ interface ApiService {
     suspend fun deleteUser(@Path("uid") uid: String)
 
     @GET("users/{uid}.json")
-    suspend fun findUserById(@Path("uid")uid: String) : UserDto
+    suspend fun findUserById(@Path("uid")uid: String) : UserDto?
 }
