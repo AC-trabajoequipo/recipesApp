@@ -1,22 +1,20 @@
 package com.actrabajoequipo.recipesapp.ui
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 
 interface Scope : CoroutineScope {
 
-    class Impl(override val uiDispatcher: CoroutineDispatcher) : Scope {
+    class Impl : Scope {
         override lateinit var job: Job
     }
 
     var job: Job
-    val uiDispatcher: CoroutineDispatcher
-
     override val coroutineContext: CoroutineContext
-        get() = uiDispatcher + job
+        get() = Dispatchers.Main + job
 
     fun initScope() {
         job = SupervisorJob()

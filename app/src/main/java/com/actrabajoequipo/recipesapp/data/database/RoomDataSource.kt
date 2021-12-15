@@ -29,7 +29,7 @@ class RoomDataSource(db: RecipeDatabase) : LocalDataSource {
     }
 
     override suspend fun findById(id: String): Recipe = withContext(Dispatchers.IO) {
-    recipesDao.findById(id).toDomainRecipe()
+        recipesDao.findById(id).toDomainRecipe()
     }
 
     override suspend fun search(query: String): List<Recipe> {

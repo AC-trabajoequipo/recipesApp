@@ -8,14 +8,12 @@ import com.actrabajoequipo.domain.User
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.usecases.PatchUserUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class SignupViewModel(
     private val patchUserUseCase: PatchUserUseCase,
-    private val firebaseManager: FirebaseManager,
-    uiDispatcher: CoroutineDispatcher
-) : ScopedViewModel(uiDispatcher) {
+    private val firebaseManager: FirebaseManager
+) : ScopedViewModel() {
 
     sealed class UiSignup {
         object UnconfirmedEmail : UiSignup()

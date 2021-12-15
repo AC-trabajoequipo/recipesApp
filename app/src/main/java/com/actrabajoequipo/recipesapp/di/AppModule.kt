@@ -10,8 +10,6 @@ import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.server.ServerDataSource
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -33,8 +31,4 @@ class AppModule {
     @Provides
     @Singleton
     fun firebaseManagerProvider() = FirebaseManager()
-
-    @Provides
-    @Singleton
-    fun dispatcherProvider(): CoroutineDispatcher = Dispatchers.Main
 }

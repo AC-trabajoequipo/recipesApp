@@ -10,7 +10,6 @@ import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.actrabajoequipo.usecases.PostRecipeUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class FormRecipeViewModel(
@@ -18,10 +17,9 @@ class FormRecipeViewModel(
     private val findUserByIdUseCase: FindUserByIdUseCase,
     private val patchUserUseCase: PatchUserUseCase,
     private val firebaseManager: FirebaseManager,
-    uiDispatcher: CoroutineDispatcher
-) : ScopedViewModel(uiDispatcher), PhotoCallBack {
+    private val urlManager: UrlManager
+) : ScopedViewModel(), PhotoCallBack {
 
-    private var photoUrl: String? = null
     private var id: String? = null
     private var ingredientsWithoutEmpties = ArrayList<String>()
 
@@ -68,7 +66,7 @@ class FormRecipeViewModel(
         ingredients: ArrayList<String>
     ) {
         launch {
-            if (photoUrl == null) {
+            if (urlManager.photoUrl == null) {
                 _formState.postValue(ValidatedFields.EmptyPhotoFieldError)
             } else if (titleRecipe == null || titleRecipe.isEmpty()) {
                 _formState.postValue(ValidatedFields.EmptyTitleRecipeError)
@@ -93,7 +91,7 @@ class FormRecipeViewModel(
                     idUser = idUser,
                     name = titleRecipe,
                     description = descriptionRecipe,
-                    imgUrl = photoUrl ?: "",
+                    imgUrl = urlManager.photoUrl ?: "",
                     ingredients = ingredientsWithoutEmpties,
                     preparation = stepRecipe,
                     favorite = false
@@ -157,7 +155,7 @@ class FormRecipeViewModel(
     override fun onSuccess(imageURL: String) {
         launch {
             _imageUpload.postValue(ImageUpload.Success)
-            photoUrl = imageURL
+            urlManager.photoUrl = imageURL
         }
     }
 
@@ -167,3 +165,5 @@ class FormRecipeViewModel(
         }
     }
 }
+
+data class UrlManager(var photoUrl: String? = null)
