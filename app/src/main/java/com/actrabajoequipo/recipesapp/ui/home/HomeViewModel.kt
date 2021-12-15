@@ -7,16 +7,14 @@ import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.recipesapp.ui.common.Event
 import com.actrabajoequipo.usecases.GetRecipesUseCase
 import com.actrabajoequipo.usecases.SearchRecipeUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel
 @Inject constructor(
     private val getRecipesUseCase: GetRecipesUseCase,
-    private val searchRecipeUseCase: SearchRecipeUseCase,
-    uiDispatcher: CoroutineDispatcher
-) : ScopedViewModel(uiDispatcher) {
+    private val searchRecipeUseCase: SearchRecipeUseCase
+) : ScopedViewModel() {
 
     private val _uiModel = MutableLiveData<UIModel>()
     val uiModel: LiveData<UIModel>

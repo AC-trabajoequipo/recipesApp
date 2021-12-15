@@ -8,7 +8,6 @@ import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.recipesapp.ui.common.Event
 import com.actrabajoequipo.usecases.FindRecipeByUserIdUseCase
 import com.actrabajoequipo.usecases.FindRecipeFavouriteUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,9 +15,8 @@ class UserProfileViewModel
 @Inject constructor(
     private val firebaseManager: FirebaseManager,
     private val findRecipeFavouriteUseCase: FindRecipeFavouriteUseCase,
-    private val findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase,
-    uiDisptcher: CoroutineDispatcher
-) : ScopedViewModel(uiDisptcher) {
+    private val findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase
+) : ScopedViewModel() {
 
     private val _uiModelMyRecipes = MutableLiveData<UIModelMyRecipes>()
     val uiModelMyRecipes: LiveData<UIModelMyRecipes>

@@ -10,7 +10,6 @@ import com.actrabajoequipo.usecases.DeleteUserUseCase
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.GetUsersUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
@@ -18,9 +17,8 @@ class SettingsViewModel(
     private val patchUserUseCase: PatchUserUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
     private val findUserByIdUseCase: FindUserByIdUseCase,
-    private val firebaseManager: FirebaseManager,
-    uiDispatcher: CoroutineDispatcher
-) : ScopedViewModel(uiDispatcher) {
+    private val firebaseManager: FirebaseManager
+) : ScopedViewModel() {
 
     sealed class ResultEditUsername() {
         class UsernameEditedSuccessfully : ResultEditUsername()

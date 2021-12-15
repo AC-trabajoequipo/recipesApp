@@ -6,7 +6,6 @@ import com.actrabajoequipo.usecases.SearchRecipeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 class HomeModule {
@@ -14,9 +13,8 @@ class HomeModule {
     @Provides
     fun homeViewModelProvider(
         getRecipesUseCase: GetRecipesUseCase,
-        searchRecipeUseCase: SearchRecipeUseCase,
-        coroutineDispatcher: CoroutineDispatcher
-    ) = HomeViewModel(getRecipesUseCase, searchRecipeUseCase, coroutineDispatcher)
+        searchRecipeUseCase: SearchRecipeUseCase
+    ) = HomeViewModel(getRecipesUseCase, searchRecipeUseCase)
 
     @Provides
     fun getRecipesUseCaseProvider(

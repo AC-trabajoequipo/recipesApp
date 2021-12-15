@@ -8,16 +8,14 @@ import com.actrabajoequipo.usecases.PatchUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 class LoginModule {
 
     @Provides
     fun loginViewModelProvider(
-        firebaseManager: FirebaseManager,
-        coroutineDispatcher: CoroutineDispatcher
-    ) = LoginViewModel(firebaseManager, coroutineDispatcher)
+        firebaseManager: FirebaseManager
+    ) = LoginViewModel(firebaseManager)
 }
 
 @Subcomponent(modules = [LoginModule::class])
@@ -30,9 +28,8 @@ class ForgotPasswordModule {
 
     @Provides
     fun forgotPasswordProvider(
-        firebaseManager: FirebaseManager,
-        coroutineDispatcher: CoroutineDispatcher
-    ) = ForgotPasswordViewModel(firebaseManager, coroutineDispatcher)
+        firebaseManager: FirebaseManager
+    ) = ForgotPasswordViewModel(firebaseManager)
 }
 
 @Subcomponent(modules = [ForgotPasswordModule::class])
@@ -46,9 +43,8 @@ class UsernameForGoogleAccountModule {
     @Provides
     fun usernameForGoogleAccountViewModelProvider(
         patchUserUseCase: PatchUserUseCase,
-        firebaseManager: FirebaseManager,
-        coroutineDispatcher: CoroutineDispatcher
-    ) = UsernameForGoogleAccountViewModel(patchUserUseCase, firebaseManager, coroutineDispatcher)
+        firebaseManager: FirebaseManager
+    ) = UsernameForGoogleAccountViewModel(patchUserUseCase, firebaseManager)
 
     @Provides
     fun patchUserUseCaseProvider(

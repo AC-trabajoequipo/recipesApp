@@ -9,7 +9,6 @@ import com.actrabajoequipo.usecases.PatchUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 class SettingsModule {
@@ -20,11 +19,10 @@ class SettingsModule {
         patchUserUseCase: PatchUserUseCase,
         deleteUserUseCase: DeleteUserUseCase,
         findUserByIdUseCase: FindUserByIdUseCase,
-        firebaseManager: FirebaseManager,
-        coroutineDispatcher: CoroutineDispatcher
+        firebaseManager: FirebaseManager
     ) = SettingsViewModel(
         getUsersUseCase, patchUserUseCase,
-        deleteUserUseCase, findUserByIdUseCase, firebaseManager, coroutineDispatcher
+        deleteUserUseCase, findUserByIdUseCase, firebaseManager
     )
 
     @Provides

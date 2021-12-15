@@ -6,7 +6,6 @@ import com.actrabajoequipo.usecases.UpdateRecipeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 class DetailModule(private val recipeId: String) {
@@ -14,9 +13,8 @@ class DetailModule(private val recipeId: String) {
     @Provides
     fun detailViewModelProvider(
         findRecipeByIdUseCase: FindRecipeByIdUseCase,
-        updateRecipeUseCase: UpdateRecipeUseCase,
-        coroutineDispatcher: CoroutineDispatcher
-    ) = DetailViewModel(recipeId, findRecipeByIdUseCase, updateRecipeUseCase, coroutineDispatcher)
+        updateRecipeUseCase: UpdateRecipeUseCase
+    ) = DetailViewModel(recipeId, findRecipeByIdUseCase, updateRecipeUseCase)
 
     @Provides
     fun findRecipeByIdUseCaseProvider(recipesRepository: RecipesRepository) =

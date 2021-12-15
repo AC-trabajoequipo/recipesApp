@@ -4,13 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val firebaseManager: FirebaseManager,
-    uiDispatcher: CoroutineDispatcher
-) : ScopedViewModel(uiDispatcher) {
+    private val firebaseManager: FirebaseManager
+) : ScopedViewModel() {
 
     sealed class UiLogin {
         class Success : UiLogin()

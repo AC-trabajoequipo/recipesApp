@@ -9,7 +9,6 @@ import com.actrabajoequipo.usecases.PostRecipeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 class FormRecipeModule {
@@ -20,14 +19,14 @@ class FormRecipeModule {
         findUserByIdUseCase: FindUserByIdUseCase,
         patchUserUseCase: PatchUserUseCase,
         firebaseManager: FirebaseManager,
-        coroutineDispatcher: CoroutineDispatcher
+        urlManager: UrlManager
     ): FormRecipeViewModel {
         return FormRecipeViewModel(
             postRecipeUseCase,
             findUserByIdUseCase,
             patchUserUseCase,
             firebaseManager,
-            coroutineDispatcher
+            urlManager
         )
     }
 
@@ -42,6 +41,9 @@ class FormRecipeModule {
     @Provides
     fun patchUserUseCaseProvider(userRepository: UserRepository) =
         PatchUserUseCase(userRepository)
+
+    @Provides
+    fun urlManagerProvider() = UrlManager()
 }
 
 @Subcomponent(modules = [(FormRecipeModule::class)])

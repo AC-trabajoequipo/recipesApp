@@ -7,7 +7,6 @@ import com.actrabajoequipo.usecases.FindRecipeFavouriteUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import kotlinx.coroutines.CoroutineDispatcher
 
 
 @Module
@@ -17,13 +16,11 @@ class UserProfileModule {
     fun userProfileViewModelProvider(
         firebaseManager: FirebaseManager,
         findRecipeFavouriteUseCase: FindRecipeFavouriteUseCase,
-        findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase,
-        coroutineDispatcher: CoroutineDispatcher
+        findRecipeByUserIdUseCase: FindRecipeByUserIdUseCase
     ) = UserProfileViewModel(
         firebaseManager,
         findRecipeFavouriteUseCase,
-        findRecipeByUserIdUseCase,
-        coroutineDispatcher
+        findRecipeByUserIdUseCase
     )
 
     @Provides
