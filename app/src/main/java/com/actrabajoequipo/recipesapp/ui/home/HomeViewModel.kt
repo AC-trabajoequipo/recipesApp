@@ -28,7 +28,7 @@ class HomeViewModel
 
     sealed class UIModel {
         object Loading : UIModel()
-        class Content(val recipes: List<Recipe>) : UIModel()
+        data class Content(val recipes: List<Recipe>) : UIModel()
     }
 
     init {
