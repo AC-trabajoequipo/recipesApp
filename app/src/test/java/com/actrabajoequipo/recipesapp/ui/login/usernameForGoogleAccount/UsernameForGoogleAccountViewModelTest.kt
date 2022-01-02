@@ -1,11 +1,10 @@
-package com.actrabajoequipo.recipesapp.ui.login
+package com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.MainCoroutineScopeRule
-import com.actrabajoequipo.recipesapp.ui.home.HomeViewModel
-import com.actrabajoequipo.usecases.GetRecipesUseCase
+import com.actrabajoequipo.usecases.PatchUserUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -15,7 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 
 @RunWith(MockitoJUnitRunner::class)
-class LoginViewModelTest {
+class UsernameForGoogleAccountViewModelTest {
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -25,15 +24,18 @@ class LoginViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Mock
+    lateinit var patchUserUseCase: PatchUserUseCase
+
+    @Mock
     lateinit var firebaseManager: FirebaseManager
 
     @Mock
-    lateinit var observer: Observer<LoginViewModel.UiLogin>
+    lateinit var observer: Observer<UsernameForGoogleAccountViewModel.ResultSetUsername>
 
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: UsernameForGoogleAccountViewModel
 
     @Before
     fun setUp() {
-        viewModel = LoginViewModel(firebaseManager)
+        viewModel = UsernameForGoogleAccountViewModel(patchUserUseCase, firebaseManager)
     }
 }
