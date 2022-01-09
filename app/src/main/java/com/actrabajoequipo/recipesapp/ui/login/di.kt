@@ -4,14 +4,13 @@ import com.actrabajoequipo.data.repository.UserRepository
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.login.forgotPassword.ForgotPasswordViewModel
 import com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount.UsernameForGoogleAccountViewModel
-import com.actrabajoequipo.recipesapp.ui.signup.SignupViewModel
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
 
 @Module
-class LoginModule{
+class LoginModule {
 
     @Provides
     fun loginViewModelProvider(
@@ -20,14 +19,12 @@ class LoginModule{
 }
 
 @Subcomponent(modules = [LoginModule::class])
-interface LoginComponent{
+interface LoginComponent {
     val loginViewModel: LoginViewModel
 }
 
-
-
 @Module
-class ForgotPasswordModule{
+class ForgotPasswordModule {
 
     @Provides
     fun forgotPasswordProvider(
@@ -36,11 +33,9 @@ class ForgotPasswordModule{
 }
 
 @Subcomponent(modules = [ForgotPasswordModule::class])
-interface ForgotPasswordComponent{
+interface ForgotPasswordComponent {
     val forgotPasswordViewModel: ForgotPasswordViewModel
 }
-
-
 
 @Module
 class UsernameForGoogleAccountModule {

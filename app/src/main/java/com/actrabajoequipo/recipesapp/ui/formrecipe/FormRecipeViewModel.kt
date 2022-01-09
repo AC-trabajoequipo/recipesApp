@@ -6,7 +6,7 @@ import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.domain.User
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.server.FirebaseManager.PhotoCallBack
-import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.actrabajoequipo.usecases.PostRecipeUseCase
@@ -16,10 +16,10 @@ class FormRecipeViewModel(
     private val postRecipeUseCase: PostRecipeUseCase,
     private val findUserByIdUseCase: FindUserByIdUseCase,
     private val patchUserUseCase: PatchUserUseCase,
-    private val firebaseManager: FirebaseManager
-) : ViewModel(), PhotoCallBack, Scope by Scope.Impl() {
+    private val firebaseManager: FirebaseManager,
+    private val urlManager: UrlManager
+) : ScopedViewModel(), PhotoCallBack {
 
-    private var photoUrl: String? = null
     private var id: String? = null
     private var ingredientsWithoutEmpties = ArrayList<String>()
 
@@ -66,7 +66,7 @@ class FormRecipeViewModel(
         ingredients: ArrayList<String>
     ) {
         launch {
-            if (photoUrl == null) {
+            if (urlManager.photoUrl == null) {
                 _formState.postValue(ValidatedFields.EmptyPhotoFieldError)
             } else if (titleRecipe == null || titleRecipe.isEmpty()) {
                 _formState.postValue(ValidatedFields.EmptyTitleRecipeError)
@@ -91,7 +91,7 @@ class FormRecipeViewModel(
                     idUser = idUser,
                     name = titleRecipe,
                     description = descriptionRecipe,
-                    imgUrl = photoUrl ?: "",
+                    imgUrl = urlManager.photoUrl ?: "",
                     ingredients = ingredientsWithoutEmpties,
                     preparation = stepRecipe,
                     favorite = false
@@ -108,7 +108,7 @@ class FormRecipeViewModel(
                     }
 
                     recipes.add(nodeRecipeId)
-                    firebaseManager.returnUserUID()?.let { uidUser->
+                    firebaseManager.returnUserUID()?.let { uidUser ->
                         patchUserUseCase.invoke(uidUser, User(null, null, recipes))
                         _recipeState.postValue(SaveRecipe.Success)
                     }
@@ -155,7 +155,7 @@ class FormRecipeViewModel(
     override fun onSuccess(imageURL: String) {
         launch {
             _imageUpload.postValue(ImageUpload.Success)
-            photoUrl = imageURL
+            urlManager.photoUrl = imageURL
         }
     }
 
@@ -165,3 +165,5 @@ class FormRecipeViewModel(
         }
     }
 }
+
+data class UrlManager(var photoUrl: String? = null)

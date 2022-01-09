@@ -11,7 +11,7 @@ import dagger.Provides
 import dagger.Subcomponent
 
 @Module
-class SettingsModule{
+class SettingsModule {
 
     @Provides
     fun settingsViewModelProvider(
@@ -20,8 +20,10 @@ class SettingsModule{
         deleteUserUseCase: DeleteUserUseCase,
         findUserByIdUseCase: FindUserByIdUseCase,
         firebaseManager: FirebaseManager
-    ) = SettingsViewModel(getUsersUseCase, patchUserUseCase,
-        deleteUserUseCase, findUserByIdUseCase, firebaseManager)
+    ) = SettingsViewModel(
+        getUsersUseCase, patchUserUseCase,
+        deleteUserUseCase, findUserByIdUseCase, firebaseManager
+    )
 
     @Provides
     fun getUsersUseCaseProvider(
@@ -46,6 +48,6 @@ class SettingsModule{
 }
 
 @Subcomponent(modules = [SettingsModule::class])
-interface SettingsComponent{
+interface SettingsComponent {
     val settingsViewModel: SettingsViewModel
 }

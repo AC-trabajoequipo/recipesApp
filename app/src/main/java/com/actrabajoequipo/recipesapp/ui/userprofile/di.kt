@@ -10,7 +10,7 @@ import dagger.Subcomponent
 
 
 @Module
-class UserProfileModule{
+class UserProfileModule {
 
     @Provides
     fun userProfileViewModelProvider(
@@ -24,10 +24,12 @@ class UserProfileModule{
     )
 
     @Provides
-    fun findRecipeFavouriteUseCaseProvider(recipesRespository: RecipesRepository) = FindRecipeFavouriteUseCase(recipesRespository)
+    fun findRecipeFavouriteUseCaseProvider(recipesRespository: RecipesRepository) =
+        FindRecipeFavouriteUseCase(recipesRespository)
 
     @Provides
-    fun findRecipeByUserIdUseCaseProvides(recipesRespository: RecipesRepository) = FindRecipeByUserIdUseCase(recipesRespository)
+    fun findRecipeByUserIdUseCaseProvides(recipesRespository: RecipesRepository) =
+        FindRecipeByUserIdUseCase(recipesRespository)
 }
 
 @Subcomponent(modules = [(UserProfileModule::class)])

@@ -3,7 +3,6 @@ package com.actrabajoequipo.recipesapp.ui.formrecipe
 import com.actrabajoequipo.data.repository.RecipesRepository
 import com.actrabajoequipo.data.repository.UserRepository
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.ui.addrecipe.AddRecipeModule
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.actrabajoequipo.usecases.PostRecipeUseCase
@@ -19,13 +18,15 @@ class FormRecipeModule {
         postRecipeUseCase: PostRecipeUseCase,
         findUserByIdUseCase: FindUserByIdUseCase,
         patchUserUseCase: PatchUserUseCase,
-        firebaseManager: FirebaseManager
+        firebaseManager: FirebaseManager,
+        urlManager: UrlManager
     ): FormRecipeViewModel {
         return FormRecipeViewModel(
             postRecipeUseCase,
             findUserByIdUseCase,
             patchUserUseCase,
-            firebaseManager
+            firebaseManager,
+            urlManager
         )
     }
 
@@ -40,6 +41,9 @@ class FormRecipeModule {
     @Provides
     fun patchUserUseCaseProvider(userRepository: UserRepository) =
         PatchUserUseCase(userRepository)
+
+    @Provides
+    fun urlManagerProvider() = UrlManager()
 }
 
 @Subcomponent(modules = [(FormRecipeModule::class)])

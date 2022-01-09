@@ -6,9 +6,11 @@ import dagger.Provides
 import dagger.Subcomponent
 
 @Module
-class AddRecipeModule{
+class AddRecipeModule {
     @Provides
-    fun addRecipeViewModelProvider(firebaseManager: FirebaseManager) : AddRecipeViewModel {
+    fun addRecipeViewModelProvider(
+        firebaseManager: FirebaseManager
+    ): AddRecipeViewModel {
         return AddRecipeViewModel(firebaseManager)
     }
 }
