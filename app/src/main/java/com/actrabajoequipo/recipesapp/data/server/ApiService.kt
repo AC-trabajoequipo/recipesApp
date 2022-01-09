@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.server
+package com.actrabajoequipo.recipesapp.data.server
 
 import retrofit2.http.*
 

@@ -2,7 +2,7 @@ package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.MainCoroutineScopeRule
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase

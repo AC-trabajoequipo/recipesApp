@@ -4,8 +4,8 @@ import android.net.Uri
 import androidx.lifecycle.*
 import com.actrabajoequipo.domain.Recipe
 import com.actrabajoequipo.domain.User
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.server.FirebaseManager.PhotoCallBack
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager.PhotoCallBack
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase

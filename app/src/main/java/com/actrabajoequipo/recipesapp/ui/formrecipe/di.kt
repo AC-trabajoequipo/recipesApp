@@ -2,7 +2,7 @@ package com.actrabajoequipo.recipesapp.ui.formrecipe
 
 import com.actrabajoequipo.data.repository.RecipesRepository
 import com.actrabajoequipo.data.repository.UserRepository
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.actrabajoequipo.usecases.PostRecipeUseCase

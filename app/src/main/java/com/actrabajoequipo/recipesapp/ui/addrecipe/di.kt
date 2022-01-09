@@ -1,6 +1,6 @@
 package com.actrabajoequipo.recipesapp.ui.addrecipe
 
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent

@@ -2,7 +2,7 @@ package com.actrabajoequipo.recipesapp.ui.addrecipe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 
 class AddRecipeViewModel(

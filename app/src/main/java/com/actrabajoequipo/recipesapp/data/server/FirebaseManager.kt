@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.server
+package com.actrabajoequipo.recipesapp.data.server
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
