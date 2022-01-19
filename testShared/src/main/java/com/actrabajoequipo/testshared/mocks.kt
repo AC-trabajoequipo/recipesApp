@@ -1,6 +1,7 @@
 package com.actrabajoequipo.testshared
 
 import com.actrabajoequipo.domain.Recipe
+import com.actrabajoequipo.domain.User
 
 val mockedRecipe = Recipe(
     "0",
@@ -12,3 +13,8 @@ val mockedRecipe = Recipe(
     "",
     false
 )
+
+val mockedUserName = "prueba"
+val mockedUserEmail = "actrabajoequipo@gmail.com"
+val mockedUserPassword = "1234aA"
+val mockedUserID = "mxOvCIrbaVgzJw7RNMvknXbIjsM2"
