@@ -122,7 +122,7 @@ class FormRecipeViewModel(
     private fun editTextArrayListValidated(ingredients: ArrayList<String>): Boolean {
         var isValid = false
         for (ingredient in ingredients) {
-            if (ingredient.isNotEmpty()) {
+            if (!ingredient.isNullOrEmpty()) {
                 isValid = true
                 ingredientsWithoutEmpties.add(ingredient)
             }

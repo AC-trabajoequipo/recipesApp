@@ -80,4 +80,5 @@
     <string name="title_confirm_signout">Cerrar la sesión</string>
     <string name="message_confirm_signout">¿Realmente desear cerrar la sesión?</string>
     <string name="detail_not_disponible">Receta no disponible. Prueba más tarde</string>
+    <string name="choose_picture_method">Selecciona la foto de la galería o haz una foto con la cámara</string>
 </resources>
