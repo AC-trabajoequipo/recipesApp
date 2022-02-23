@@ -4,7 +4,7 @@ import android.app.Application
 import com.actrabajoequipo.recipesapp.di.AppComponent
 import com.actrabajoequipo.recipesapp.di.DaggerAppComponent
 
-class RecipesApp : Application() {
+open class RecipesApp : Application() {
 
     lateinit var component: AppComponent
         private set
@@ -12,8 +12,10 @@ class RecipesApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        component = DaggerAppComponent
-            .factory()
-            .create(this)
+        component = initRecipesComponent()
     }
+
+    open fun initRecipesComponent() = DaggerAppComponent
+        .factory()
+        .create(this)
 }

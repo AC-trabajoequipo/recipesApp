@@ -4,17 +4,16 @@ import android.app.Application
 import androidx.room.Room
 import com.actrabajoequipo.data.source.LocalDataSource
 import com.actrabajoequipo.data.source.RemoteDataSource
+import com.actrabajoequipo.recipesapp.FakeLocalDataSource
+import com.actrabajoequipo.recipesapp.FakeRemoteDataSource
 import com.actrabajoequipo.recipesapp.data.database.RecipeDatabase
-import com.actrabajoequipo.recipesapp.data.database.RoomDataSource
-import com.actrabajoequipo.recipesapp.data.server.ApiBook
 import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.data.server.ServerDataSource
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AppModule {
+class TestAppModule {
 
     @Provides
     @Singleton
@@ -24,10 +23,12 @@ class AppModule {
     ).build()
 
     @Provides
-    fun localDataSourceProvider(db: RecipeDatabase): LocalDataSource = RoomDataSource(db)
+    @Singleton
+    fun localDataSourceProvider(): LocalDataSource = FakeLocalDataSource()
 
     @Provides
-    fun remoteDataSourceProvider(apiBook: ApiBook): RemoteDataSource = ServerDataSource(apiBook)
+    @Singleton
+    fun remoteDataSourceProvider(): RemoteDataSource = FakeRemoteDataSource()
 
     @Provides
     @Singleton

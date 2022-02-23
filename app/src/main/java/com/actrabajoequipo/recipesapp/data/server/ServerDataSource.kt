@@ -8,13 +8,13 @@ import com.actrabajoequipo.recipesapp.toDomainUser
 import com.actrabajoequipo.recipesapp.toServerRecipe
 import com.actrabajoequipo.recipesapp.toServerUser
 
-class ServerDataSource : RemoteDataSource {
+class ServerDataSource(private val apiBook: ApiBook) : RemoteDataSource {
     override suspend fun getRecipes(): List<Recipe> {
-        val recipesDto = ApiBook.service
+        val recipesDto = apiBook.service
             .getRecipes()
-        val list : List<RecipeDto> = ArrayList<RecipeDto>(recipesDto.values)
+        val list: List<RecipeDto> = ArrayList<RecipeDto>(recipesDto.values)
         var i = 0
-        
+
         recipesDto.keys.forEach { key ->
             list[i].id = key
             i++
@@ -23,23 +23,23 @@ class ServerDataSource : RemoteDataSource {
     }
 
     override suspend fun postRecipe(recipe: Recipe) =
-        ApiBook.service
+        apiBook.service
             .postRecipe(recipe.toServerRecipe()).nodeId
 
     override suspend fun getUsers(): Map<String, User> =
-        ApiBook.service
+        apiBook.service
             .getUsers().mapValues {
                 it.value.toDomainUser()
             }
 
     override suspend fun patchUser(uid: String, user: User): String? =
-        ApiBook.service.patchUser(uid, user.toServerUser()).nodeId
+        apiBook.service.patchUser(uid, user.toServerUser()).nodeId
 
     override suspend fun deleteUser(uid: String) {
-        ApiBook.service
+        apiBook.service
             .deleteUser(uid)
     }
 
     override suspend fun findUserById(uid: String): User =
-        ApiBook.service.findUserById(uid).toDomainUser()
+        apiBook.service.findUserById(uid).toDomainUser()
 }

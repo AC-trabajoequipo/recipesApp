@@ -20,5 +20,4 @@ class DataModule {
     fun userRepositoryProvider(
         remoteDataSource: RemoteDataSource
     ) = UserRepository(remoteDataSource)
-
 }

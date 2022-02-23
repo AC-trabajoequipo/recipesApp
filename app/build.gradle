@@ -17,8 +17,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.actrabajoequipo.recipesapp.UiRunner"
     }
 
     buildTypes {
@@ -47,11 +46,20 @@ dependencies {
     implementation androidLibs.values()
     implementation kotlinLibs.values()
     implementation libs.values()
-    kapt androidKaptLibs.values()
 
     implementation platform('com.google.firebase:firebase-bom:28.3.0')
 
     testImplementation testLibs.values()
     testImplementation androidxTestLibs.values()
     androidTestImplementation androidTestLibs.values()
+
+    kapt androidKaptLibs.values()
+    kaptTest androidKaptLibs.values()
+    kaptAndroidTest androidKaptLibs.values()
+    //kaptAndroidTest "com.google.dagger:dagger-compiler:2.38.1"
+    //kaptAndroidTest 'com.google.dagger:dagger-compiler:2.26'//androidKaptLibs.values()
+}
+
+repositories {
+    mavenCentral()
 }
