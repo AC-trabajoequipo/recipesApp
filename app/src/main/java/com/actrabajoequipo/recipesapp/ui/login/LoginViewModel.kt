@@ -11,16 +11,14 @@ class LoginViewModel(
 ) : ScopedViewModel() {
 
     sealed class UiLogin {
-        class Success : UiLogin()
-        class UnconfirmedEmail : UiLogin()
-        class WrongEmailOrPassword : UiLogin()
-        class FillinFields : UiLogin()
+        object Success : UiLogin()
+        object UnconfirmedEmail : UiLogin()
+        object WrongEmailOrPassword : UiLogin()
+        object FillInFields : UiLogin()
     }
 
-
-    private val _logeado = MutableLiveData<UiLogin>()
-    val logeado: LiveData<UiLogin> get() = _logeado
-
+    private val _loginModel = MutableLiveData<UiLogin>()
+    val loginModel: LiveData<UiLogin> get() = _loginModel
 
     init {
         initScope()
@@ -28,27 +26,26 @@ class LoginViewModel(
 
     fun login(email: String, password: String) {
         launch {
-            if (email.length > 0 && password.length > 0) {
+            if (email.isNotEmpty() && password.isNotEmpty()) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
                 firebaseManager.fbAuth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             val user = firebaseManager.fbAuth.currentUser
                             if (user!!.isEmailVerified) {
-                                _logeado.value = UiLogin.Success()
+                                _loginModel.value = UiLogin.Success
                             } else {
-                                _logeado.value = UiLogin.UnconfirmedEmail()
+                                _loginModel.value = UiLogin.UnconfirmedEmail
                             }
                         } else {
-                            _logeado.value = UiLogin.WrongEmailOrPassword()
+                            _loginModel.value = UiLogin.WrongEmailOrPassword
                         }
                     }
             } else {
-                _logeado.value = UiLogin.FillinFields()
+                _loginModel.value = UiLogin.FillInFields
             }
         }
     }
-
 
     override fun onCleared() {
         super.onCleared()

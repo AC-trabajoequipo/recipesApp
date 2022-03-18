@@ -22,7 +22,6 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var password: String
     private lateinit var passwordConfirm: String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         component = app.component.plus(SignupModule())
         super.onCreate(savedInstanceState)

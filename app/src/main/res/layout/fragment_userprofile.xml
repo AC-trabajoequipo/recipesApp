@@ -20,7 +20,7 @@
             android:id="@+id/buttonSignin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign up"
+            android:text="@string/profile_button_sign_up"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonLogin"
             android:layout_marginTop="100dp"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="8dp"
-            android:text="Log in"
+            android:text="@string/profile_button_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonSignin"
             app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/m_text_size"
                     android:layout_marginTop="@dimen/xl_spacing"
-                    android:text="Mis recetas"
+                    android:text="@string/profile_text_my_recipes"
                     android:textSize="@dimen/page_title"/>
 
 
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/m_text_size"
-                    android:text="Favoritas"
+                    android:text="@string/profile_text_favorites"
                     android:textSize="@dimen/page_title"
                     />
 

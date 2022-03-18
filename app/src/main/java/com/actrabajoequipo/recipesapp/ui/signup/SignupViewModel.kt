@@ -26,7 +26,6 @@ class SignupViewModel(
     private val _registered = MutableLiveData<UiSignup>()
     val registered: LiveData<UiSignup> get() = _registered
 
-
     init {
         initScope()
     }

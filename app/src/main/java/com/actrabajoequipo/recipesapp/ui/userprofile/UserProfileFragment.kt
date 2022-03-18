@@ -40,15 +40,15 @@ class UserProfileFragment : Fragment() {
         userProfileViewModel.uiModelMyRecipes.observe(this, ::updateRecyclerMyRecipes)
         userProfileViewModel.uiModelMyFavRecipes.observe(this, ::updateRecyclerMyFavRecipes)
 
-        userProfileViewModel.navigation.observe(this, { event ->
+        userProfileViewModel.navigation.observe(this) { event ->
             event.getContentIfNotHandled()?.let { recipe ->
-                if(recipe.id != null) {
+                if (recipe.id != null) {
                     findNavController().navigate(
                         UserProfileFragmentDirections.actionNavigationProfileToDetailActivity(recipe.id!!)
                     )
                 }
             }
-        })
+        }
     }
 
     override fun onCreateView(
