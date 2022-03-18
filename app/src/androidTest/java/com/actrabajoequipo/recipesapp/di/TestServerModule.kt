@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp
+package com.actrabajoequipo.recipesapp.di
 
 import com.actrabajoequipo.recipesapp.data.server.ApiBook
 import dagger.Module

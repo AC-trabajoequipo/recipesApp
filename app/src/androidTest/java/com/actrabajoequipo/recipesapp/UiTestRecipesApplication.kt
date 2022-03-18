@@ -1,8 +1,9 @@
 package com.actrabajoequipo.recipesapp
 
-
-
 class UiTestRecipesApplication : RecipesApp() {
 
-    override fun initRecipesComponent() = Dagger()
+    //The dagger component is not generated
+    override fun initRecipesComponent() = DaggerUiTestComponent
+        .factory()
+        .create(this)
 }
