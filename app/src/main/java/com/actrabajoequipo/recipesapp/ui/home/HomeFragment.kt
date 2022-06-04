@@ -35,16 +35,18 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
         homeViewModel.uiModel.observe(this, ::updateUI)
-        homeViewModel.navigation.observe(this, { event ->
+        homeViewModel.navigation.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                    if(it.id != null) {
-                        findNavController().navigate(
-                            HomeFragmentDirections.actionNavigationHomeToDetailActivity(it.id!!))
-                    }else{
-                       Toast.makeText(context, R.string.detail_not_disponible,Toast.LENGTH_LONG).show()
-                    }
+                if (it.id != null) {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionNavigationHomeToDetailActivity(it.id!!)
+                    )
+                } else {
+                    Toast.makeText(context, R.string.detail_not_disponible, Toast.LENGTH_LONG)
+                        .show()
+                }
             }
-        })
+        }
     }
 
     override fun onCreateView(

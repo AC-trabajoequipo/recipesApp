@@ -40,15 +40,15 @@ class UserProfileFragment : Fragment() {
         userProfileViewModel.uiModelMyRecipes.observe(this, ::updateRecyclerMyRecipes)
         userProfileViewModel.uiModelMyFavRecipes.observe(this, ::updateRecyclerMyFavRecipes)
 
-        userProfileViewModel.navigation.observe(this, { event ->
+        userProfileViewModel.navigation.observe(this) { event ->
             event.getContentIfNotHandled()?.let { recipe ->
-                if(recipe.id != null) {
+                if (recipe.id != null) {
                     findNavController().navigate(
                         UserProfileFragmentDirections.actionNavigationProfileToDetailActivity(recipe.id!!)
                     )
                 }
             }
-        })
+        }
     }
 
     override fun onCreateView(
@@ -115,6 +115,7 @@ class UserProfileFragment : Fragment() {
             if (uiModelMyRecipes is UserProfileViewModel.UIModelMyRecipes.Loading) View.VISIBLE else View.GONE
 
         if (uiModelMyRecipes is UserProfileViewModel.UIModelMyRecipes.ContentMyRecipes) {
+            binding.myRecipesEmpty.visibility = if(uiModelMyRecipes.myRecipes.isEmpty()) View.VISIBLE else View.GONE
             adapterMyRecipes.recipes = uiModelMyRecipes.myRecipes
         }
     }
@@ -124,6 +125,7 @@ class UserProfileFragment : Fragment() {
             if (uiModelMyFavRecipes is UserProfileViewModel.UIModelMyFavRecipes.Loading) View.VISIBLE else View.GONE
 
         if (uiModelMyFavRecipes is UserProfileViewModel.UIModelMyFavRecipes.ContentMyFavourites) {
+            binding.myFavouritesEmpty.visibility = if(uiModelMyFavRecipes.myFavRecipes.isEmpty()) View.VISIBLE else View.GONE
             adapterMyFavourites.recipes = uiModelMyFavRecipes.myFavRecipes
         }
     }

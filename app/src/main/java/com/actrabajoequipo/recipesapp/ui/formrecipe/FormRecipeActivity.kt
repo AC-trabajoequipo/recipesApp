@@ -16,6 +16,8 @@ import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_form_recipe.*
+import java.lang.String
+import java.util.*
 
 class FormRecipeActivity : AppCompatActivity() {
 
@@ -56,7 +58,7 @@ class FormRecipeActivity : AppCompatActivity() {
         //además hace que el teclado no se abrá automaticamente al cargar la activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        viewModel.formState.observe(this, {
+        viewModel.formState.observe(this) {
             when (it) {
                 is FormRecipeViewModel.ValidatedFields.FormValidated -> {
                     with(binding) {
@@ -99,9 +101,9 @@ class FormRecipeActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-        })
+        }
 
-        viewModel.recipeState.observe(this, {
+        viewModel.recipeState.observe(this) {
             when (it) {
                 is FormRecipeViewModel.SaveRecipe.Success -> {
                     Toast.makeText(
@@ -119,14 +121,15 @@ class FormRecipeActivity : AppCompatActivity() {
                     ).show()
             }
 
-        })
+        }
 
-        viewModel.progressUploadImage.observe(this, { progress ->
-            binding.pbUploadImage.progress = progress.toInt()
-            binding.tvProgressPercent.text = "$progress%"
-        })
+        viewModel.progressUploadImage.observe(this) { progress ->
+            binding.pbUploadImage.progress = progress
+            val textProgress = String.format(Locale.getDefault(), "%d%%",  progress)
+            binding.tvProgressPercent.text = textProgress
+        }
 
-        viewModel.imageUpload.observe(this, {
+        viewModel.imageUpload.observe(this) {
             when (it) {
                 is FormRecipeViewModel.ImageUpload.Success -> {
 
@@ -154,7 +157,7 @@ class FormRecipeActivity : AppCompatActivity() {
                     ).show()
                 }
             }
-        })
+        }
     }
 
     private fun onBackClicked() {

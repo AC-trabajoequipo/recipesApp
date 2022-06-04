@@ -16,7 +16,6 @@ import com.actrabajoequipo.recipesapp.ui.getViewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var component: SettingsComponent
     private val settingsViewModel: SettingsViewModel by lazy {
@@ -25,7 +24,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private var editUsernameFlag :Boolean = false
     private var editEmailFlag :Boolean = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         component = app.component.plus(SettingsModule())
@@ -114,20 +112,20 @@ class SettingsActivity : AppCompatActivity() {
                 .show()
         }
 
+        //TODO Remove
         binding.button2.setOnClickListener {
             settingsViewModel.pruebaaa()
         }
     }
 
-
     private fun setObservers(){
 
-        settingsViewModel.currentUser.observe(this,  Observer {
-            binding.textviewEditUsername.text = it.name
-            binding.textviewEditEmail.text = it.email
+        settingsViewModel.currentUser.observe(this) {
+            binding.textviewEditUsername.setText(it.name)
+            binding.textviewEditEmail.setText(it.email)
             binding.progressBarSettings.visibility = View.INVISIBLE
             binding.settingsLayout.visibility = View.VISIBLE
-        })
+        }
 
         settingsViewModel.resultEditUsername.observe(this, Observer {
             when(it){
@@ -196,6 +194,5 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
     }
-
 
 }

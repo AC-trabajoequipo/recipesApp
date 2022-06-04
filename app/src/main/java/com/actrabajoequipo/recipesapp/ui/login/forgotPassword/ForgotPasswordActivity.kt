@@ -1,20 +1,15 @@
 package com.actrabajoequipo.recipesapp.ui.login.forgotPassword
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.ActivityForgotPasswordBinding
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.actrabajoequipo.recipesapp.ui.login.ForgotPasswordComponent
 import com.actrabajoequipo.recipesapp.ui.login.ForgotPasswordModule
-import com.actrabajoequipo.recipesapp.ui.login.LoginModule
-import com.actrabajoequipo.recipesapp.ui.signup.SignupComponent
-import com.actrabajoequipo.recipesapp.ui.signup.SignupViewModel
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
@@ -38,7 +33,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding.buttonOkEmailForgotPassword.setOnClickListener {
-            var email = binding.forgotPasswordEmail.text.toString().trim()
+            val email = binding.recoveryEmail.text.toString().trim()
             forgotPasswordViewModel.editPassword(email)
         }
     }
