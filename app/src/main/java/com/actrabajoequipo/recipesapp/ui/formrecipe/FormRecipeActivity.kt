@@ -15,7 +15,6 @@ import com.actrabajoequipo.recipesapp.databinding.ActivityFormRecipeBinding
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_form_recipe.*
 import java.lang.String
 import java.util.*
 
@@ -179,14 +178,14 @@ class FormRecipeActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.btn_post -> {
                 viewModel.validatedFields(
-                    titleRecipe = etTitleRecipe.text.toString().trim(),
-                    stepRecipe = etStepForRecipe.text.toString().trim(),
+                    titleRecipe = binding.etTitleRecipe.text.toString().trim(),
+                    stepRecipe = binding.etStepForRecipe.text.toString().trim(),
                     ingredients = arrayListOf(
-                        etIngredient1.text.toString().trim(),
-                        etIngredient2.text.toString().trim(),
-                        etIngredient3.text.toString().trim(),
-                        etIngredient4.text.toString().trim(),
-                        etIngredient5.text.toString().trim()
+                        binding.etIngredient1.text.toString().trim(),
+                        binding.etIngredient2.text.toString().trim(),
+                        binding.etIngredient3.text.toString().trim(),
+                        binding.etIngredient4.text.toString().trim(),
+                        binding.etIngredient5.text.toString().trim()
                     )
                 )
                 true
