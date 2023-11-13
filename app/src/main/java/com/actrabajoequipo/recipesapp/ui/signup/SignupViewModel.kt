@@ -3,18 +3,17 @@ package com.actrabajoequipo.recipesapp.ui.signup
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.actrabajoequipo.domain.User
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.ui.Scope
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import kotlinx.coroutines.launch
 
 class SignupViewModel(
     private val patchUserUseCase: PatchUserUseCase,
     private val firebaseManager: FirebaseManager
-) : ViewModel(), Scope by Scope.Impl() {
+) : ScopedViewModel() {
 
     sealed class UiSignup {
         object UnconfirmedEmail : UiSignup()
@@ -26,7 +25,6 @@ class SignupViewModel(
 
     private val _registered = MutableLiveData<UiSignup>()
     val registered: LiveData<UiSignup> get() = _registered
-
 
     init {
         initScope()
@@ -68,6 +66,10 @@ class SignupViewModel(
         }
     }
 
+    override fun onCleared() {
+        destroyScope()
+        super.onCleared()
+    }
 }
 
 

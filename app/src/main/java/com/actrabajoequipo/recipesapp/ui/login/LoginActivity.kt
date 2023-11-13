@@ -26,8 +26,8 @@ class LoginActivity : AppCompatActivity() {
 
     private val GOOGLE_SIGN_IN = 100
 
-    private lateinit var email :String
-    private lateinit var password :String
+    private lateinit var email: String
+    private lateinit var password: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,16 +38,28 @@ class LoginActivity : AppCompatActivity() {
 
         setListeners()
 
-        loginViewModel.logeado.observe(this, Observer {
-            when(it){
+        loginViewModel.loginModel.observe(this, Observer {
+            when (it) {
                 is LoginViewModel.UiLogin.Success -> {
                     Toast.makeText(this, R.string.login_success, Toast.LENGTH_LONG).show()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
-                is LoginViewModel.UiLogin.UnconfirmedEmail -> Toast.makeText(this, R.string.email_no_confirmed, Toast.LENGTH_LONG).show()
-                is LoginViewModel.UiLogin.WrongEmailOrPassword -> Toast.makeText(this, R.string.email_or_password_failed, Toast.LENGTH_LONG).show()
-                is LoginViewModel.UiLogin.FillinFields -> Toast.makeText(this, R.string.fill_in_the_fields, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLogin.UnconfirmedEmail -> Toast.makeText(
+                    this,
+                    R.string.email_no_confirmed,
+                    Toast.LENGTH_LONG
+                ).show()
+                is LoginViewModel.UiLogin.WrongEmailOrPassword -> Toast.makeText(
+                    this,
+                    R.string.email_or_password_failed,
+                    Toast.LENGTH_LONG
+                ).show()
+                is LoginViewModel.UiLogin.FillInFields -> Toast.makeText(
+                    this,
+                    R.string.fill_in_the_fields,
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
 
@@ -86,13 +98,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     private fun loginWithGoogleAccount() {
         val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        val googleClient = GoogleSignIn.getClient(this,googleConf)
+        val googleClient = GoogleSignIn.getClient(this, googleConf)
         googleClient.signOut()
         startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
     }

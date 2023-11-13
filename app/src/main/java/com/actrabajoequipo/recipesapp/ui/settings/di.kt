@@ -1,7 +1,7 @@
 package com.actrabajoequipo.recipesapp.ui.settings
 
 import com.actrabajoequipo.data.repository.UserRepository
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.usecases.DeleteUserUseCase
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.GetUsersUseCase
@@ -11,7 +11,7 @@ import dagger.Provides
 import dagger.Subcomponent
 
 @Module
-class SettingsModule{
+class SettingsModule {
 
     @Provides
     fun settingsViewModelProvider(
@@ -20,8 +20,10 @@ class SettingsModule{
         deleteUserUseCase: DeleteUserUseCase,
         findUserByIdUseCase: FindUserByIdUseCase,
         firebaseManager: FirebaseManager
-    ) = SettingsViewModel(getUsersUseCase, patchUserUseCase,
-        deleteUserUseCase, findUserByIdUseCase, firebaseManager)
+    ) = SettingsViewModel(
+        getUsersUseCase, patchUserUseCase,
+        deleteUserUseCase, findUserByIdUseCase, firebaseManager
+    )
 
     @Provides
     fun getUsersUseCaseProvider(
@@ -46,6 +48,6 @@ class SettingsModule{
 }
 
 @Subcomponent(modules = [SettingsModule::class])
-interface SettingsComponent{
+interface SettingsComponent {
     val settingsViewModel: SettingsViewModel
 }

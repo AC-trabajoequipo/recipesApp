@@ -16,20 +16,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val findUserByIdUseCase: FindUserByIdUseCase,
     private val firebaseManager: FirebaseManager
-) : ViewModel(), Scope by Scope.Impl() {
+) : ScopedViewModel() {
 
-    sealed class UiLogin(){
-        class Success : UiLogin()
-        class UnconfirmedEmail : UiLogin()
-        class WrongEmailOrPassword : UiLogin()
-        class FillinFields : UiLogin()
+    sealed class UiLogin {
+        object Success : UiLogin()
+        object UnconfirmedEmail : UiLogin()
+        object WrongEmailOrPassword : UiLogin()
+        object FillInFields : UiLogin()
     }
 
+    private val _loginModel = MutableLiveData<UiLogin>()
+    val loginModel: LiveData<UiLogin> get() = _loginModel
     sealed class UiLoginWithGoogleAccount(){
         class Success : UiLoginWithGoogleAccount()
         class NotSuccess : UiLoginWithGoogleAccount()
@@ -49,25 +53,25 @@ class LoginViewModel(
         initScope()
     }
 
-    fun login(email :String, password: String) {
+    fun login(email: String, password: String) {
         launch {
-            if (email.length > 0 && password.length > 0) {
+            if (email.isNotEmpty() && password.isNotEmpty()) {
                 //COMPROBAMOS LAS CREDENCIALES DEL USER
                 firebaseManager.fbAuth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             val user = firebaseManager.fbAuth.currentUser
                             if (user!!.isEmailVerified) {
-                                _logeado.value = UiLogin.Success()
+                                _loginModel.value = UiLogin.Success
                             } else {
-                                _logeado.value = UiLogin.UnconfirmedEmail()
+                                _loginModel.value = UiLogin.UnconfirmedEmail
                             }
                         } else {
-                            _logeado.value = UiLogin.WrongEmailOrPassword()
+                            _loginModel.value = UiLogin.WrongEmailOrPassword
                         }
                     }
             } else {
-                _logeado.value = UiLogin.FillinFields()
+                _loginModel.value = UiLogin.FillInFields
             }
         }
     }
@@ -106,6 +110,7 @@ class LoginViewModel(
 
 
     override fun onCleared() {
+        super.onCleared()
         destroyScope()
     }
 }

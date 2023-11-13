@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.server
+package com.actrabajoequipo.recipesapp.data.server
 
 import com.actrabajoequipo.data.source.RemoteDataSource
 import com.actrabajoequipo.domain.Recipe

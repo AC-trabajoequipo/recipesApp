@@ -2,9 +2,10 @@ package com.actrabajoequipo.recipesapp.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.actrabajoequipo.domain.User
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.recipesapp.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.usecases.DeleteUserUseCase
@@ -19,24 +20,24 @@ class SettingsViewModel(
     private val deleteUserUseCase: DeleteUserUseCase,
     private val findUserByIdUseCase: FindUserByIdUseCase,
     private val firebaseManager: FirebaseManager
-): ViewModel(), Scope by Scope.Impl(){
+) : ScopedViewModel() {
 
-    sealed class ResultEditUsername(){
+    sealed class ResultEditUsername() {
         class UsernameEditedSuccessfully : ResultEditUsername()
         class UsernameNoEdited : ResultEditUsername()
     }
 
-    sealed class ResultEditEmail(){
+    sealed class ResultEditEmail() {
         class EmailEditedSuccessfully : ResultEditEmail()
         class EmailNoEdited : ResultEditEmail()
     }
 
-    sealed class ResultEditPassword(){
+    sealed class ResultEditPassword() {
         class PasswordEditedSuccessfully : ResultEditPassword()
         class PasswordNoEdited : ResultEditPassword()
     }
 
-    sealed class ResultDeleteUser(){
+    sealed class ResultDeleteUser() {
         class DeleteUserSuccessfully : ResultDeleteUser()
         class NoDeleteUser : ResultDeleteUser()
     }
@@ -63,70 +64,73 @@ class SettingsViewModel(
         getCurrentUser()
     }
 
-    fun getCurrentUser(){
-        var usersMap :Map<String, User>
+    fun getCurrentUser() {
+        var usersMap: Map<String, User>
 
         launch {
             usersMap = getUsersUseCase.invoke()
             usersMap.forEach {
-                if(it.key.equals(currentUserUid)){
+                if (it.key.equals(currentUserUid)) {
                     _currentUser.value = it.value
                 }
             }
         }
     }
 
-    fun editUserName(newUsername :String){
+    fun editUserName(newUsername: String) {
         launch {
-            val responseEditUsername = patchUserUseCase.invoke(currentUserUid, User(newUsername, null, null))
-            if (responseEditUsername != null){
+            val responseEditUsername =
+                patchUserUseCase.invoke(currentUserUid, User(newUsername, null, null))
+            if (responseEditUsername != null) {
                 _resultEditUsername.value = ResultEditUsername.UsernameEditedSuccessfully()
-            }else{
+            } else {
                 _resultEditUsername.value = ResultEditUsername.UsernameNoEdited()
             }
         }
     }
 
-    fun editEmail(newEmail :String){
+    fun editEmail(newEmail: String) {
         launch {
-            firebaseManager.fbAuth.currentUser?.updateEmail(newEmail)?.addOnCompleteListener { task->
-                if (task.isSuccessful){
-                    viewModelScope.launch {
-                        patchUserUseCase.invoke(currentUserUid, User(null, newEmail, null))
-                        firebaseManager.fbAuth.currentUser!!.sendEmailVerification()
-                        firebaseManager.fbAuth.signOut()
-                        _resultEditEmail.value = ResultEditEmail.EmailEditedSuccessfully()
+            firebaseManager.fbAuth.currentUser?.updateEmail(newEmail)
+                ?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        viewModelScope.launch {
+                            patchUserUseCase.invoke(currentUserUid, User(null, newEmail, null))
+                            firebaseManager.fbAuth.currentUser!!.sendEmailVerification()
+                            firebaseManager.fbAuth.signOut()
+                            _resultEditEmail.value = ResultEditEmail.EmailEditedSuccessfully()
+                        }
+                    } else {
+                        _resultEditEmail.value = ResultEditEmail.EmailNoEdited()
                     }
-                }else{
-                    _resultEditEmail.value = ResultEditEmail.EmailNoEdited()
                 }
-            }
 
         }
     }
 
-    fun editPassword(){
+    fun editPassword() {
         launch {
-            firebaseManager.fbAuth.sendPasswordResetEmail(firebaseManager.fbAuth.currentUser!!.email.toString()).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    firebaseManager.fbAuth.signOut()
-                    _resultEditPassword.value = ResultEditPassword.PasswordEditedSuccessfully()
-                } else {
-                    _resultEditPassword.value = ResultEditPassword.PasswordNoEdited()
+            firebaseManager.fbAuth.sendPasswordResetEmail(firebaseManager.fbAuth.currentUser!!.email.toString())
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        firebaseManager.fbAuth.signOut()
+                        _resultEditPassword.value = ResultEditPassword.PasswordEditedSuccessfully()
+                    } else {
+                        _resultEditPassword.value = ResultEditPassword.PasswordNoEdited()
+                    }
                 }
-            }
         }
     }
 
-    fun deleteUser(){
+    fun deleteUser() {
         launch {
             firebaseManager.fbAuth.currentUser!!.delete().addOnCompleteListener { task ->
-                if(task.isSuccessful){
+                if (task.isSuccessful) {
                     viewModelScope.launch {
                         deleteUserUseCase.invoke(currentUserUid)
                         _resultDeleteUser.value = ResultDeleteUser.DeleteUserSuccessfully()
                     }
-                }else{
+                } else {
                     _resultDeleteUser.value = ResultDeleteUser.NoDeleteUser()
                 }
             }
@@ -142,7 +146,34 @@ class SettingsViewModel(
     }
 
     override fun onCleared() {
+        super.onCleared()
         destroyScope()
     }
 
+    //BORRAR CUANDO YA AÑADA BIEN LA RECETA EN EL USER AL CREAR UNA NUEVA RECETA
+    fun pruebaaa() {
+        launch {
+            var user = findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
+            if (user != null) {
+                var recipes: MutableList<String>?
+                if (user.recipes != null) {
+                    recipes = user.recipes
+                } else {
+                    recipes = mutableListOf()
+                }
+                recipes?.add("zzz")
+                var responsePostRecipeInUser = patchUserUseCase.invoke(
+                    firebaseManager.fbAuth.currentUser!!.uid,
+                    User(null, null, recipes)
+                )
+                /*if(responsePostRecipeInUser.nodeId != null){
+
+                }else{
+
+                }*/
+            } else {
+
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package com.actrabajoequipo.recipesapp.ui.signup
 
 import com.actrabajoequipo.data.repository.UserRepository
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import dagger.Module
 import dagger.Provides

@@ -41,7 +41,7 @@ class DetailActivity : AppCompatActivity() {
 
         detailViewModel.findRecipe()
 
-        detailViewModel.recipe.observe(this, Observer(this::updateUI))
+        detailViewModel.uiModel.observe(this, Observer(this::updateUI))
     }
 
     private fun onBackClicked() {
@@ -49,7 +49,8 @@ class DetailActivity : AppCompatActivity() {
         overridePendingTransition(0, R.anim.slide_out)
     }
 
-    private fun updateUI(recipe: Recipe) {
+    private fun updateUI(uiModel: DetailViewModel.UiModel) {
+        val recipe = uiModel.recipe
 
         with(binding) {
             collapsingToolbar.title = recipe.name
