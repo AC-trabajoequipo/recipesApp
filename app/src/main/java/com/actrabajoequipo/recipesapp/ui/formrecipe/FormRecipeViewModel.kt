@@ -101,7 +101,7 @@ class FormRecipeViewModel(
                 firebaseManager.fbAuth.currentUser?.let { firebaseUser ->
 
                     val user = findUserByIdUseCase.invoke(firebaseUser.uid)
-                    val recipes: MutableList<String> = if (user.recipes != null) {
+                    val recipes: MutableList<String> = if (user?.recipes != null) {
                         user.recipes!!
                     } else {
                         mutableListOf()

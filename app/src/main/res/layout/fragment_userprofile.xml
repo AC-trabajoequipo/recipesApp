@@ -8,35 +8,35 @@
     tools:context=".ui.userprofile.UserProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/buttonsProfile"
+        android:id="@+id/loginRequired"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/buttonSignin"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/text_go_to_login"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/profile_button_sign_up"
-            app:layout_constraintEnd_toStartOf="@+id/buttonLogin"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:text="@string/userprofile_login"/>
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/goToLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="8dp"
             android:text="@string/profile_button_login"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/buttonSignin"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_go_to_login"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -47,10 +47,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonsProfile">
+        app:layout_constraintTop_toBottomOf="@+id/loginRequired">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/userName"
+            android:id="@+id/userProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="invisible">

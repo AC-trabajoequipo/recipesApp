@@ -2,9 +2,16 @@ package com.actrabajoequipo.recipesapp.ui.settings
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -31,9 +38,17 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        if(settingsViewModel.isGoogleAccount()){
+            binding.infoOptionsGoogleAccount.visibility = View.VISIBLE
+            binding.modifyEmailLayout.visibility = View.GONE
+            binding.modifyPasswordLayout.visibility = View.GONE
+        }
+
         setListeners()
         setObservers()
     }
+
 
 
     private fun setListeners() {
@@ -88,17 +103,6 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        binding.okButtonEditPassword.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setMessage(getString(R.string.edit_password_confirmation_question))
-                .setNegativeButton(R.string.no, null)
-                .setPositiveButton(getString(R.string.yes)){
-                        dialog, which ->    settingsViewModel.editPassword()
-                        binding.progressBarSettings.visibility = View.VISIBLE
-                        binding.settingsLayout.visibility = View.INVISIBLE
-                }
-                .show()
-        }
 
         binding.deleteUserButton.setOnClickListener {
             AlertDialog.Builder(this)
@@ -112,10 +116,26 @@ class SettingsActivity : AppCompatActivity() {
                 .show()
         }
 
-        //TODO Remove
-        binding.button2.setOnClickListener {
-            settingsViewModel.pruebaaa()
+        val spannableString = SpannableString(getString(R.string.informative_text_edit_password))
+        val clickableSpan :ClickableSpan  = object :ClickableSpan(){
+            override fun onClick(p0: View) {
+                AlertDialog.Builder(this@SettingsActivity)
+                    .setMessage(getString(R.string.edit_password_confirmation_question))
+                    .setNegativeButton(getString(R.string.no), null)
+                    .setPositiveButton(getString(R.string.yes)){
+                            dialog, which ->    settingsViewModel.editPassword()
+                        binding.progressBarSettings.visibility = View.VISIBLE
+                        binding.settingsLayout.visibility = View.INVISIBLE
+                    }
+                    .show()
+            }
         }
+        spannableString.setSpan(clickableSpan,56,64,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(ForegroundColorSpan(getColor(R.color.purple_500)),56,64,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        //spannableString.setSpan(BackgroundColorSpan(Color.TRANSPARENT),56,64,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.editPasswordInfo.setText(spannableString, TextView.BufferType.SPANNABLE)
+        binding.editPasswordInfo.movementMethod = LinkMovementMethod.getInstance()
+        binding.editPasswordInfo.highlightColor = Color.TRANSPARENT
     }
 
     private fun setObservers(){

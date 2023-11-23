@@ -15,9 +15,6 @@ import com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount.Username
 import com.actrabajoequipo.recipesapp.ui.signup.SignupActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private val GOOGLE_SIGN_IN = 100
-    private val fbAuth = FirebaseAuth.getInstance()
 
     private lateinit var email: String
     private lateinit var password: String
@@ -64,6 +60,17 @@ class LoginActivity : AppCompatActivity() {
                     R.string.fill_in_the_fields,
                     Toast.LENGTH_LONG
                 ).show()
+            }
+        })
+
+        loginViewModel.logeadoGoogle.observe(this, Observer {
+            when(it){
+                is LoginViewModel.UiLoginWithGoogleAccount.Success -> {
+                    val intent = Intent(this, UsernameForGoogleAccountActivity::class.java)
+                    startActivity(intent)
+                }
+                is LoginViewModel.UiLoginWithGoogleAccount.NotSuccess -> Toast.makeText(this, R.string.login_error, Toast.LENGTH_LONG).show()
+                is LoginViewModel.UiLoginWithGoogleAccount.Error -> Toast.makeText(this, R.string.login_error3, Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -104,25 +111,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == GOOGLE_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-            try {
-                val account = task.getResult(ApiException::class.java)
-                if (account != null) {
-                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-                    fbAuth.signInWithCredential(credential).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val intent = Intent(this, UsernameForGoogleAccountActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this, R.string.login_error, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-            } catch (e: ApiException) {
-                Toast.makeText(this, "", Toast.LENGTH_LONG).show()
-            }
-        }
+        loginViewModel.postLoginWithGoogleAccount(requestCode, resultCode, data)
     }
 }

@@ -40,6 +40,6 @@ class ServerDataSource : RemoteDataSource {
             .deleteUser(uid)
     }
 
-    override suspend fun findUserById(uid: String): User =
-        ApiBook.service.findUserById(uid).toDomainUser()
+    override suspend fun findUserById(uid: String): User? =
+        ApiBook.service.findUserById(uid)?.toDomainUser()
 }

@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
 import com.actrabajoequipo.recipesapp.ui.app
@@ -67,17 +68,12 @@ class UserProfileFragment : Fragment() {
         setHasOptionsMenu(true)
 
         if (userProfileViewModel.isUserLoggedNotNull()) {
+            binding.loginRequired.visibility = View.GONE
             binding.nadie.text = userProfileViewModel.getEmailUser()
-            binding.buttonsProfile.visibility = View.GONE
-            binding.userName.visibility = View.VISIBLE
+            binding.userProfile.visibility = View.VISIBLE
         }
 
-        binding.buttonSignin.setOnClickListener {
-            val intent = Intent(context, SignupActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.buttonLogin.setOnClickListener {
+        binding.goToLogin.setOnClickListener {
             val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
         }
