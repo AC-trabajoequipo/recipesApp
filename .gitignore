@@ -14,6 +14,15 @@ local.properties
 .idea/tasks.xml
 .idea
 *.iml
+/.idea
+/build
 
 # OS
 .DS_Store
+
+# Gradle files in modules
+/app/build
+/domain/build
+/data/build
+/usecases/build
+/testShared/build
