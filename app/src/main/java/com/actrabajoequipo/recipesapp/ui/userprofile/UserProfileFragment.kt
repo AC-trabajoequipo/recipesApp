@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.actrabajoequipo.recipesapp.MainActivity
 import com.actrabajoequipo.recipesapp.R
 import com.actrabajoequipo.recipesapp.databinding.FragmentUserprofileBinding
 import com.actrabajoequipo.recipesapp.ui.app
@@ -40,15 +41,15 @@ class UserProfileFragment : Fragment() {
         userProfileViewModel.uiModelMyRecipes.observe(this, ::updateRecyclerMyRecipes)
         userProfileViewModel.uiModelMyFavRecipes.observe(this, ::updateRecyclerMyFavRecipes)
 
-        userProfileViewModel.navigation.observe(this, { event ->
+        userProfileViewModel.navigation.observe(this) { event ->
             event.getContentIfNotHandled()?.let { recipe ->
-                if(recipe.id != null) {
+                if (recipe.id != null) {
                     findNavController().navigate(
                         UserProfileFragmentDirections.actionNavigationProfileToDetailActivity(recipe.id!!)
                     )
                 }
             }
-        })
+        }
     }
 
     override fun onCreateView(
@@ -67,17 +68,12 @@ class UserProfileFragment : Fragment() {
         setHasOptionsMenu(true)
 
         if (userProfileViewModel.isUserLoggedNotNull()) {
+            binding.loginRequired.visibility = View.GONE
             binding.nadie.text = userProfileViewModel.getEmailUser()
-            binding.buttonsProfile.visibility = View.GONE
-            binding.userName.visibility = View.VISIBLE
+            binding.userProfile.visibility = View.VISIBLE
         }
 
-        binding.buttonSignin.setOnClickListener {
-            val intent = Intent(context, SignupActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.buttonLogin.setOnClickListener {
+        binding.goToLogin.setOnClickListener {
             val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -115,6 +111,7 @@ class UserProfileFragment : Fragment() {
             if (uiModelMyRecipes is UserProfileViewModel.UIModelMyRecipes.Loading) View.VISIBLE else View.GONE
 
         if (uiModelMyRecipes is UserProfileViewModel.UIModelMyRecipes.ContentMyRecipes) {
+            binding.myRecipesEmpty.visibility = if(uiModelMyRecipes.myRecipes.isEmpty()) View.VISIBLE else View.GONE
             adapterMyRecipes.recipes = uiModelMyRecipes.myRecipes
         }
     }
@@ -124,6 +121,7 @@ class UserProfileFragment : Fragment() {
             if (uiModelMyFavRecipes is UserProfileViewModel.UIModelMyFavRecipes.Loading) View.VISIBLE else View.GONE
 
         if (uiModelMyFavRecipes is UserProfileViewModel.UIModelMyFavRecipes.ContentMyFavourites) {
+            binding.myFavouritesEmpty.visibility = if(uiModelMyFavRecipes.myFavRecipes.isEmpty()) View.VISIBLE else View.GONE
             adapterMyFavourites.recipes = uiModelMyFavRecipes.myFavRecipes
         }
     }

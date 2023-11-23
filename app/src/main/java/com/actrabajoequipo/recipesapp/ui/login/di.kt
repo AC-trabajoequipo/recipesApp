@@ -1,9 +1,11 @@
 package com.actrabajoequipo.recipesapp.ui.login
 
 import com.actrabajoequipo.data.repository.UserRepository
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.login.forgotPassword.ForgotPasswordViewModel
 import com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount.UsernameForGoogleAccountViewModel
+import com.actrabajoequipo.recipesapp.ui.signup.SignupViewModel
+import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -14,9 +16,16 @@ class LoginModule {
 
     @Provides
     fun loginViewModelProvider(
+        findUserByIdUseCase: FindUserByIdUseCase,
         firebaseManager: FirebaseManager
-    ) = LoginViewModel(firebaseManager)
+    ) = LoginViewModel(findUserByIdUseCase, firebaseManager)
+
+    @Provides
+    fun findUserByIdUseCaseProvider(userRepository: UserRepository) =
+        FindUserByIdUseCase(userRepository)
 }
+
+
 
 @Subcomponent(modules = [LoginModule::class])
 interface LoginComponent {

@@ -23,9 +23,9 @@
         <activity android:name=".ui.formrecipe.FormRecipeActivity"
             android:theme="@style/Theme.RecipesApp.NoActionBar" />
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" />
+            android:name=".MainActivity" />
         <activity
+            android:exported="true"
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/splash">
             <intent-filter>

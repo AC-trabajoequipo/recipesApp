@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.server
+package com.actrabajoequipo.recipesapp.data.server
 
 import retrofit2.http.*
 
@@ -23,5 +23,5 @@ interface ApiService {
     suspend fun deleteUser(@Path("uid") uid: String)
 
     @GET("users/{uid}.json")
-    suspend fun findUserById(@Path("uid")uid: String) : UserDto
+    suspend fun findUserById(@Path("uid")uid: String) : UserDto?
 }

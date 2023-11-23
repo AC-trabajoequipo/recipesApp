@@ -3,7 +3,7 @@ package com.actrabajoequipo.recipesapp.ui.userprofile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.actrabajoequipo.domain.Recipe
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.recipesapp.ui.common.Event
 import com.actrabajoequipo.usecases.FindRecipeByUserIdUseCase

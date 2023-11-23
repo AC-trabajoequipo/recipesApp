@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_form_recipe.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.lang.String
 import java.util.*
 
 class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
@@ -83,7 +84,7 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
         //además hace que el teclado no se abrá automaticamente al cargar la activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        viewModel.formState.observe(this, {
+        viewModel.formState.observe(this) {
             when (it) {
                 is FormRecipeViewModel.ValidatedFields.FormValidated -> {
                     with(binding) {
@@ -126,9 +127,9 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
                     Toast.LENGTH_LONG
                 ).show()
             }
-        })
+        }
 
-        viewModel.recipeState.observe(this, {
+        viewModel.recipeState.observe(this) {
             when (it) {
                 is FormRecipeViewModel.SaveRecipe.Success -> {
                     Toast.makeText(
@@ -146,14 +147,15 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
                     ).show()
             }
 
-        })
-
-        viewModel.progressUploadImage.observe(this, { progress ->
-            binding.pbUploadImage.progress = progress.toInt()
-            binding.tvProgressPercent.text = "$progress %"
-        })
-
-        viewModel.imageUpload.observe(this, {
+        }
+        
+        viewModel.progressUploadImage.observe(this) { progress ->
+            binding.pbUploadImage.progress = progress
+            val textProgress = String.format(Locale.getDefault(), "%d%%",  progress)
+            binding.tvProgressPercent.text = textProgress
+        }
+        
+        viewModel.imageUpload.observe(this) {
             when (it) {
                 is FormRecipeViewModel.ImageUpload.Success -> {
 
@@ -181,7 +183,7 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
                     ).show()
                 }
             }
-        })
+        }
     }
 
     private fun onBackClicked() {
@@ -277,14 +279,14 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
         return when (item.itemId) {
             R.id.btn_post -> {
                 viewModel.validatedFields(
-                    titleRecipe = etTitleRecipe.text.toString().trim(),
-                    stepRecipe = etStepForRecipe.text.toString().trim(),
+                    titleRecipe = binding.etTitleRecipe.text.toString().trim(),
+                    stepRecipe = binding.etStepForRecipe.text.toString().trim(),
                     ingredients = arrayListOf(
-                        etIngredient1.text.toString().trim(),
-                        etIngredient2.text.toString().trim(),
-                        etIngredient3.text.toString().trim(),
-                        etIngredient4.text.toString().trim(),
-                        etIngredient5.text.toString().trim()
+                        binding.etIngredient1.text.toString().trim(),
+                        binding.etIngredient2.text.toString().trim(),
+                        binding.etIngredient3.text.toString().trim(),
+                        binding.etIngredient4.text.toString().trim(),
+                        binding.etIngredient5.text.toString().trim()
                     )
                 )
                 true

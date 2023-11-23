@@ -1,7 +1,7 @@
 package com.actrabajoequipo.recipesapp.ui.userprofile
 
 import com.actrabajoequipo.data.repository.RecipesRepository
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.usecases.FindRecipeByUserIdUseCase
 import com.actrabajoequipo.usecases.FindRecipeFavouriteUseCase
 import dagger.Module

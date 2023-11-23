@@ -17,6 +17,6 @@ class UserRepository(
     suspend fun deleteUser(uid: String) =
         remoteDataSource.deleteUser(uid)
 
-    suspend fun findUserById(uid: String): User =
+    suspend fun findUserById(uid: String): User? =
         remoteDataSource.findUserById(uid)
 }

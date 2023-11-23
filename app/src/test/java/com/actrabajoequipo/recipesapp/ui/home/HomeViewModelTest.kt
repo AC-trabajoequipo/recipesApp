@@ -3,12 +3,11 @@ package com.actrabajoequipo.recipesapp.ui.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.actrabajoequipo.recipesapp.ui.MainCoroutineScopeRule
+import com.actrabajoequipo.recipesapp.ui.home.HomeViewModel.UIModel
 import com.actrabajoequipo.testshared.mockedRecipe
 import com.actrabajoequipo.usecases.GetRecipesUseCase
 import com.actrabajoequipo.usecases.SearchRecipeUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
@@ -36,7 +35,7 @@ class HomeViewModelTest {
     lateinit var searchRecipeUseCase: SearchRecipeUseCase
 
     @Mock
-    lateinit var observer: Observer<HomeViewModel.UIModel>
+    lateinit var observer: Observer<UIModel>
 
     private lateinit var viewModel: HomeViewModel
 
@@ -45,18 +44,26 @@ class HomeViewModelTest {
         viewModel = HomeViewModel(getRecipesUseCase, searchRecipeUseCase)
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `recipes are loaded`() {
+    fun `after observing the uiModel, loading is shown`() {
         coroutineScope.runBlockingTest {
+            viewModel.uiModel.observeForever(observer)
 
+            verify(observer).onChanged(UIModel.Loading)
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun `after observing the uiModel, recipes are loaded`() {
+        coroutineScope.runBlockingTest {
             val recipes = listOf(mockedRecipe.copy(id = "1"))
             whenever(getRecipesUseCase.invoke()).thenReturn(recipes)
 
             viewModel.uiModel.observeForever(observer)
 
-            viewModel.refresh()
-
-            verify(observer).onChanged(HomeViewModel.UIModel.Content(recipes))
+            verify(observer).onChanged(UIModel.Content(recipes))
         }
     }
 }

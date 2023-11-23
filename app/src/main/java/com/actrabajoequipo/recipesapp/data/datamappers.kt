@@ -3,8 +3,8 @@ package com.actrabajoequipo.recipesapp
 import com.actrabajoequipo.domain.Recipe as DomainRecipe
 import com.actrabajoequipo.domain.User as DomainUser
 import com.actrabajoequipo.recipesapp.data.database.Recipe as RoomRecipe
-import com.actrabajoequipo.recipesapp.server.RecipeDto as ServerRecipe
-import com.actrabajoequipo.recipesapp.server.UserDto as ServerUser
+import com.actrabajoequipo.recipesapp.data.server.RecipeDto as ServerRecipe
+import com.actrabajoequipo.recipesapp.data.server.UserDto as ServerUser
 
 fun ServerRecipe.toDomainRecipe(): DomainRecipe =
     DomainRecipe(

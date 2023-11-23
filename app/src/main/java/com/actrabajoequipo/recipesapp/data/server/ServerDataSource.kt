@@ -1,4 +1,4 @@
-package com.actrabajoequipo.recipesapp.server
+package com.actrabajoequipo.recipesapp.data.server
 
 import com.actrabajoequipo.data.source.RemoteDataSource
 import com.actrabajoequipo.domain.Recipe
@@ -40,6 +40,6 @@ class ServerDataSource : RemoteDataSource {
             .deleteUser(uid)
     }
 
-    override suspend fun findUserById(uid: String): User =
-        ApiBook.service.findUserById(uid).toDomainUser()
+    override suspend fun findUserById(uid: String): User? =
+        ApiBook.service.findUserById(uid)?.toDomainUser()
 }

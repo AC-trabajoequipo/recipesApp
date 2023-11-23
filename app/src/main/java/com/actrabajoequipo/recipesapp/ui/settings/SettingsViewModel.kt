@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.actrabajoequipo.domain.User
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
+import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.usecases.DeleteUserUseCase
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.GetUsersUseCase
@@ -132,6 +134,14 @@ class SettingsViewModel(
                     _resultDeleteUser.value = ResultDeleteUser.NoDeleteUser()
                 }
             }
+        }
+    }
+
+    fun isGoogleAccount() :Boolean{
+        if(firebaseManager.fbAuth.currentUser!!.providerData.get(0).displayName.equals("")){
+            return false
+        }else{
+            return true
         }
     }
 
