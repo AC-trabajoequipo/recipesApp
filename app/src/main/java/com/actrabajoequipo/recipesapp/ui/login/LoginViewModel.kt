@@ -1,19 +1,10 @@
 package com.actrabajoequipo.recipesapp.ui.login
 
 import android.content.Intent
-import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.actrabajoequipo.domain.User
-import com.actrabajoequipo.recipesapp.R
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.ui.Scope
-import com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount.UsernameForGoogleAccountActivity
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.actrabajoequipo.recipesapp.data.server.FirebaseManager

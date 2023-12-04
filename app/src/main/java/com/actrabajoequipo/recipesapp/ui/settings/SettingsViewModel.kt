@@ -6,8 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.actrabajoequipo.domain.User
 import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
-import com.actrabajoequipo.recipesapp.ui.Scope
 import com.actrabajoequipo.usecases.DeleteUserUseCase
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.GetUsersUseCase

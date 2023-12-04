@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.actrabajoequipo.recipesapp.R
@@ -22,11 +24,9 @@ import com.actrabajoequipo.recipesapp.databinding.ActivityFormRecipeBinding
 import com.actrabajoequipo.recipesapp.ui.app
 import com.actrabajoequipo.recipesapp.ui.getViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_form_recipe.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.lang.String
 import java.util.*
 
 class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
@@ -46,7 +46,7 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
     private lateinit var component: FormRecipeComponent
 
     private lateinit var currentPhotoPath: String
-    private lateinit var photoUri: Uri
+    private var photoUri: Uri? = null
 
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -58,8 +58,10 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
                         return@registerForActivityResult
                     }
                 }
-                binding.photoRecipe.setImageURI(photoUri)
-                viewModel.uploadImage(photoUri)
+                photoUri?.let { photoUri ->
+                    binding.photoRecipe.setImageURI(photoUri)
+                    viewModel.uploadImage(photoUri)
+                }
             }
         }
 
@@ -225,6 +227,7 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
                         // Creamos fichero para guardar la imagen de la camara
                         createImageFile()
                     } catch (ex: IOException) {
+                        Log.d("TAG", "getTakePictureIntent: +${ex.message}")    //
                         // Error occurred while creating the File
                         null
                     }
