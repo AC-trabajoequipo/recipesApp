@@ -53,17 +53,21 @@ class FormRecipeActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissi
             if (it.resultCode == RESULT_OK) {
                 it.data?.data.let { photoSelectedUri ->
                     if (photoSelectedUri != null) {
-                        binding.photoRecipe.setImageURI(photoSelectedUri)
-                        viewModel.uploadImage(photoSelectedUri)
+                        updatePhotoRecipeView(photoSelectedUri)
                         return@registerForActivityResult
                     }
                 }
                 photoUri?.let { photoUri ->
-                    binding.photoRecipe.setImageURI(photoUri)
-                    viewModel.uploadImage(photoUri)
+                    updatePhotoRecipeView(photoUri)
                 }
             }
         }
+
+    private fun updatePhotoRecipeView(photoUri: Uri) {
+        binding.photoRecipe.setImageURI(photoUri)
+        viewModel.uploadImage(photoUri)
+        binding.btnAddImage.setImageResource(0)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         component = app.component.plus(FormRecipeModule())
