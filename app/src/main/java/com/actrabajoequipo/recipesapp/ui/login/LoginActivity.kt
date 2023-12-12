@@ -15,6 +15,8 @@ import com.actrabajoequipo.recipesapp.ui.login.usernameForGoogleAccount.Username
 import com.actrabajoequipo.recipesapp.ui.signup.SignupActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -65,10 +67,8 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.logeadoGoogle.observe(this, Observer {
             when(it){
-                is LoginViewModel.UiLoginWithGoogleAccount.Success -> {
-                    val intent = Intent(this, UsernameForGoogleAccountActivity::class.java)
-                    startActivity(intent)
-                }
+                is LoginViewModel.UiLoginWithGoogleAccount.LoggedForFirsTime -> startActivity(Intent(this, UsernameForGoogleAccountActivity::class.java))
+                is LoginViewModel.UiLoginWithGoogleAccount.Success -> startActivity(Intent(this, MainActivity::class.java))
                 is LoginViewModel.UiLoginWithGoogleAccount.NotSuccess -> Toast.makeText(this, R.string.login_error, Toast.LENGTH_LONG).show()
                 is LoginViewModel.UiLoginWithGoogleAccount.Error -> Toast.makeText(this, R.string.login_error3, Toast.LENGTH_LONG).show()
             }

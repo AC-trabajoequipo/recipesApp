@@ -1,19 +1,26 @@
 package com.actrabajoequipo.recipesapp.ui.login
 
 import android.content.Intent
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.actrabajoequipo.domain.User
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
+import com.actrabajoequipo.usecases.PatchUserUseCase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val findUserByIdUseCase: FindUserByIdUseCase,
-    private val firebaseManager: FirebaseManager
+    private val firebaseManager: FirebaseManager,
+    private val patchUserUseCase: PatchUserUseCase
 ) : ScopedViewModel() {
 
     sealed class UiLogin {
@@ -26,6 +33,7 @@ class LoginViewModel(
     private val _loginModel = MutableLiveData<UiLogin>()
     val loginModel: LiveData<UiLogin> get() = _loginModel
     sealed class UiLoginWithGoogleAccount(){
+        class LoggedForFirsTime : UiLoginWithGoogleAccount()
         class Success : UiLoginWithGoogleAccount()
         class NotSuccess : UiLoginWithGoogleAccount()
         class Error : UiLoginWithGoogleAccount()
@@ -38,7 +46,6 @@ class LoginViewModel(
     val logeadoGoogle: LiveData<UiLoginWithGoogleAccount> get() = _logeadoGoogle
 
     private val GOOGLE_SIGN_IN = 100
-
 
     init {
         initScope()
@@ -67,7 +74,6 @@ class LoginViewModel(
         }
     }
 
-
     fun postLoginWithGoogleAccount(requestCode: Int, resultCode: Int, data: Intent?){
         if (requestCode == GOOGLE_SIGN_IN){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -78,16 +84,22 @@ class LoginViewModel(
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     firebaseManager.fbAuth.signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful){
-
-                                launch {
+                                viewModelScope.launch {
                                     try {
-                                        var userResponse= findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
+                                        firebaseManager.fbAuth.currentUser?.let { user ->
+                                            findUserByIdUseCase.invoke(user.uid)
+                                        }
                                         _logeadoGoogle.value = UiLoginWithGoogleAccount.Success()
                                     }catch (e: KotlinNullPointerException){
-                                        var a =1
+                                        firebaseManager.fbAuth.currentUser?.let { user ->
+                                            patchUserUseCase.invoke(
+                                                user.uid,
+                                                User(user.displayName, user.email, null)
+                                            )
+                                        }
+                                        _logeadoGoogle.value = UiLoginWithGoogleAccount.LoggedForFirsTime()
                                     }
                                 }
-
                         }else{
                             _logeadoGoogle.value = UiLoginWithGoogleAccount.NotSuccess()
                         }
@@ -98,7 +110,6 @@ class LoginViewModel(
             }
         }
     }
-
 
     override fun onCleared() {
         super.onCleared()

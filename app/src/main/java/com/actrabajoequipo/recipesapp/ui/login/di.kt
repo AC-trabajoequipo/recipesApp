@@ -17,12 +17,17 @@ class LoginModule {
     @Provides
     fun loginViewModelProvider(
         findUserByIdUseCase: FindUserByIdUseCase,
-        firebaseManager: FirebaseManager
-    ) = LoginViewModel(findUserByIdUseCase, firebaseManager)
+        firebaseManager: FirebaseManager,
+        patchUserUseCase: PatchUserUseCase,
+    ) = LoginViewModel(findUserByIdUseCase, firebaseManager, patchUserUseCase)
 
     @Provides
     fun findUserByIdUseCaseProvider(userRepository: UserRepository) =
         FindUserByIdUseCase(userRepository)
+
+    @Provides
+    fun patchUserUseCaseProvider(userRepository: UserRepository) =
+        PatchUserUseCase(userRepository)
 }
 
 
