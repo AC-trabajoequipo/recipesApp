@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.log_in)
         setListeners()
 
         loginViewModel.loginModel.observe(this, Observer {

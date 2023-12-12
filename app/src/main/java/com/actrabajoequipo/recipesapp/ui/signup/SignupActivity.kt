@@ -29,6 +29,7 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySigninBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.sign_up)
         setListeners()
 
         signupViewModel.registered.observe(this, Observer {
