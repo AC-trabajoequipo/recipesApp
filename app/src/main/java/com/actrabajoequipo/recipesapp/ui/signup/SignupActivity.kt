@@ -1,6 +1,7 @@
 package com.actrabajoequipo.recipesapp.ui.signup
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -27,7 +28,7 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySigninBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setListeners()
 
         signupViewModel.registered.observe(this, Observer {
@@ -69,5 +70,15 @@ class SignupActivity : AppCompatActivity() {
 
             signupViewModel.signup(name, email, password, passwordConfirm)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
