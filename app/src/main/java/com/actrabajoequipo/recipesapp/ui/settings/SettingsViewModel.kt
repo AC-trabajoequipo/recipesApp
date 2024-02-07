@@ -10,6 +10,7 @@ import com.actrabajoequipo.usecases.DeleteUserUseCase
 import com.actrabajoequipo.usecases.FindUserByIdUseCase
 import com.actrabajoequipo.usecases.GetUsersUseCase
 import com.actrabajoequipo.usecases.PatchUserUseCase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
@@ -136,7 +137,7 @@ class SettingsViewModel(
     }
 
     fun isGoogleAccount() :Boolean{
-        if(firebaseManager.fbAuth.currentUser!!.providerData.get(0).displayName.equals("")){
+        if(firebaseManager.fbAuth.currentUser?.providerData?.get(0)?.displayName.isNullOrBlank()){
             return false
         }else{
             return true
@@ -148,30 +149,4 @@ class SettingsViewModel(
         destroyScope()
     }
 
-    //BORRAR CUANDO YA AÑADA BIEN LA RECETA EN EL USER AL CREAR UNA NUEVA RECETA
-    fun pruebaaa() {
-        launch {
-            var user = findUserByIdUseCase.invoke(firebaseManager.fbAuth.currentUser!!.uid)
-            if (user != null) {
-                var recipes: MutableList<String>?
-                if (user.recipes != null) {
-                    recipes = user.recipes
-                } else {
-                    recipes = mutableListOf()
-                }
-                recipes?.add("zzz")
-                var responsePostRecipeInUser = patchUserUseCase.invoke(
-                    firebaseManager.fbAuth.currentUser!!.uid,
-                    User(null, null, recipes)
-                )
-                /*if(responsePostRecipeInUser.nodeId != null){
-
-                }else{
-
-                }*/
-            } else {
-
-            }
-        }
-    }
 }

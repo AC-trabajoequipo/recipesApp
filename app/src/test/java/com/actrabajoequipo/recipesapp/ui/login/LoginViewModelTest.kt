@@ -2,14 +2,15 @@ package com.actrabajoequipo.recipesapp.ui.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.actrabajoequipo.recipesapp.server.FirebaseManager
+import com.actrabajoequipo.recipesapp.data.server.FirebaseManager
 import com.actrabajoequipo.recipesapp.ui.MainCoroutineScopeRule
 import com.actrabajoequipo.testshared.mockedUserEmail
 import com.actrabajoequipo.testshared.mockedUserPassword
+import com.actrabajoequipo.usecases.FindUserByIdUseCase
+import com.actrabajoequipo.usecases.PatchUserUseCase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.auth.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -34,7 +35,13 @@ class LoginViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Mock
+    lateinit var findUserByIdUseCase: FindUserByIdUseCase
+
+    @Mock
     lateinit var firebaseManager: FirebaseManager
+
+    @Mock
+    lateinit var patchUserUseCase: PatchUserUseCase
 
     @Mock
     lateinit var observer: Observer<LoginViewModel.UiLogin>
@@ -49,7 +56,7 @@ class LoginViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = LoginViewModel(firebaseManager)
+        viewModel = LoginViewModel(findUserByIdUseCase, firebaseManager, patchUserUseCase)
     }
 
     @ExperimentalCoroutinesApi
