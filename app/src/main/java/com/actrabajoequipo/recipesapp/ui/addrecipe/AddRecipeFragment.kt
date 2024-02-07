@@ -35,17 +35,16 @@ class AddRecipeFragment : Fragment() {
             viewModel.isUserLogged()
         }
         
-        viewModel.userLoggedState.observe(viewLifecycleOwner, {
-            when(it){
+        viewModel.userLoggedState.observe(viewLifecycleOwner) { status ->
+            when (status) {
                 is AddRecipeViewModel.UserLogged.Logged ->
                     findNavController().navigate(AddRecipeFragmentDirections.actionNavigationAddRecipeToFormRecipeActivity())
 
                 is AddRecipeViewModel.UserLogged.NotLogged -> {
-                    Toast.makeText(context, "Necesitas estar logado para subir recetas", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(AddRecipeFragmentDirections.actionNavigationAddrecipeToNavigationUserprofile())
                 }
             }
-        })
+        }
 
         return binding.root
     }

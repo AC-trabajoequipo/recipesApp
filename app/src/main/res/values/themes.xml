@@ -22,6 +22,8 @@
 
     <!-- Style that SplashActivity uses to prevent the white background color from showing for a few seconds. -->
     <style name="splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
     </style>
