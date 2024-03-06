@@ -6,11 +6,11 @@ import com.actrabajoequipo.domain.Recipe
 
 class RecipesRepository(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
 ) {
 
-    suspend fun getRecipes(): List<Recipe> {
-        if (localDataSource.isEmpty()) {
+    suspend fun getRecipes(fromRemote: Boolean): List<Recipe> {
+        if(fromRemote) {
             val recipes = remoteDataSource.getRecipes()
             localDataSource.saveRecipes(recipes)
         }
