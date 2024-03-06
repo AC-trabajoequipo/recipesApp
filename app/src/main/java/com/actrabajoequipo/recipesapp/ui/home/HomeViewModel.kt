@@ -3,6 +3,7 @@ package com.actrabajoequipo.recipesapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.actrabajoequipo.domain.Recipe
+import com.actrabajoequipo.recipesapp.data.NetworkManager
 import com.actrabajoequipo.recipesapp.ui.ScopedViewModel
 import com.actrabajoequipo.recipesapp.ui.common.Event
 import com.actrabajoequipo.usecases.GetRecipesUseCase
@@ -13,13 +14,14 @@ import javax.inject.Inject
 class HomeViewModel
 @Inject constructor(
     private val getRecipesUseCase: GetRecipesUseCase,
-    private val searchRecipeUseCase: SearchRecipeUseCase
+    private val searchRecipeUseCase: SearchRecipeUseCase,
+    private val networkManager: NetworkManager
 ) : ScopedViewModel() {
 
     private val _uiModel = MutableLiveData<UIModel>()
     val uiModel: LiveData<UIModel>
         get() {
-            if (_uiModel.value == null) refresh()
+            refresh()
             return _uiModel
         }
 
@@ -36,9 +38,10 @@ class HomeViewModel
     }
 
     fun refresh() {
+        val fromRemote = networkManager.isNetworkAvailable()
         launch {
             _uiModel.value = UIModel.Loading
-            _uiModel.value = UIModel.Content(getRecipesUseCase.invoke())
+            _uiModel.value = UIModel.Content(getRecipesUseCase.invoke(fromRemote))
         }
     }
 
